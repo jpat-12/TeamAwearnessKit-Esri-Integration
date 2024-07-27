@@ -5,7 +5,7 @@ from arcgis.features import FeatureLayer
 gis = GIS()
 
 # Access the feature layer
-url = " INSERT FEATURE SERVRE LINK HERE"
+url = " INSERT FEATURE SERVER LINK HERE"
 layer = FeatureLayer(url)
 
 # Query and download data
