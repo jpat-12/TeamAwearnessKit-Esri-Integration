@@ -3,7 +3,7 @@
 ## Launch Full Setup Scripts
 For Ubuntu (not yet tested on CentOS or Rocky)
 ```bash
-sudo cd tmp && sudo apt install git && sudo git clone https://github.com/jpat-12/TeamAwearnessKit-Esri-Integration.git cd TeamAwearnessKit-Esri-Integration && chmod +x ubuntu.sh && cd /opt/TAK-Esri && ls -la 
+cd /tmp && sudo apt install git && sudo git clone https://github.com/jpat-12/TeamAwearnessKit-Esri-Integration.git && cd TeamAwearnessKit-Esri-Integration && cd scripts && chmod +x ubuntu.sh && cd /opt/TAK-Esri && ls -la 
 ```
 
 
