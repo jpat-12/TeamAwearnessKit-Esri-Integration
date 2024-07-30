@@ -3,7 +3,7 @@ Description=cot - csv
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/python3 /opt/Survey123-Python/cot-csv.py
+ExecStart=/usr/bin/python3 /opt/TAK-Esri/cot-csv.py
 WorkingDirectory=/opt/Survey123-Python
 StandardOutput=inherit
 StandardError=inherit

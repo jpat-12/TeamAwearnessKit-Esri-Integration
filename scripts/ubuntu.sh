@@ -26,38 +26,58 @@ mv sshd_config /etc/ssh
 service ssh restart
 service ssh status
 
-
-
 echo "We will now update apt and intstall both Conda and WGet so we can run the ArcGIS libraries inside of a VM"
 sudo apt upgrade -y
 sudo apt update -y
-apt install conda -y
 apt install wget -y
+pip3 install geopandas
 clear 
 
-echo "Finalizing miniconda install"
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-sudo chmod +x ./
-sudo chmod +x Miniconda3-latest-Linux-x86_64.sh
-./Miniconda3-latest-Linux-x86_64.sh
-conda install -c esri arcgis
-cd /root
-cd miniconda3
-conda init
-source ./bin/activate
-conda init
 
-echo "You will be prompted 
-conda create -n arcgis_env python=3.9
-conda activate arcgis_env
-conda install -c esri arcgis
-cp /tmp/TeamAwearnessKit-Esri-Integration/python-files/csv-download.py /csv-download.sh
+#add section that will change line 4 in /TeamAwearnessKit-Esri-Integration/python-files/csv-download
+#url = "insert feature layer link here/query"
 
 
+echo "----------------------------------------------------"
+echo "----------------------------------------------------"
+echo "Moving python files to the /opt/TAK-Esri/ directory"
+echo "----------------------------------------------------"
+echo "----------------------------------------------------"
+
+cp /tmp/TeamAwearnessKit-Esri-Integration/python-files/cot-csv.py /opt/TAK-Esri/cot-csv.py
+echo "cot-csv.py moved"
+cp /tmp/TeamAwearnessKit-Esri-Integration/python-files/csv-cot.py /opt/TAK-Esri/csv-cot.py
+echo "csv-cot.py moved"
+cp /tmp/TeamAwearnessKit-Esri-Integration/python-files/csv-download.py /opt/TAK-Esri/csv-download.py
+echo "csv-download.py moved"
+cp /tmp/TeamAwearnessKit-Esri-Integration/python-files/csv-kml.py /opt/TAK-Esri/csv-kml.py
+echo "csv-kml.py moved"
+
+
+clear
+echo "----------------------------------------------------"
+echo "----------------------------------------------------"
+echo "Moving service files to the /etc/systemd/system directory"
+echo "----------------------------------------------------"
+echo "----------------------------------------------------"
+
+cp /tmp/TeamAwearnessKit-Esri-Integration/service-files/cot-csv.service /etc/systemd/system/cot-csv.service
+echo "cot-csv.service moved"
+sudo systemctl enable cot-csv.service
+sudo systemctl start cot-csv.service
+cp /tmp/TeamAwearnessKit-Esri-Integration/service-files/csv-cot.service /etc/systemd/system/csv-cot.service
+echo "csv-cot.service moved"
+sudo systemctl enable csv-cot.service
+sudo systemctl start csv-cot.service
+cp /tmp/TeamAwearnessKit-Esri-Integration/service-files/csv-download.service /etc/systemd/system/csv-download.service
+echo "csv-download.service moved"
+sudo systemctl enable csv-download.service
+sudo systemctl start csv-download.service
+cp /tmp/TeamAwearnessKit-Esri-Integration/service-files/csv-kml.service /etc/systemd/system/csv-kml.service
+echo "csv-kml.service moved"
+sudo systemctl enable csv-kml.service
+sudo systemctl start csv-kml.service
 
 
 
-cd /tmp/TeamAwearnessKit-Esri-Integration 
-$pwd=pwd
-echo "We are now in the github folder $pwd"
 

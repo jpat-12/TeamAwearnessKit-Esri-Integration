@@ -3,7 +3,7 @@ Description=CSV To kml
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/python3 /opt/Survey123-Python/csv-kml.py
+ExecStart=/usr/bin/python3 /opt/TAK-Esri/csv-kml.py
 WorkingDirectory=/opt/Survey123-Python
 StandardOutput=inherit
 StandardError=inherit

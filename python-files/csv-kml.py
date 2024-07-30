@@ -100,7 +100,7 @@ def parse_csv_and_create_kml(csv_file_path, output_file_path):
     with open(csv_file_path, mode='r') as file:
         csv_reader = csv.DictReader(file)
         for row in csv_reader:
-            print(f"Processing row: {row.keys()}")  # Debugging line to print the keys of each row
+            #print(f"Processing row: {row.keys()}")  # Debugging line to print the keys of each row
             waypoint_type = row['select_a_waypoint_of_what_you_a']
             waypoint_types.add(waypoint_type)
             placemark = create_kml_placemark(row)
