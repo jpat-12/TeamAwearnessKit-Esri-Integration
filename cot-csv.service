@@ -1,0 +1,14 @@
+[Unit]
+Description=cot - csv
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 /opt/Survey123-Python/cot-csv.py
+WorkingDirectory=/opt/Survey123-Python
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target
