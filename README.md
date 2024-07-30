@@ -1,12 +1,14 @@
-# Survey123 To Team Awearness Kit
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/jpat)
-#  #
+
+# Survey123 To Team Awearness Kit
+##
 
 
+# TAK To Esri Feature Layer
+## 1. Team Location
 
 
-## Usage ##
-```bash
-cd /opt/cot-gen && ./script.sh
-```
+## 2. Dropped Data 
 
+
+## Linux Services
