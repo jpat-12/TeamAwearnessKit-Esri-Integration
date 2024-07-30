@@ -109,3 +109,9 @@ def parse_csv_and_create_kml(csv_file_path, output_file_path):
 
 # Pull CSV from 'survey.csv' and write to 'survey.kml'
 parse_csv_and_create_kml('survey.csv', '/var/www/html/survey123.kml')
+
+
+while True:
+    parse_csv_and_create_kml('survey.csv', '/var/www/html/survey123.kml')
+    print('parsed')
+    time.sleep(5)
