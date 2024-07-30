@@ -1,7 +1,8 @@
 import csv
 import xml.etree.ElementTree as ET
-from datetime import datetime
+from datetime import datetime, timedelta
 import json
+import time
 
 def extract_lat_long(shape_str):
     try:
@@ -14,87 +15,90 @@ def extract_lat_long(shape_str):
 
 def get_icon_path(waypoint_type):
     icon_paths = {
-        "Area Command": "",
-        "CAP Unit Position update": "https://github.com/jpat-12/Incident-Icons/blob/main/CAP%20Asset%20Report.png?raw=true",
-        "Clue Location": "https://github.com/jpat-12/Incident-Icons/blob/main/CLUE.png?raw=true",
-        "ELT Signal": "https://github.com/jpat-12/Incident-Icons/blob/main/ELT.png?raw=true",
-        "Flood/Water Level (HWM)": "https://github.com/jpat-12/Incident-Icons/blob/main/Flood.png?raw=true",
-        "Hazard, Animal": "https://github.com/jpat-12/Incident-Icons/blob/main/Animal.png?raw=true",
-        "Hazard, Electrical": "https://github.com/jpat-12/Incident-Icons/blob/main/Electrical.png?raw=true",
-        "Hazard, Fire": "https://github.com/jpat-12/Incident-Icons/blob/main/Fire.png?raw=true",
-        "Hazard, Haz Materials": "https://github.com/jpat-12/Incident-Icons/blob/main/Hazard,%20Haz%20Materials.png?raw=true",
-        "Hazard, Other": "https://github.com/jpat-12/Incident-Icons/blob/main/Hazard,%20Other.png?raw=true",
-        "Helicopter Landing Zone": "https://github.com/jpat-12/Incident-Icons/blob/main/LZHeli.png?raw=true",
-        "Incident Command Post": "https://github.com/jpat-12/Incident-Icons/blob/main/Incident%20Command%20Post.png?raw=true",
-        "Initial Planning Point": "https://github.com/jpat-12/Incident-Icons/blob/main/Initial%20Planning%20Point.png?raw=true",
-        "Initial Planning Point (PLS, LKP)": "https://github.com/jpat-12/Incident-Icons/blob/main/Initial%20Planning%20Point.png?raw=true",
-        "Medical Station": "https://github.com/jpat-12/Incident-Icons/blob/main/Medical.png?raw=true",
-        "Placeholder Other": "https://github.com/jpat-12/Incident-Icons/blob/main/Placeholder%20Other.png?raw=true",
-        "Plane Crash": "https://github.com/jpat-12/Incident-Icons/blob/main/PlaneCrash.png?raw=true",
-        "PLT/PLB Signal": "https://github.com/jpat-12/Incident-Icons/blob/main/PLT.png?raw=true",
-        "Staging": "https://github.com/jpat-12/Incident-Icons/blob/main/Staging.png?raw=true",
-        "Structure, Damaged": "https://github.com/jpat-12/Incident-Icons/blob/main/Structure,%20Damaged.png?raw=true",
-        "Structure, Destroyed": "https://github.com/jpat-12/Incident-Icons/blob/main/Destroyed.png?raw=true",
-        "Structure, Failed": "https://github.com/jpat-12/Incident-Icons/blob/main/Structure,%20Failed.png?raw=true",
-        "Structure, No Damage": "https://github.com/jpat-12/Incident-Icons/blob/main/NoDamage.png?raw=true",
-        "Transportation, Route Block": "https://github.com/jpat-12/Incident-Icons/blob/main/Transportation,%20Route%20Block.png?raw=true"
+        "Area Command": "412c43f948b1664a3a0b513336b6c32382b13289a6ed2e91dd31e23d9d52a683/Incident Icons/Area Command Post.png",
+        "CAP Unit Position update": "412c43f948b1664a3a0b513336b6c32382b13289a6ed2e91dd31e23d9d52a683/Incident Icons/CAP Asset Report.png",
+        "Clue Location": "412c43f948b1664a3a0b513336b6c32382b13289a6ed2e91dd31e23d9d52a683/Incident Icons/CLUE.png",
+        "ELT Signal": "412c43f948b1664a3a0b513336b6c32382b13289a6ed2e91dd31e23d9d52a683/Incident Icons/ELT Signal.png",
+        "Flood/Water Level (HWM)": "412c43f948b1664a3a0b513336b6c32382b13289a6ed2e91dd31e23d9d52a683/Incident Icons/Flood.png",
+        "Hazard, Animal": "412c43f948b1664a3a0b513336b6c32382b13289a6ed2e91dd31e23d9d52a683/Incident Icons/Animal.png",
+        "Hazard, Electrical": "412c43f948b1664a3a0b513336b6c32382b13289a6ed2e91dd31e23d9d52a683/Incident Icons/Electrical.png",
+        "Hazard, Fire": "412c43f948b1664a3a0b513336b6c32382b13289a6ed2e91dd31e23d9d52a683/Incident Icons/Fire.png",
+        "Hazard, Haz Materials": "412c43f948b1664a3a0b513336b6c32382b13289a6ed2e91dd31e23d9d52a683/Incident Icons/Hazard, Haz Materials.png",
+        "Hazard, Other": "412c43f948b1664a3a0b513336b6c32382b13289a6ed2e91dd31e23d9d52a683/Incident Icons/Hazard, Other.png",
+        "Helicopter Landing Zone": "412c43f948b1664a3a0b513336b6c32382b13289a6ed2e91dd31e23d9d52a683/Incident Icons/Helicopter Landing Zone.png",
+        "Incident Command Post": "412c43f948b1664a3a0b513336b6c32382b13289a6ed2e91dd31e23d9d52a683/Incident Icons/Incident Command Post.png",
+        "Initial Planning Point": "412c43f948b1664a3a0b513336b6c32382b13289a6ed2e91dd31e23d9d52a683/Incident Icons/Initial Planning Point.png",
+        "Initial Planning Point (PLS, LKP)": "412c43f948b1664a3a0b513336b6c32382b13289a6ed2e91dd31e23d9d52a683/Incident Icons/Initial Planning Point.png",
+        "Medical Station": "412c43f948b1664a3a0b513336b6c32382b13289a6ed2e91dd31e23d9d52a683/Incident Icons/EMS.png",
+        "Placeholder Other": "412c43f948b1664a3a0b513336b6c32382b13289a6ed2e91dd31e23d9d52a683/Incident Icons/Placeholder Other.png",
+        "Plane Crash": "412c43f948b1664a3a0b513336b6c32382b13289a6ed2e91dd31e23d9d52a683/Incident Icons/Crash Site.png",
+        "PLT/PLB Signal": "412c43f948b1664a3a0b513336b6c32382b13289a6ed2e91dd31e23d9d52a683/Incident Icons/PLT Signal.png",
+        "Staging": "412c43f948b1664a3a0b513336b6c32382b13289a6ed2e91dd31e23d9d52a683/Incident Icons/Staging Area.png",
+        "Structure, Damaged": "412c43f948b1664a3a0b513336b6c32382b13289a6ed2e91dd31e23d9d52a683/Incident Icons/Structure, Damaged.png",
+        "Structure, Destroyed": "412c43f948b1664a3a0b513336b6c32382b13289a6ed2e91dd31e23d9d52a683/Incident Icons/Structure, Destroyed.png",
+        "Structure, Failed": "412c43f948b1664a3a0b513336b6c32382b13289a6ed2e91dd31e23d9d52a683/Incident Icons/Structure, Failed.png",
+        "Structure, No Damage": "412c43f948b1664a3a0b513336b6c32382b13289a6ed2e91dd31e23d9d52a683/Incident Icons/Structure, No-Damage.png",
+        "Transportation, Route Block": "412c43f948b1664a3a0b513336b6c32382b13289a6ed2e91dd31e23d9d52a683/Incident Icons/Transportation, Route Block.png"
     }
-    return icon_paths.get(waypoint_type, "https://github.com/jpat-12/Incident-Icons/blob/main/Placeholder%20Other.png?raw=true")
+    return icon_paths.get(waypoint_type, "412c43f948b1664a3a0b513336b6c32382b13289a6ed2e91dd31e23d9d52a683/Incident Icons/Placeholder Other.png")
 
-def create_kml_placemark(data):
-    placemark = ET.Element("Placemark")
-    placemark.set("id", str(data['objectid']))
+def create_cot_message(data):
+    event = ET.Element("event")
+    event.set("version", "2.0")
+    event.set("uid", f"{data['team_callsign']}_{data['objectid']}")
+    
+    if data.get('select_a_waypoint_of_what_you_a') in ["Plane Crash", "Structure, Destroyed", "Flood/Water Level (HWM)"]:
+        event.set("type", "a-f-G-U-C")
+    else:
+        event.set("type", "a-h-G")
+    event.set("time", (datetime.utcnow()).strftime("%Y-%m-%dT%H:%M:%S.%fZ")[:-3] + "Z")
+    event.set("start", (datetime.utcnow()).strftime("%Y-%m-%dT%H:%M:%S.%fZ")[:-3] + "Z")
+    event.set("stale", (datetime.utcnow() + timedelta(minutes=5)).strftime("%Y-%m-%dT%H:%M:%S.%fZ")[:-3] + "Z")
+    if data.get('select_a_waypoint_of_what_you_a') in ["Plane Crash", "Structure, Destroyed", "Flood/Water Level (HWM)"]:
+        event.set("how", "a-f-G-U-C")
+    else:
+        event.set("how", "a-h-G")
 
-    name = ET.SubElement(placemark, "name")
-    name.text = f"{data['team_callsign']} - {data['select_a_waypoint_of_what_you_a']}"
-
-    styleUrl = ET.SubElement(placemark, "styleUrl")
-    styleUrl.text = "#icon-style"
-
-    extendedData = ET.SubElement(placemark, "ExtendedData")
-    for key, value in data.items():
-        if key == 'SHAPE':
-            continue
-        data_elem = ET.SubElement(extendedData, "Data")
-        data_elem.set("name", key)
-        value_elem = ET.SubElement(data_elem, "value")
-        value_elem.text = str(value)
-
-    point = ET.SubElement(placemark, "Point")
+    point = ET.SubElement(event, "point")
     lat, lon = extract_lat_long(data["SHAPE"])
-    coordinates = ET.SubElement(point, "coordinates")
-    coordinates.text = f"{lon},{lat},0.0"
+    point.set("lat", lat)
+    point.set("lon", lon)
+    point.set("hae", "0")
+    point.set("ce", "10.0")
+    point.set("le", "2.0")
 
-    return placemark
+    detail = ET.SubElement(event, "detail")
 
-def parse_csv_and_create_kml(csv_file_path, output_file_path):
-    kml = ET.Element("kml", xmlns="http://www.opengis.net/kml/2.2", xmlns_gx="http://www.google.com/kml/ext/2.2")
-    document = ET.SubElement(kml, "Document")
-    document.set("id", "1")
+    uid = ET.SubElement(detail, "UID")
+    uid.set("Droid", f"{data['team_callsign']}")
 
-    style = ET.SubElement(document, "Style")
-    style.set("id", "icon-style")
-    iconStyle = ET.SubElement(style, "IconStyle")
-    iconStyle.set("id", "icon-style")
-    colorMode = ET.SubElement(iconStyle, "colorMode")
-    colorMode.text = "normal"
-    scale = ET.SubElement(iconStyle, "scale")
-    scale.text = "1"
-    heading = ET.SubElement(iconStyle, "heading")
-    heading.text = "0"
-    icon = ET.SubElement(iconStyle, "Icon")
-    icon.set("id", "icon")
-    href = ET.SubElement(icon, "href")
-    href.text = get_icon_path("Placeholder Other")  # Default icon path
+    usericon = ET.SubElement(detail, "usericon")
+    icon_path = get_icon_path(data["select_a_waypoint_of_what_you_a"])
+    usericon.set("iconsetpath", icon_path)
 
-    with open(csv_file_path, mode='r') as file:
+    remarks = ET.SubElement(detail, "remarks")
+    remarks.text = f"Mission Number: {data['mission_number']}, Sortie Number: {data['sortie_number']}, Team Leader Name: {data['team_leader_name']}, Team Leader CAPID: {data['team_leader_capid']}, Callsign: {data['team_callsign']}, Latitude: {lat}, Longitude: {lon}, TimeSubmitted: {data['CreationDate']}, ObjectID: {data['objectid']}"
+
+    contact = ET.SubElement(detail, "contact")
+    contact.set("callsign", f"{data['team_callsign'], data['select_a_waypoint_of_what_you_a']}")
+
+    track = ET.SubElement(detail, "track")
+    track.set("speed", "0")
+    track.set("course", "0")
+
+    return ET.tostring(event, encoding='unicode', method='xml')
+
+def parse_csv_and_create_cot(csv_file_path, output_file_path):
+    with open(csv_file_path, mode='r') as file, open(output_file_path, mode='w') as output_file:
         csv_reader = csv.DictReader(file)
         for row in csv_reader:
-            placemark = create_kml_placemark(row)
-            document.append(placemark)
+            cot_message = create_cot_message(row)
+            output_file.write(cot_message + "\n")
 
-    tree = ET.ElementTree(kml)
-    tree.write(output_file_path, encoding='utf-8', xml_declaration=True)
+# Pull CSV from 'survey.csv' and write to '/var/www/html/cot.txt'
+parse_csv_and_create_cot('survey.csv', 'cot.txt')
 
-# Pull CSV from 'survey.csv' and write to 'survey.kml'
-parse_csv_and_create_kml('survey.csv', 'survey.kml')
+while True: 
+    parse_csv_and_create_cot('survey.csv', '/var/www/html/cot.txt')
+    print('parsed')
+    time.sleep(5)
