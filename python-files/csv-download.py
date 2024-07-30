@@ -1,13 +1,8 @@
-from arcgis.gis import GIS
-from arcgis.features import FeatureLayer
+import geopandas as gpd
 
-# Connect to the GIS
-gis = GIS()
+# Access the feature layer URL
+url = "insert feature layer link here/query"
 
-# Access the feature layer
-url = " INSERT FEATURE SERVER LINK HERE"
-layer = FeatureLayer(url)
-
-# Query and download data
-features = layer.query(where="1=1", return_geometry=True, out_fields="*").sdf
-features.to_csv("survey.csv", index=False)
+# Download the data using geopandas
+gdf = gpd.read_file(url + "?where=1%3D1&outFields=*&f=geojson")
+gdf.to_csv("survey.csv", index=False)

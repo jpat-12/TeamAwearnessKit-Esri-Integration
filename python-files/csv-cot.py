@@ -1,16 +1,10 @@
 import csv
-import xml.etree.ElementTree as ET
-from datetime import datetime, timedelta
-import json
 import time
+from datetime import datetime
 
-def extract_lat_long(shape_str):
-    try:
-        lat_long_dict = json.loads(shape_str.replace("'", '"'))
-        lat = str(lat_long_dict.get('y', '0'))
-        lon = str(lat_long_dict.get('x', '0'))
-    except json.JSONDecodeError:
-        lat, lon = '0', '0'
+def extract_lat_long(point_str):
+    point_str = point_str.replace("POINT (", "").replace(")", "")
+    lon, lat = point_str.split()
     return lat, lon
 
 def get_icon_path(waypoint_type):
@@ -42,63 +36,29 @@ def get_icon_path(waypoint_type):
     }
     return icon_paths.get(waypoint_type, "412c43f948b1664a3a0b513336b6c32382b13289a6ed2e91dd31e23d9d52a683/Incident Icons/Placeholder Other.png")
 
-def create_cot_message(data):
-    event = ET.Element("event")
-    event.set("version", "2.0")
-    event.set("uid", f"{data['team_callsign']}_{data['objectid']}")
-    
-    if data.get('select_a_waypoint_of_what_you_a') in ["Plane Crash", "Structure, Destroyed", "Flood/Water Level (HWM)"]:
-        event.set("type", "a-f-G-U-C")
-    else:
-        event.set("type", "a-h-G")
-    event.set("time", (datetime.utcnow()).strftime("%Y-%m-%dT%H:%M:%S.%fZ")[:-3] + "Z")
-    event.set("start", (datetime.utcnow()).strftime("%Y-%m-%dT%H:%M:%S.%fZ")[:-3] + "Z")
-    event.set("stale", (datetime.utcnow() + timedelta(minutes=5)).strftime("%Y-%m-%dT%H:%M:%S.%fZ")[:-3] + "Z")
-    if data.get('select_a_waypoint_of_what_you_a') in ["Plane Crash", "Structure, Destroyed", "Flood/Water Level (HWM)"]:
-        event.set("how", "a-f-G-U-C")
-    else:
-        event.set("how", "a-h-G")
+def create_cot_event(data):
+    lat, lon = extract_lat_long(data["geometry"])
+    icon_path = get_icon_path(data['select_a_waypoint_of_what_you_a'])
+    remarks = f"Mission Number: {data['mission_number']}, Sortie Number: {data['sortie_number']}, Team Leader Name: {data['team_leader_name']}, Team Leader CAPID: {data['team_leader_capid']}, Callsign: {data['team_callsign']}, Latitude: {lat}, Longitude: {lon}, TimeSubmitted: {datetime.utcfromtimestamp(int(data['CreationDate']) / 1000).strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]}, ObjectID: {data['objectid']}"
 
-    point = ET.SubElement(event, "point")
-    lat, lon = extract_lat_long(data["SHAPE"])
-    point.set("lat", lat)
-    point.set("lon", lon)
-    point.set("hae", "0")
-    point.set("ce", "10.0")
-    point.set("le", "2.0")
+    event_time = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + "Z"
 
-    detail = ET.SubElement(event, "detail")
-
-    uid = ET.SubElement(detail, "UID")
-    uid.set("Droid", f"{data['team_callsign']}")
-
-    usericon = ET.SubElement(detail, "usericon")
-    icon_path = get_icon_path(data["select_a_waypoint_of_what_you_a"])
-    usericon.set("iconsetpath", icon_path)
-
-    remarks = ET.SubElement(detail, "remarks")
-    remarks.text = f"Mission Number: {data['mission_number']}, Sortie Number: {data['sortie_number']}, Team Leader Name: {data['team_leader_name']}, Team Leader CAPID: {data['team_leader_capid']}, Callsign: {data['team_callsign']}, Latitude: {lat}, Longitude: {lon}, TimeSubmitted: {data['CreationDate']}, ObjectID: {data['objectid']}"
-
-    contact = ET.SubElement(detail, "contact")
-    contact.set("callsign", f"{data['team_callsign'], data['select_a_waypoint_of_what_you_a']}")
-
-    track = ET.SubElement(detail, "track")
-    track.set("speed", "0")
-    track.set("course", "0")
-
-    return ET.tostring(event, encoding='unicode', method='xml')
+    event = f'<event version="2.0" uid="_{data["objectid"]}" time="{event_time}" start="{event_time}" stale="{datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3]}Z"><point lat="{lat}" lon="{lon}" hae="0" ce="10.0" le="2.0" /><detail><UID Droid="" /><usericon iconsetpath="{icon_path}" /><remarks>{remarks}</remarks><contact callsign="{data["team_callsign"]}" /><track speed="0" course="0" /></detail></event>'
+    return event
 
 def parse_csv_and_create_cot(csv_file_path, output_file_path):
-    with open(csv_file_path, mode='r') as file, open(output_file_path, mode='w') as output_file:
+    events = []
+    with open(csv_file_path, mode='r') as file:
         csv_reader = csv.DictReader(file)
         for row in csv_reader:
-            cot_message = create_cot_message(row)
-            output_file.write(cot_message + "\n")
+            event = create_cot_event(row)
+            events.append(event)
 
-# Pull CSV from 'survey.csv' and write to '/var/www/html/cot.txt'
-parse_csv_and_create_cot('survey.csv', 'cot.txt')
+    with open(output_file_path, 'w') as file:
+        for event in events:
+            file.write(event + '\n')
 
-while True: 
-    parse_csv_and_create_cot('survey.csv', '/var/www/html/cot.txt')
-    print('parsed')
+while True:
+    parse_csv_and_create_cot('survey.csv', 'survey-cot.txt')
+    print('Parsed CSV and updated survey-cot.txt')
     time.sleep(5)

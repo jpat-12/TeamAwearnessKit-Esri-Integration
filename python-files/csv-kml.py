@@ -1,18 +1,20 @@
 import csv
 import xml.etree.ElementTree as ET
-from datetime import datetime
 import json
+import time
 
 def extract_lat_long(shape_str):
+    """Extract latitude and longitude from the 'geometry' field."""
     try:
-        lat_long_dict = json.loads(shape_str.replace("'", '"'))
-        lat = str(lat_long_dict.get('y', '0'))
-        lon = str(lat_long_dict.get('x', '0'))
-    except json.JSONDecodeError:
+        # Extract the coordinates from the 'POINT (lon lat)' format
+        coords = shape_str.replace("POINT (", "").replace(")", "").split()
+        lon, lat = coords[0], coords[1]
+    except (IndexError, ValueError):
         lat, lon = '0', '0'
     return lat, lon
 
 def get_icon_path(waypoint_type):
+    """Get the icon URL path for the given waypoint type."""
     icon_paths = {
         "Area Command": "",
         "CAP Unit Position update": "https://github.com/jpat-12/Incident-Icons/blob/main/CAP%20Asset%20Report.png?raw=true",
@@ -42,6 +44,7 @@ def get_icon_path(waypoint_type):
     return icon_paths.get(waypoint_type, "https://github.com/jpat-12/Incident-Icons/blob/main/Placeholder%20Other.png?raw=true")
 
 def create_kml_placemark(data):
+    """Create a KML placemark element from CSV data."""
     placemark = ET.Element("Placemark")
     placemark.set("id", str(data['objectid']))
 
@@ -53,7 +56,7 @@ def create_kml_placemark(data):
 
     extendedData = ET.SubElement(placemark, "ExtendedData")
     for key, value in data.items():
-        if key == 'SHAPE':
+        if key == 'geometry':
             continue
         data_elem = ET.SubElement(extendedData, "Data")
         data_elem.set("name", key)
@@ -61,13 +64,15 @@ def create_kml_placemark(data):
         value_elem.text = str(value)
 
     point = ET.SubElement(placemark, "Point")
-    lat, lon = extract_lat_long(data["SHAPE"])
+    shape_value = data.get("geometry", "")
+    lat, lon = extract_lat_long(shape_value)
     coordinates = ET.SubElement(point, "coordinates")
     coordinates.text = f"{lon},{lat},0.0"
 
     return placemark
 
 def create_kml_style(waypoint_type, icon_url):
+    """Create a KML style element for the given waypoint type."""
     style = ET.Element("Style")
     style.set("id", waypoint_type.replace(' ', '_'))
 
@@ -85,6 +90,7 @@ def create_kml_style(waypoint_type, icon_url):
     return style
 
 def parse_csv_and_create_kml(csv_file_path, output_file_path):
+    """Parse a CSV file and create a KML file."""
     kml = ET.Element("kml", xmlns="http://www.opengis.net/kml/2.2", xmlns_gx="http://www.google.com/kml/ext/2.2")
     document = ET.SubElement(kml, "Document")
     document.set("id", "1")
@@ -94,6 +100,7 @@ def parse_csv_and_create_kml(csv_file_path, output_file_path):
     with open(csv_file_path, mode='r') as file:
         csv_reader = csv.DictReader(file)
         for row in csv_reader:
+            print(f"Processing row: {row.keys()}")  # Debugging line to print the keys of each row
             waypoint_type = row['select_a_waypoint_of_what_you_a']
             waypoint_types.add(waypoint_type)
             placemark = create_kml_placemark(row)
@@ -107,11 +114,12 @@ def parse_csv_and_create_kml(csv_file_path, output_file_path):
     tree = ET.ElementTree(kml)
     tree.write(output_file_path, encoding='utf-8', xml_declaration=True)
 
-# Pull CSV from 'survey.csv' and write to 'survey.kml'
-parse_csv_and_create_kml('survey.csv', '/var/www/html/survey123.kml')
+# Pull CSV from 'survey.csv' and write to 'survey123.kml'
+parse_csv_and_create_kml('survey.csv', 'survey123.kml')
 
-
+# Continuously update KML file
 while True:
-    parse_csv_and_create_kml('survey.csv', '/var/www/html/survey123.kml')
+    parse_csv_and_create_kml('survey.csv', 'survey123.kml')
     print('parsed')
     time.sleep(5)
+
