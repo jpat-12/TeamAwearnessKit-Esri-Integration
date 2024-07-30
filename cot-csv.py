@@ -20,13 +20,6 @@ def parse_cot_messages(xml_content):
         link = detail.find('link')
         usericon = detail.find('usericon')
 
-        # Extract additional fields if present
-        group = detail.find('__group')
-        status = detail.find('status')
-        takv = detail.find('takv')
-        track = detail.find('track')
-        uid_droid = detail.find('uid')
-
         message = {
             'uid': uid,
             'type': event.get('type'),
@@ -42,17 +35,7 @@ def parse_cot_messages(xml_content):
             'contactcallsign': contact.get('callsign') if contact is not None else '',
             'parent_callsign': link.get('parent_callsign') if link is not None else '',
             'production_time': link.get('production_time') if link is not None else '',
-            'iconpath': usericon.get('iconsetpath') if usericon is not None else '',
-            'group_name': group.get('name') if group is not None else '',
-            'group_role': group.get('role') if group is not None else '',
-            'battery': status.get('battery') if status is not None else '',
-            'device': takv.get('device') if takv is not None else '',
-            'platform': takv.get('platform') if takv is not None else '',
-            'os': takv.get('os') if takv is not None else '',
-            'version': takv.get('version') if takv is not None else '',
-            'speed': track.get('speed') if track is not None else '',
-            'course': track.get('course') if track is not None else '',
-            'droid_uid': uid_droid.get('Droid') if uid_droid is not None else ''
+            'iconpath': usericon.get('iconsetpath') if usericon is not None else ''
         }
         messages.append(message)
     return messages
@@ -70,8 +53,7 @@ def remove_duplicates(messages):
 def write_csv(messages, csv_file):
     """ Write messages to a CSV file """
     fieldnames = ['uid', 'type', 'how', 'time', 'start', 'stale', 'lat', 'long', 'hae', 'ce', 'le',
-                  'contactcallsign', 'parent_callsign', 'production_time', 'iconpath',
-                  'group_name', 'group_role', 'battery', 'device', 'platform', 'os', 'version', 'speed', 'course', 'droid_uid']
+                  'contactcallsign', 'parent_callsign', 'production_time', 'iconpath']
     with open(csv_file, 'w', newline='') as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
