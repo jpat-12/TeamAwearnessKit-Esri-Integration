@@ -4,10 +4,10 @@ After=network.target
 
 [Service]
 ExecStart=/usr/bin/python3 /opt/TAK-Esri/csv-kml.py
-WorkingDirectory=/opt/Survey123-Python
-StandardOutput=inherit
-StandardError=inherit
-Restart=always
+WorkingDirectory=/opt/TAK-Esri
+StandardOutput=file:/var/log/csv-kml.log
+StandardError=file:/var/log/csv-kml_error.log
+Restart=on-failure
 User=root
 
 [Install]

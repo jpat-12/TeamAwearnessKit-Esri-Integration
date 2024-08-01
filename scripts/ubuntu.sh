@@ -30,7 +30,7 @@ echo "We will now update apt and intstall both Conda and WGet so we can run the 
 sudo apt upgrade -y
 sudo apt update -y
 apt install wget -y
-pip3 install geopandas
+apt install python3-geopandas -y 
 clear 
 
 
@@ -64,20 +64,27 @@ echo "----------------------------------------------------"
 cp /tmp/TeamAwearnessKit-Esri-Integration/service-files/cot-csv.service /etc/systemd/system/cot-csv.service
 echo "cot-csv.service moved"
 sudo systemctl enable cot-csv.service
-sudo systemctl start cot-csv.service
+###NOT WORKING JUST YET
 cp /tmp/TeamAwearnessKit-Esri-Integration/service-files/csv-cot.service /etc/systemd/system/csv-cot.service
 echo "csv-cot.service moved"
 sudo systemctl enable csv-cot.service
-sudo systemctl start csv-cot.service
 cp /tmp/TeamAwearnessKit-Esri-Integration/service-files/csv-download.service /etc/systemd/system/csv-download.service
 echo "csv-download.service moved"
 sudo systemctl enable csv-download.service
-sudo systemctl start csv-download.service
 cp /tmp/TeamAwearnessKit-Esri-Integration/service-files/csv-kml.service /etc/systemd/system/csv-kml.service
 echo "csv-kml.service moved"
 sudo systemctl enable csv-kml.service
+
+
+sudo systemctl start cot-csv.service
+sudo systemctl start csv-cot.service
+sudo systemctl start csv-download.service
 sudo systemctl start csv-kml.service
 
-
+echo "----------------------------------------------------"
+echo "----------------------------------------------------"
+echo "Moving service files to the /etc/systemd/system directory"
+echo "----------------------------------------------------"
+echo "----------------------------------------------------"
 
 
