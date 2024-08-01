@@ -19,3 +19,44 @@ cd /tmp && sudo apt install git && sudo git clone https://github.com/jpat-12/Tea
 
 
 # Linux Services
+
+## COT-CSV
+
+### Check Service Logs
+```bash
+journalctl -u cot-csv.service
+```
+### Restart Service 
+```bash
+service cot-csv restart
+```
+
+## CSV-COT
+### Check Service Logs
+```bash
+journalctl -u csv-cot.service
+```
+### Restart Service 
+```bash
+service csv-cot restart
+```
+## CSV-Download
+### Check Service Logs
+```bash
+journalctl -u csv-download.service
+```
+### Restart Service 
+```bash
+service csv-download restart
+```
+
+## CSV-KML
+### Check Service Logs
+```bash
+journalctl -u csv-kml.service
+```
+### Restart Service 
+```bash
+service csv-kml restart
+```
+
