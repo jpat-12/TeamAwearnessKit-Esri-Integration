@@ -1,15 +1,14 @@
 [Unit]
-Description=CSV Download
+Description=CSV To COT
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/python3 /opt/TAK-Esri/csv-download.py
+ExecStart=/usr/bin/python3 /opt/TAK-Esri/csv-cot.py
 WorkingDirectory=/opt/TAK-Esri
-StandardOutput=file:/var/log/csv-download.log
-StandardError=file:/var/log/csv-download_error.log
-Restart=on-failure
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
 User=root
 
 [Install]
 WantedBy=multi-user.target
-

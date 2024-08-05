@@ -1,6 +1,5 @@
 import csv
 import xml.etree.ElementTree as ET
-import json
 import time
 
 def extract_lat_long(shape_str):
@@ -49,7 +48,7 @@ def create_kml_placemark(data):
     placemark.set("id", str(data['objectid']))
 
     name = ET.SubElement(placemark, "name")
-    name.text = f"{data['team_callsign']} - {data['select_a_waypoint_of_what_you_a']}"
+    name.text = f"{data['team_callsign']}"
 
     styleUrl = ET.SubElement(placemark, "styleUrl")
     styleUrl.text = f"#{data['select_a_waypoint_of_what_you_a'].replace(' ', '_')}"
