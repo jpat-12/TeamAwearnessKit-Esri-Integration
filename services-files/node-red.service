@@ -1,0 +1,14 @@
+[Unit]
+Description=CSV To kml
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/env node-red
+WorkingDirectory=/root/.node-red
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target

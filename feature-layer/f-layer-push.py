@@ -6,7 +6,7 @@ import pandas as pd
 gis = GIS("https://cap-gis.maps.arcgis.com", "jpattara_cap", "G0C1vilAirPatrol")
 
 # Read the CSV data into a pandas DataFrame
-csv_file_path = 'FBI-TAK-CoT.csv'
+csv_file_path = 'TAK-CoT.csv'
 df = pd.read_csv(csv_file_path)
 
 # Define the name and description for the new feature layer
