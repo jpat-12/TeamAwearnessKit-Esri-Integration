@@ -8,7 +8,8 @@ cd /tmp && sudo apt install git && sudo git clone https://github.com/jpat-12/Tea
 
 
 # Survey123 To Team Awearness Kit
-
+**[Esri-TAK Group](https://arcg.is/1DyOD80)** <br /><br />
+**[Survey123 Template](https://survey123.arcgis.com/surveys)** <br /><br />
 
 
 # TAK To Esri Feature Layer
@@ -18,7 +19,7 @@ cd /tmp && sudo apt install git && sudo git clone https://github.com/jpat-12/Tea
 ## 2. Dropped Data 
 
 
-# Linux Services
+# Services Commands
 
 ## Check Service Logs
 ### cot-csv
