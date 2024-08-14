@@ -34,7 +34,7 @@ def get_icon_path(waypoint_type):
         "Structure, No Damage": "412c43f948b1664a3a0b513336b6c32382b13289a6ed2e91dd31e23d9d52a683/Incident Icons/Structure, No-Damage.png",
         "Transportation, Route Block": "412c43f948b1664a3a0b513336b6c32382b13289a6ed2e91dd31e23d9d52a683/Incident Icons/Transportation, Route Block.png"
     }
-    return icon_paths.get(waypoint_type, "path/to/default/icon.png")
+    return icon_paths.get(waypoint_type, "412c43f948b1664a3a0b513336b6c32382b13289a6ed2e91dd31e23d9d52a683/Incident Icons/Placeholder Other.png")
 
 def create_cot_event(data):
     lat, lon = extract_lat_long(data["geometry"])
@@ -44,12 +44,13 @@ def create_cot_event(data):
     current_time = datetime.now(timezone.utc)
     start_time = current_time
     stale_time = start_time + timedelta(minutes=5)  # Ensure timedelta is correctly imported
-    print(current_time)
 
     event_time_str = start_time.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + "Z"
     stale_time_str = stale_time.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + "Z"
 
-    event = f'<event version="2.0" uid="{data["team_callsign"]}_{data["objectid"]}"  type="a-h-G" time="{event_time_str}" start="{event_time_str}" stale="{stale_time_str}" how="m-g"><point lat="{lat}" lon="{lon}" hae="0" ce="10.0" le="2.0" /><detail><UID Droid="Survey123 - {data["team_callsign"],datetime.fromtimestamp(int(data['CreationDate']) / 1000, timezone.utc).strftime('%Y-%m-%d %H:%M:%S.%f')[:-3] }" /><usericon iconsetpath="{icon_path}" /><remarks>{remarks}</remarks><contact callsign="{data["team_callsign"]}" /><track speed="0" course="0" /></detail></event>'
+    #V1 event = f'<event version="2.0" uid="{data["team_callsign"]}_{data["objectid"]}"  type="a-h-G" time="{event_time_str}" start="{event_time_str}" stale="{stale_time_str}" how="m-g"><point lat="{lat}" lon="{lon}" hae="0" ce="10.0" le="2.0" /><detail><UID Droid="{data["team_callsign"],datetime.fromtimestamp(int(data['CreationDate']) / 1000, timezone.utc).strftime('%Y-%m-%d %H:%M:%S.%f')[:-3] }" /><usericon iconsetpath="{icon_path}" /><remarks>{remarks}</remarks><contact callsign="{data["team_callsign"]}" /><track speed="0" course="0" /></detail></event>'
+    event = f'<event version="2.0" uid="Survey123_{data["objectid"]}"  type="a-h-G" time="{event_time_str}" start="{event_time_str}" stale="{stale_time_str}" how="m-g"><point lat="{lat}" lon="{lon}" hae="0" ce="10.0" le="2.0" /><detail><UID Droid="Survey123_{data["team_callsign"]} {datetime.fromtimestamp(int(data['CreationDate']) / 1000, timezone.utc).strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]}," /><usericon iconsetpath="{icon_path}" /><remarks>{remarks}</remarks><contact callsign="{data["team_callsign"]}" /><track speed="0" course="0" /></detail></event>'
+    #V2event = f'<event version="2.0" uid="Survey123_{data["objectid"]}"  type="a-h-G" time="{event_time_str}" start="{event_time_str}" stale="{stale_time_str}" how="m-g"><point lat="{lat}" lon="{lon}" hae="0" ce="10.0" le="2.0" /><detail><UID Droid="Survey123_{data["team_callsign"],datetime.fromtimestamp(int(data['CreationDate']) / 1000, timezone.utc).strftime('%Y-%m-%d %H:%M:%S.%f')[:-3] }" /><usericon iconsetpath="{icon_path}" /><remarks>{remarks}</remarks><contact callsign="{data["team_callsign"]}" /><track speed="0" course="0" /></detail></event>'
     return event
 
 def parse_csv_and_create_cot(csv_file_path, output_file_path):

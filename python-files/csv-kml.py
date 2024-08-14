@@ -1,5 +1,6 @@
 import csv
 import xml.etree.ElementTree as ET
+import json
 import time
 
 def extract_lat_long(shape_str):
@@ -114,11 +115,10 @@ def parse_csv_and_create_kml(csv_file_path, output_file_path):
     tree.write(output_file_path, encoding='utf-8', xml_declaration=True)
 
 # Pull CSV from 'survey.csv' and write to 'survey123.kml'
-parse_csv_and_create_kml('survey.csv', '/var/www/html/survey123.kml')
+parse_csv_and_create_kml('survey.csv', 'survey123.kml')
 
 # Continuously update KML file
 while True:
     parse_csv_and_create_kml('survey.csv', '/var/www/html/survey123.kml')
     print('parsed')
     time.sleep(5)
-

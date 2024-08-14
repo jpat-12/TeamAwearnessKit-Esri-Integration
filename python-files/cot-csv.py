@@ -1,6 +1,7 @@
 import xml.etree.ElementTree as ET
 import csv
 import re
+import time
 
 def parse_cot_messages(xml_content):
     """ Parse COT messages from the given XML content and return a list of dictionaries """
@@ -87,7 +88,10 @@ def main(input_file, output_file):
     write_csv(unique_messages, output_file)
 
 if __name__ == "__main__":
-    input_file = 'cot-pulled.txt'
-    output_file = 'cot-parsed.csv'
-    main(input_file, output_file)
-    print('parsed')
+    input_file = '/var/www/html/cot-pulled.txt'
+    output_file = '/var/www/html/FBI-TAK-CoT.csv'
+
+    while True:
+        main(input_file, output_file)
+        print('parsed')
+        time.sleep(4)  # Sleep for 60 seconds before the next iteration
