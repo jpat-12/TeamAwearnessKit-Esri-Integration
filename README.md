@@ -18,7 +18,7 @@ cd /tmp && sudo apt install git && sudo git clone https://github.com/jpat-12/Tea
 
 # Survey123 To Team Awearness Kit
 1. **[Esri-TAK Group](https://arcg.is/1DyOD80)** <br />
-2. **[Survey123 Template](https://survey123.arcgis.com/surveys)** <br />
+2. **[Survey Template](https://survey123.arcgis.com/surveys)** <br />
 3. **[Survey123-Push-Flow](https://github.com/jpat-12/TeamAwearnessKit-Esri-Integration/blob/main/json-flows/Survey123-Push-Flow.json)** <br /><br />
 
 
@@ -30,8 +30,9 @@ cd /tmp && sudo apt install git && sudo git clone https://github.com/jpat-12/Tea
 
 ## 2. Dropped Data 
 THIS IS IN PRODUCTION - COMING SOON
+<br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 
-# Services Commands
+# Troubleshooting
 
 ## Check Service Logs
 ### cot-csv
