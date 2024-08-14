@@ -39,11 +39,16 @@ echo "Feature Layer Name: $feature_layer_name"
 echo "CSV Name: $csv_name"
 read -p "Press y to continue or any other key to re-enter the information: " confirm
 
-if [ "$confirm" != "y" ]; then
+while [ "$confirm" != "y" ]; do
     read -p "Enter the link of the feature layer you want to use: " feature_layer_link
     read -p "Enter the name of the feature layer you want to use: " feature_layer_name
     read -p "Enter the name of the CSV file: " csv_name
-fi
+    echo "Are all of these correct?" 
+    echo "Feature Layer Link: $feature_layer_link"
+    echo "Feature Layer Name: $feature_layer_name"
+    echo "CSV Name: $csv_name"
+    read -p "Press y to continue or any other key to re-enter the information: " confirm
+done
 
 echo "We will now update the python script to use the feature layer link and name"
 

@@ -20,6 +20,7 @@ sudo apt upgrade -y
 sudo apt update -y
 apt install wget -y
 apt install python3-geopandas -y 
+pip install time
 clear 
 
 
@@ -101,16 +102,12 @@ source ./bin/activate
 mkdir /opt/TAK-Esri/ArcGIS
 cd /opt/TAK-Esri/ArcGIS
 cat <<EOF > /opt/TAK-Esri/sArcGIS/push.py
-
-
 EOF
 
 
 # Create file for appending the feature layer
 cd /opt/TAK-Esri/ArcGIS
-cat <<EOF > /opt/TAK-Esri/sArcGIS/push.py
-
-
+cat <<EOF > /opt/TAK-Esri/sArcGIS/append.py
 EOF
 
 
@@ -119,6 +116,22 @@ conda init
 conda create -n arcgis_env python=3.9
 conda activate arcgis_env
 conda install -c esri arcgis
+
+
+# Install and/or setup of json flows 
+echo "Is node-red already installed?" 
+read node-red-install?
+
+if [ "$node-red-install?" = "y" ]; then
+    read -p "Press any key to continue..."
+ else
+    read -p "npm --version" npm_v 
+    echo "NPM Version: $npm_v"
+
+    fi
+    echo "Skipping install of node-red"
+
+
 
 
 # Start moving all other files around 

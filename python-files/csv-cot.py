@@ -44,6 +44,7 @@ def create_cot_event(data):
     current_time = datetime.now(timezone.utc)
     start_time = current_time
     stale_time = start_time + timedelta(minutes=5)  # Ensure timedelta is correctly imported
+    print(current_time)
 
     event_time_str = start_time.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + "Z"
     stale_time_str = stale_time.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + "Z"
@@ -67,4 +68,3 @@ while True:
     parse_csv_and_create_cot('survey.csv', '/var/www/html/survey-cot.txt')
     print('Parsed CSV and updated survey-cot.txt')
     time.sleep(5)
-

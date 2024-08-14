@@ -5,9 +5,9 @@ After=network.target
 [Service]
 ExecStart=/usr/bin/python3 /opt/TAK-Esri/cot-csv.py
 WorkingDirectory=/opt/TAK-Esri
-StandardOutput=file:/var/log/cot-csv.log
-StandardError=file:/var/log/cot-csv_error.log
-Restart=on-failure
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
 User=root
 
 [Install]
