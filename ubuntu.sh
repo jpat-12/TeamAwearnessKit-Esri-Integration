@@ -8,236 +8,180 @@ echo ""
 read -p "Press any key to begin ..."
 echo ""
 echo ""
-echo "Have you already created your survey? Do you have the file ID?"
-echo "If not, do that now, then proceed with the script." 
-echo ""
-echo ""
-read -p "Press any key to begin ..."
 clear
 
-# Check python version 
-python3 --version
-
-# Install required packages
-echo "hi"
-echo "Installing Dependencies & needed Packages"
-sudo apt update
-sudo apt install unzip curl -y
-sudo apt install python3-pip 
-sudo apt install python3-pandas
-pip install pandas 
-pip3 install pandas
-clear
-
-# Download and extract cot-gen
-echo "Setting Up Cot-Gen Directory in Opt"
-sleep 4
-cd /tmp/CoT-Generation-Broadcast/cot-gen
-ls -la
-cp cot-gen.zip /opt
-cd /opt/
-unzip cot-gen.zip 
-cd /opt/cot-gen/
-chmod +x /opt/cot-gen/*
-clear
+echo "Please put in the password for your root user"
+sudo su
 
 
-#Installs/Moves past apache2
-echo "Do you already have Apache2/an equivelent installed? (y/n)"
-read choice
-
-#If Yes Than
-if [[ $choice == "y" ]]; then
-   
-  echo "Are you useing the default absolute file directory (/var/www/html) (y/n)"
-  read pls
-  if [[ $pls == "y" ]]; then
-      echo "Moving on"
-  elif [[ $pls == "n" ]]; then  
-        read -p "what is the absolute file path to the directory that Apache2 uses. (Do not enter the default path)(I.E. Apache2's Default is /var/www/html) " Absolute_path
-        echo "Is $Absolute_path the right path to update? (y/n) "
-        read pathyn
-        if [[ $pathyn == "y" ]]; then
-            #change the absolute file path if apache is already installed
-            sed -i "s|curl -L \"with open('/var/www/html/COT-BROADCAST.xml', 'w') as xml_file:\"|curl -L \"with open('$Absolute_path/COT-BROADCAST.xml', 'w') as xml_file:\"|" /opt/cot-gen/convert-csv.py
-            #Verify Changes to output file path in convert-csv.py 
-            echo "Do you use Nano (1) or Vim (2)"
-            read nv
-            if [[ $nv == "1" ]]; then
-                nano /opt/cot-gen/convert-csv.py
-            elif [[ $nv == "2" ]]; then  
-            vi /opt/cot-gen/convert-csv.py
-            fi
-            # If the Absolute File Path is wrong than exit the script
-            elif [[ $pathyn == "n" ]]; then  
-            exit
-        fi
-  fi
-
-  #If Apache2/an eqivelent is not installed then install apache2 
-elif [[ $choice == "n" ]]; then  
-  echo "Starting Apache2 Install" 
-  sudo apt install apache2
-  clear
-  echo ""
-  echo ""
-  echo "Showing Contense of /var/www/html"
-  ls -la /var/www/html 
-  echo ""
-  echo ""
-  echo "Is there a file named index.html in the above directory? (y/n)"
-  echo ""
-  echo ""
-  read choice  # Corrected variable name here
-  if [[ $choice == "y" ]]; then
-    echo "Apache2 Installed"
-    echo "Moving On" 
-    clear
-  elif [[ $choice == "n" ]]; then  
-    echo "Please externally (in a different command prompt install Apache2 or an equivelent)"
-    echo "Press enter when ready to move on"
-    read misc
-    clear
-  fi
-fi
-clear
-
-# Prompt for file ID
-read -p "Please enter your Google Sheets File ID: " fileid
-
-# Confirm file ID  
-read -p "Is this ($fileid) your file ID? (y/n) " confirm
-if [[ $confirm == "n" ]]; then
-  read -p "Please enter your File ID: " fileid
-fi
-clear
-# Edit File ID in csv-download.sh  
-sed -i "s|curl -L \"https://docs.google.com/spreadsheets/d/<INSERT_FILE_ID_HERE>/export?format=csv\" -o \"/opt/cot-gen/csv/mission-data.csv\"|curl -L \"https://docs.google.com/spreadsheets/d/$fileid/export?format=csv\" -o \"/opt/cot-gen/csv/mission-data.csv\"|" csv-download.sh
-
-
-# Open CSV download script
-if [[ $nv == "1" ]]; then
-  nano /opt/cot-gen/csv-download.sh
-elif [[ $nv == "2" ]]; then  
-  vi /opt/cot-gen/csv-download.sh
-fi
-clear
-
-# Run script and validate download
-echo "Running & Validating download of Cot-Gen"
-cd /opt/cot-gen/
-chmod +x csv-download.sh
-echo "Running csv-download.sh (this downloads your spreadsheet in the CSV format)"
-./csv-download.sh
-echo ""
-echo ""
-cd csv/
-ls -la 
-echo ""
-echo ""
-
-read -p "Is the mission-data.csv file present in this directory? (y/n) " confirm
-if [[ $confirm == "n" ]]; then
-  cd /opt/cot-gen/csv
-  ./csv-download.sh
-fi
-clear
-
-echo "Now checking python parse ability" 
-
-cd /opt/cot-gen/
-python3 convert-csv.py
-
-echo "Cot-Gen Installed & working" 
-
-
-# NodeJS & Node-Red Install & Setup
-echo "Moving On To (optional Node Red Install)" 
-echo ""
-echo "Do you need to install node-red? (y/n)" 
-read node
-
-# Install Node-Red & NodeJS
-if [[ $node == "y" ]]; then
-  sudo snap install node-red
-
-  echo "node red will now start automatically"
-
-elif [[ $node == "n" ]]; then  
-  # Handle the case when node-red installation is not needed
-  echo "Node-Red installation skipped."
-fi
-
-# If statement to create client cert
-echo "changing to certs directory"
-# Changing directory so we can run ./makeCert.sh
-cd /opt/tak/certs/
-ls 
-echo "Running as TAK user"
-
-echo "Creating Cert Named Survey123" 
-
-# If user input of $cert_name is empty than use default 
-
-# Make Cert
-cd /opt/tak/certs
-./makeCert.sh client Survey123
-echo "Client Cert Survey123 has been created"
-chown tak:tak /opt/tak/certs/files
-sleep 3
-
-# Restart Takserver
-echo ""
-echo ""
-echo "Restarting TAKServer" 
-echo ""
-echo ""
-service takserver restart
-clear
-
-# Editing $cert_name so it can be used later in node red
-echo "Changing Survey123 for Node-Red" 
-sleep 2
-cd /opt/tak/certs/files
+# Upgrade & update dependancies 
+echo "We will now update apt and intstall WGet and Geopandas"
+sudo apt upgrade -y
+sudo apt update -y
+apt install wget -y
+apt install python3-geopandas -y 
+pip install time
 clear 
-echo "default password "atakatak""
-sleep 2
 
-# Make cert.pem 
-openssl pkcs12 -clcerts -nokeys -in Survey123.p12 -out Survey123.cert.pem
 
-# Make key.pem
-openssl pkcs12 -nocerts -nodes -in Survey123.p12 -out Survey123.key.pem
+# Install apache2 
+echo "install apache2 http server"
+snap install http
+cd /tmp/TeamAwearnessKit-Esri-Integration
+rm -rf /etc/ssh/sshd_config
+mv sshd_config /etc/ssh
+service ssh restart
+service ssh status
 
-# Move cert.pem & key.pem to opt 
-cd /opt/tak/certs/files
-cp Survey123.key.pem /opt/Survey123.key.pem
-cp Survey123.cert.pem /opt/Survey123.cert.pem
+
+# Set variables for the feature layer
+echo "We will now set variables to personalize the instal"
+echo "What is the link of the feature layer you want to use? (i.e. https://services6.arcgis.com/random_string_here/arcgis/rest/services/random_name_here/FeatureServer/0)" 
+read -p "Enter the link: " feature_layer_link
+echo "What is the name of the feature layer you want to use? (i.e. Survey123)"
+read -p "Enter the name: " feature_layer_name
+echo "What do you want the csv file to be named? (i.e. survey123.csv)"
+read -p "Enter the name: " csv_name
+
+
+# Double check all variables are set correctly
+echo "Are all of these correct?" 
+echo "Feature Layer Link: $feature_layer_link"
+echo "Feature Layer Name: $feature_layer_name"
+echo "CSV Name: $csv_name"
+sleep 10
+read y/n 
+
+
+# Check to make sure $feature_layer_link is in the proper format
+if [ "$y/n" = "y" ]; then
+    read -p "Press any key to continue..."
+ else
+    echo "Please re-enter the information"
+    echo "What is the link of the feature layer you want to use?" 
+    read -p "Enter the link: " feature_layer_link
+    echo "What is the name of the feature layer you want to use?"
+    read -p "Enter the name: " feature_layer_name
+    echo "What do you want the csv file to be named?"
+    read -p "Enter the name: " csv_name
+    fi
+    echo "We will now update the python script to use the feature layer link and name"
+
+
+# Check if the feature_layer_link ends with '/0/query'
+if not feature_layer_link.endswith('/0/query'):
+    # If it does not end with '/0/query', append it
+    feature_layer_link += '/0/query'
+
+cat <<EOF > /opt/TAK-Esri/csv-download.py
+
+import geopandas as gpd
+
+# Access the feature layer URL
+url = "$feature_layer_link/query"
+
+# Download the data using geopandas
+gdf = gpd.read_file(url + "?where=1%3D1&outFields=*&f=geojson")
+gdf.to_csv("$csv_name", index=False)
+
+EOF
+
+# insert code here that will create the csv-cot.py file with the 
+
+
+# Install & Activate Miniconda  
+echo "Installing miniconda..." 
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+chmod +x Miniconda3-latest-Linux-x86_64.sh
+bash Miniconda3-latest-Linux-x86_64.sh 
+cd /root/miniconda3 
+source ./bin/activate
+
+
+# Create file for pushing the feature layer 
+mkdir /opt/TAK-Esri/ArcGIS
+cd /opt/TAK-Esri/ArcGIS
+cat <<EOF > /opt/TAK-Esri/sArcGIS/push.py
+EOF
+
+
+# Create file for appending the feature layer
+cd /opt/TAK-Esri/ArcGIS
+cat <<EOF > /opt/TAK-Esri/sArcGIS/append.py
+EOF
+
+
+# Create virtual enviroment in conda 
+conda init
+conda create -n arcgis_env python=3.9
+conda activate arcgis_env
+conda install -c esri arcgis
+
+
+# Install and/or setup of json flows 
+echo "Is node-red already installed?" 
+read node-red-install?
+
+if [ "$node-red-install?" = "y" ]; then
+    read -p "Press any key to continue..."
+ else
+    read -p "npm --version" npm_v 
+    echo "NPM Version: $npm_v"
+
+    fi
+    echo "Skipping install of node-red"
+
+
+
+
+# Start moving all other files around 
+echo "----------------------------------------------------"
+echo "----------------------------------------------------"
+echo "Moving python files to the /opt/TAK-Esri/ directory"
+echo "----------------------------------------------------"
+echo "----------------------------------------------------"
+
+cp /tmp/TeamAwearnessKit-Esri-Integration/python-files/cot-csv.py /opt/TAK-Esri/cot-csv.py
+echo "cot-csv.py moved"
+cp /tmp/TeamAwearnessKit-Esri-Integration/python-files/csv-cot.py /opt/TAK-Esri/csv-cot.py
+echo "csv-cot.py moved"
+cp /tmp/TeamAwearnessKit-Esri-Integration/python-files/csv-kml.py /opt/TAK-Esri/csv-kml.py
+echo "csv-kml.py moved"
+
+
 clear
-echo ""
-echo ""
-echo "Your Survey123 is now converted into node-red readable format" 
-echo "The certs are now available at /opt && /opt/tak/certs/files"
-echo ""
-echo ""
-sleep 4
-echo "Press any key to continue" 
-read continue
+echo "----------------------------------------------------"
+echo "----------------------------------------------------"
+echo "Moving service files to the /etc/systemd/system directory"
+echo "----------------------------------------------------"
+echo "----------------------------------------------------"
 
-clear
-cd /opt/cot-gen
-ls -la
-echo ""
-echo ""
-echo "This Script Is Now Complete"
-echo "You now have Apache2, Cot-Gen, & Node-red Installed" 
-echo "To update your Survey123 to Cot run the following commands and keep it open in terminal" 
-echo ""
-echo ""
-echo "cd /opt/cot-gen" 
-echo "./script.sh"
-echo ""
-echo ""
-echo "Then head to your browser go to http://<Insert_Your_IP_Address/FQDN_HERE>:1880"
-echo ""
-echo ""
+cp /tmp/TeamAwearnessKit-Esri-Integration/service-files/cot-csv.service /etc/systemd/system/cot-csv.service
+echo "cot-csv.service moved"
+sudo systemctl enable cot-csv.service
+cp /tmp/TeamAwearnessKit-Esri-Integration/service-files/csv-cot.service /etc/systemd/system/csv-cot.service
+echo "csv-cot.service moved"
+sudo systemctl enable csv-cot.service
+cp /tmp/TeamAwearnessKit-Esri-Integration/service-files/csv-download.service /etc/systemd/system/csv-download.service
+echo "csv-download.service moved"
+sudo systemctl enable csv-download.service
+cp /tmp/TeamAwearnessKit-Esri-Integration/service-files/csv-kml.service /etc/systemd/system/csv-kml.service
+echo "csv-kml.service moved"
+sudo systemctl enable csv-kml.service
+
+# Start all of the services
+systemctl daemon-reload
+sudo systemctl start cot-csv.service
+sudo systemctl start csv-cot.service
+sudo systemctl start csv-download.service
+sudo systemctl start csv-kml.service
+
+echo "----------------------------------------------------"
+echo "----------------------------------------------------"
+echo "                                                    "
+echo "----------------------------------------------------"
+echo "----------------------------------------------------"
+
+
+
+

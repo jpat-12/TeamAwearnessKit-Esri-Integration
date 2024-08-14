@@ -27,6 +27,15 @@ cd /tmp && sudo apt install git && sudo git clone https://github.com/jpat-12/Tea
 ## 1. Team Location
 1. **[CoT-Pull-Flow](https://github.com/jpat-12/TeamAwearnessKit-Esri-Integration/blob/main/json-flows/CoT-Pull-Flow.json)** <br />
 
+###  Feature Layer Push Service Restart
+```bash
+service feature-layer-update restart
+```
+
+###  Feature Layer Push Service Log
+```bash
+journalctl -u feature-layer-update.service 
+```
 
 ## 2. Dropped Data 
 THIS IS IN PRODUCTION - COMING SOON
@@ -51,6 +60,7 @@ journalctl -u csv-download.service
 ```bash
 journalctl -u csv-kml.service
 ```
+
 
 
 ## Restart Services
