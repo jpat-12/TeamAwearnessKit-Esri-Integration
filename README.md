@@ -12,9 +12,8 @@
 ## Launch Full Setup Scripts
 For Ubuntu (not yet tested on CentOS or Rocky)
 ```bash
-cd /tmp && sudo apt install git && sudo git clone https://github.com/jpat-12/TeamAwearnessKit-Esri-Integration.git && cd TeamAwearnessKit-Esri-Integration && cd scripts && chmod +x ubuntu.sh && cd /opt/TAK-Esri && ls -la 
+cd /tmp && sudo apt install git && sudo git clone https://github.com/jpat-12/TeamAwearnessKit-Esri-Integration.git && cd /tmp/TeamAwearnessKit-Esri-Integration/scripts/ubuntu && chmod +x initial.sh && cd /opt/TAK-Esri && ls -la 
 ```
-
 
 # Survey123 To Team Awearness Kit
 1. **[Esri-TAK Group](https://arcg.is/1DyOD80)** <br />

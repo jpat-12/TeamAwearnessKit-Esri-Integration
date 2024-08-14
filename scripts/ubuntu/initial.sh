@@ -84,3 +84,7 @@ for service in cot-csv csv-cot csv-download csv-kml; do
 done
 
 echo "All services started successfully."
+ 
+cd /tmp/TeamAwearnessKit-Esri-Integration/scripts/ubuntu
+chmod +x arcgis.sh
+./arcgis.sh
