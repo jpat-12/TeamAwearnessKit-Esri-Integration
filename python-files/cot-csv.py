@@ -89,7 +89,7 @@ def main(input_file, output_file):
 
 if __name__ == "__main__":
     input_file = '/var/www/html/cot-pulled.txt'
-    output_file = '/var/www/html/FBI-TAK-CoT.csv'
+    output_file = '/var/www/html/TAK-CoT.csv'
 
     while True:
         main(input_file, output_file)

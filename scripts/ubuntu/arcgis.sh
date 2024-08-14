@@ -51,9 +51,9 @@ echo "Installing Miniconda..."
 cd /root
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 chmod +x Miniconda3-latest-Linux-x86_64.sh
-./Miniconda3-latest-Linux-x86_64.sh
+./Miniconda3-latest-Linux-x86_64.sh -b -p /root/miniconda
 cd /root/miniconda 
-source /bin/activate 
+source /root/miniconda/bin/activate
 conda init 
 conda create -n arcgis_env python=3.9 
 conda activate arcgis_env 
@@ -177,11 +177,12 @@ source /root/miniconda3/etc/profile.d/conda.sh
 conda activate arcgis_env
 
 # Change to the correct directory
+mkdir -p /opt/TAK-Esri/arcgis
 cd /opt/TAK-Esri/arcgis
 
 # Loop to run the Python script and wait for 30 seconds
 while true; do
-    python3 append.py
+    /root/miniconda/bin/python3 append.py
     echo 'Pushed To ArcGIS'
     sleep 30
 done
@@ -193,7 +194,7 @@ Description=feature-layer-update
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/python3 /opt/TAK-Esri/arcgis/append.sh
+ExecStart=/bin/bash /opt/TAK-Esri/arcgis/append.sh
 WorkingDirectory=/opt/TAK-Esri/arcgis
 StandardOutput=inherit
 StandardError=inherit

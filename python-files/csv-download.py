@@ -13,9 +13,3 @@ while True:
     except Exception as e:
         print(f"Error: {e}")
 
-#while True:
- #   gdf.to_csv("survey.csv", index=False)
-  #  print('Feature Layer downloaded')
-   # time.sleep(2)
-
-#gdf.to_csv("survey.csv", index=False)
