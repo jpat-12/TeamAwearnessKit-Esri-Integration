@@ -1,5 +1,10 @@
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/jpat)
 
+# Required Prerequisites
+1. ArcGIS Online or ArcGIS Enterprise Account 
+2. TAKServer with TCP Port 
+3. Machine with SSH configured (Can be the same as the machine running the TAKServer)
+
 ## Launch Full Setup Scripts
 For Ubuntu (not yet tested on CentOS or Rocky)
 ```bash
