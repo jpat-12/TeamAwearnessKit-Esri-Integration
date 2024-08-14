@@ -19,6 +19,7 @@ clear
 python3 --version
 
 # Install required packages
+echo "hi"
 echo "Installing Dependencies & needed Packages"
 sudo apt update
 sudo apt install unzip curl -y
