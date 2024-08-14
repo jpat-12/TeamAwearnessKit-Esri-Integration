@@ -1,0 +1,123 @@
+[
+    {
+        "id": "6117f0a53ae971ee",
+        "type": "file in",
+        "z": "c23f80097de6a810",
+        "name": "file pull",
+        "filename": "/var/www/html/survey-cot.txt",
+        "filenameType": "str",
+        "format": "lines",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 720,
+        "y": 280,
+        "wires": [
+            [
+                "4f54118b2a556523",
+                "ca8678eaa320d675"
+            ]
+        ]
+    },
+    {
+        "id": "4f54118b2a556523",
+        "type": "debug",
+        "z": "c23f80097de6a810",
+        "name": "Survey123 Output",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 910,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "38a404949e308c25",
+        "type": "trigger",
+        "z": "c23f80097de6a810",
+        "name": "",
+        "op1": "1",
+        "op2": "0",
+        "op1type": "str",
+        "op2type": "str",
+        "duration": "-10",
+        "extend": false,
+        "overrideDelay": false,
+        "units": "s",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 550,
+        "y": 280,
+        "wires": [
+            [
+                "6117f0a53ae971ee"
+            ]
+        ]
+    },
+    {
+        "id": "08edc538487d315a",
+        "type": "inject",
+        "z": "c23f80097de6a810",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "x": 390,
+        "y": 280,
+        "wires": [
+            [
+                "38a404949e308c25"
+            ]
+        ]
+    },
+    {
+        "id": "ca8678eaa320d675",
+        "type": "tcp out",
+        "z": "c23f80097de6a810",
+        "name": "",
+        "host": "civ.badgerworks.pro",
+        "port": "5501",
+        "beserver": "client",
+        "base64": false,
+        "end": false,
+        "tls": "94bb10a2f97792eb",
+        "x": 940,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "94bb10a2f97792eb",
+        "type": "tls-config",
+        "name": "FBI TAK Server",
+        "cert": "",
+        "key": "",
+        "ca": "",
+        "certname": "FBI-CAP-ILWG.cert.pem",
+        "keyname": "FBI-CAP-ILWG.key.pem",
+        "caname": "",
+        "servername": "",
+        "verifyservercert": false,
+        "alpnprotocol": ""
+    }
+]
