@@ -1,5 +1,9 @@
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/jpat)
 
+![TAK-Esri](img/TAK-Esri Breakdown.png?raw=true "TAK-Esri")
+
+
+
 # Required Prerequisites
 1. ArcGIS Online or ArcGIS Enterprise Account 
 2. TAKServer with TCP Port 
