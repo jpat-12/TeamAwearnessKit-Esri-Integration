@@ -1,0 +1,96 @@
+[
+    {
+        "id": "e5b45699f61efa17",
+        "type": "tcp in",
+        "z": "7cf87bc760118f38",
+        "name": "",
+        "server": "client",
+        "host": "",
+        "port": "",
+        "datamode": "stream",
+        "datatype": "utf8",
+        "newline": "",
+        "topic": "",
+        "trim": false,
+        "base64": false,
+        "tls": "",
+        "x": 250,
+        "y": 200,
+        "wires": [
+            [
+                "2b7407bb258427b6",
+                "9345af60867d8c8d"
+            ]
+        ]
+    },
+    {
+        "id": "6c09c118442049a1",
+        "type": "file",
+        "z": "7cf87bc760118f38",
+        "name": "",
+        "filename": "/var/www/html/cot-pulled.txt",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 880,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "2b7407bb258427b6",
+        "type": "debug",
+        "z": "7cf87bc760118f38",
+        "name": "debug 5",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 480,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "a695f521d37fd7ff",
+        "type": "debug",
+        "z": "7cf87bc760118f38",
+        "name": "debug 17",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 820,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "9345af60867d8c8d",
+        "type": "function",
+        "z": "7cf87bc760118f38",
+        "name": "Exclude Survey123",
+        "func": "// Input data\nlet data = msg.payload;\n\n// Split data into individual event messages\nlet messages = data.split('<?xml version=\"1.0\" encoding=\"UTF-8\"?>');\n\n// Function to check if uid starts with \"Survey123_\"\nfunction isSurvey123(message) {\n    let uidMatch = message.match(/uid=\"([^\"]+)\"/);\n    return uidMatch && uidMatch[1].startsWith(\"Survey123_\");\n}\n\n// Filter out messages that meet the criteria\nlet filteredMessages = messages.filter(message => {\n    if (message.trim() === \"\") return false;\n    if (isSurvey123(message)) return false;\n    return true;\n});\n\n// Check if any messages are left after filtering\nif (filteredMessages.length === 0) {\n    // If no valid messages, set payload to null or an empty object\n    msg.payload = null; // or msg.payload = {};\n} else {\n    // Join the filtered messages back into a single string\n    let result = filteredMessages.join('<?xml version=\"1.0\" encoding=\"UTF-8\"?>');\n    msg.payload = result;\n}\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 200,
+        "wires": [
+            [
+                "a695f521d37fd7ff",
+                "6c09c118442049a1"
+            ]
+        ]
+    }
+]
