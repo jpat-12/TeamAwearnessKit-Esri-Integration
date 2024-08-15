@@ -1,6 +1,44 @@
-conda activate arcgis_env 
-conda install -c esri arcgis
+#!/bin/bash
+#!/bin/bash
+# Set variables for the feature layer
+echo "We will now set variables to personalize the install"
+read -p "Enter the link of the enterprise you want to use (i.e. https://cap-gis.maps.arcgis.com): " e_link
+read -p "Enter the username of the enterprise: " e_username
+read -p "Enter the password of the enterprise: " e_password
+read -p "Enter the name of the feature layer you will create: " feature_layer_name
+read -p "Enter the description you want your feature layer to have: " feature_layer_desc
 
+## Double check all variables are set correctly
+echo "Are all of these correct?" 
+echo "Enterprise link: $e_link"
+echo "Enterprise username: $e_username"
+echo "Enterprise password: $e_password"
+echo "Feature Layer Name: $feature_layer_name"
+echo "Feature Layer Description: $feature_layer_desc"
+read -p "Press y to continue or any other key to re-enter the information: " confirm
+
+while [ "$confirm" != "y" ]; do
+    read -p "Enter the link of the enterprise you want to use (i.e. https://cap-gis.maps.arcgis.com): " e_link
+    read -p "Enter the username of the enterprise: " e_username
+    read -p "Enter the password of the enterprise: " e_password
+    read -p "Enter the name of the feature layer you will create: " feature_layer_name
+    read -p "Enter the description you want your feature layer to have: " feature_layer_desc
+    echo "Are all of these correct?" 
+    echo "Enterprise link: $e_link"
+    echo "Enterprise username: $e_username"
+    echo "Enterprise password: $e_password"
+    echo "Feature Layer Name: $feature_layer_name"
+    echo "Feature Layer Description: $feature_layer_desc"
+    read -p "Press y to continue or any other key to re-enter the information: " confirm
+done
+
+echo "We will now update the python script to use the feature layer link and name"
+
+# Activate the Conda VM 
+conda init
+conda activate arcgis_env 
+#conda install -c esri arcgis
+pip install arcgis
 
 # Create necessary directories and files
 mkdir -p /opt/TAK-Esri/ArcGIS
@@ -62,7 +100,7 @@ done
 
 
 cat <<EOF > /opt/TAK-Esri/ArcGIS/append.py
-from arcgis.gis import GIS
+from arcgis import GIS
 from arcgis.features import FeatureLayerCollection
 import pandas as pd
 import time
@@ -99,7 +137,7 @@ def overwrite_feature_layer(csv_file_path, existing_layer_item_id):
         print(f"An error occurred: {e}")
 
 if __name__ == "__main__":
-    csv_file_path = '/var/www/html/TAK-CoT.csv'
+    csv_file_path = '/var/www/html/cot-logged.csv'
     existing_layer_item_id = "$file_id"  # Replace with your existing layer item ID
 
     while True:
@@ -109,24 +147,25 @@ if __name__ == "__main__":
 EOF
 
 # Create virtual environment in conda 
-cd /opt/TAK-Esri/arcgis 
-cat <<EOF > /opt/TAK-Esri/arcGIS/append.sh
+cd /opt/TAK-Esri/ArcGIS 
+cat <<EOF > /opt/TAK-Esri/ArcGIS/append.sh
 #!/bin/bash
 # Source the conda.sh script
-source /root/miniconda3/etc/profile.d/conda.sh
+source /root/miniconda/etc/profile.d/conda.sh
 
-# Activate the Conda environment
+conda init
 conda activate arcgis_env
-
+cd /opt/TAK-Esri/ArcGIS
+#python3 append.py
 # Change to the correct directory
-mkdir -p /opt/TAK-Esri/arcgis
-cd /opt/TAK-Esri/arcgis
+#mkdir -p /opt/TAK-Esri/ArcGIS
+#cd /opt/TAK-Esri/ArcGIS
 
-# Loop to run the Python script and wait for 30 seconds
+# Loop to run the Python script and wait for 5 seconds
 while true; do
-    /root/miniconda/bin/python3 append.py
+    python3 append.py
     echo 'Pushed To ArcGIS'
-    sleep 30
+    sleep 5
 done
 EOF
 
@@ -136,8 +175,8 @@ Description=feature-layer-update
 After=network.target
 
 [Service]
-ExecStart=/bin/bash /opt/TAK-Esri/arcgis/append.sh
-WorkingDirectory=/opt/TAK-Esri/arcgis
+ExecStart=/bin/bash /opt/TAK-Esri/ArcGIS/append.sh
+WorkingDirectory=/opt/TAK-Esri/ArcGIS
 StandardOutput=inherit
 StandardError=inherit
 Restart=always
@@ -149,4 +188,8 @@ EOF
 
 sudo systemctl daemon-reload
 sudo systemctl enable feature-layer-update.service
+sudo systemctl enable cot-csv.service
+sudo systemctl daemon-reload
 sudo systemctl start feature-layer-update.service
+sudo systemctl start cot-csv.service
+

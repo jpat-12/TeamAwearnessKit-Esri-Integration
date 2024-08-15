@@ -28,7 +28,7 @@
         "type": "file",
         "z": "7cf87bc760118f38",
         "name": "",
-        "filename": "/var/www/html/cot-pulled.txt",
+        "filename": "/var/www/html/cot-logged.txt",
         "filenameType": "str",
         "appendNewline": true,
         "createDir": false,
