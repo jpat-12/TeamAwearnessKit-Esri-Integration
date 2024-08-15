@@ -14,7 +14,6 @@ read -p "Enter the username of the enterprise: " e_username
 read -p "Enter the password of the enterprise: " e_password
 read -p "Enter the name of the feature layer you will create: " feature_layer_name
 read -p "Enter the description you want your feature layer to have" feature_layer_desc
-read -p "Enter the name of the CSV file: " csv_name
 
 ## Double check all variables are set correctly
 echo "Are all of these correct?" 
@@ -23,7 +22,6 @@ echo "Enterprise username: $e_username"
 echo "Enterprise password: $e_password"
 echo "Feature Layer Name: $feature_layer_name"
 echo "Feature Layer Description: $feature_layer_desc"
-echo "CSV Name: $csv_name"
 read -p "Press y to continue or any other key to re-enter the information: " confirm
 
 while [ "$confirm" != "y" ]; do
@@ -32,14 +30,12 @@ while [ "$confirm" != "y" ]; do
     read -p "Enter the password of the enterprise: " e_password
     read -p "Enter the name of the feature layer you will create: " feature_layer_name
     read -p "Enter the description you want your feature layer to have" feature_layer_desc
-    read -p "Enter the name of the CSV file: " csv_name
     echo "Are all of these correct?" 
     echo "Enterprise link: $e_link"
     echo "Enterprise username: $e_username"
     echo "Enterprise password: $e_password"
     echo "Feature Layer Name: $feature_layer_name"
     echo "Feature Layer Description: $feature_layer_desc"
-    echo "CSV Name: $csv_name"
     read -p "Press y to continue or any other key to re-enter the information: " confirm
 done
 
@@ -72,7 +68,7 @@ import pandas as pd
 gis = GIS("$e_link", "$e_username", "$e_password")
 
 # Read the CSV data into a pandas DataFrame
-csv_file_path = 'TAK-CoT.csv'
+csv_file_path = 'cot-pulled.csv'
 df = pd.read_csv(csv_file_path)
 
 # Define the name and description for the new feature layer
