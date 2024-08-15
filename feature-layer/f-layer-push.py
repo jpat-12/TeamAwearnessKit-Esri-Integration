@@ -3,7 +3,7 @@ from arcgis.features import FeatureLayerCollection
 import pandas as pd
 
 # Authentication
-gis = GIS("https://cap-gis.maps.arcgis.com", "jpattara_cap", "G0C1vilAirPatrol")
+gis = GIS("", "", "")
 
 # Read the CSV data into a pandas DataFrame
 csv_file_path = 'TAK-CoT.csv'
