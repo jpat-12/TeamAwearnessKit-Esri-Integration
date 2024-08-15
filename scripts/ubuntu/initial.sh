@@ -66,15 +66,30 @@ echo "Python files moved"
 
 # Move service files to the system directory
 echo "Moving service files to the /etc/systemd/system directory"
-sudo cp /tmp/TeamAwearnessKit-Esri-Integration/service-files/*.service /etc/systemd/system/ || { echo "Service files copy failed"; exit 1; }
+
+cp /tmp/TeamAwearnessKit-Esri-Integration/service-files/node-red.service /etc/systemd/system/node-red.service
+cp /tmp/TeamAwearnessKit-Esri-Integration/service-files/cot-csv.service /etc/systemd/system/cot-csv.service
+cp /tmp/TeamAwearnessKit-Esri-Integration/service-files/csv-cot.service /etc/systemd/system/csv-cot.service
+cp /tmp/TeamAwearnessKit-Esri-Integration/service-files/csv-download.service /etc/systemd/system/csv-download.service
+cp /tmp/TeamAwearnessKit-Esri-Integration/service-files/csv-kml.service /etc/systemd/system/csv-kml.service
 echo "Service files moved"
 
 # Enable and start services
+
+
+systemctl enable node-red.service 
+systemctl enable cot-csv.service
+systemctl enable csv-cot.service
+systemctl enable csv-download.service
+systemctl enable csv-kml.service 
+
 sudo systemctl daemon-reload
-for service in cot-csv csv-cot csv-download csv-kml; do
-    sudo systemctl enable $service.service
-    sudo systemctl start $service.service || { echo "Failed to start $service"; exit 1; }
-done
+
+systemctl start node-red.service 
+systemctl start cot-csv.service
+systemctl start csv-cot.service
+systemctl start csv-download.service
+systemctl start csv-kml.service 
 
 echo "All services started successfully."
 

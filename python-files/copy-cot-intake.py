@@ -3,8 +3,8 @@ import os
 from datetime import datetime
 
 # Define source and base destination directories
-source_file = '/var/www/html/cot-pulled.txt'
-base_destination_dir = '/var/www/html/cot-messages-pulled/'
+source_file = '/var/www/html/cot-logged.txt'
+base_destination_dir = '/var/www/html/cot-messages-logged/'
 
 # Get current UTC date and time
 current_utc_time = datetime.utcnow()

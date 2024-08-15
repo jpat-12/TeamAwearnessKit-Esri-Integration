@@ -11,10 +11,16 @@
 
 ## Launch Full Setup Scripts
 For Ubuntu (not yet tested on CentOS or Rocky)
-1. 
+### Step #1 
 ```bash
 cd /tmp && sudo apt install git && sudo git clone https://github.com/jpat-12/TeamAwearnessKit-Esri-Integration.git && cd /tmp/TeamAwearnessKit-Esri-Integration/scripts/ubuntu && chmod +x initial.sh && ./initial.sh && cd /opt/TAK-Esri && ls -la 
 ```
+
+### Step #2 
+```bash
+cd /tmp/TeamAwearnessKit-Esri-Integration/scripts/ubuntu && chmod +x arcgis2.sh && ./arcgis2.sh && cd /opt/TAK-Esri && ls -la 
+```
+
 
 # Survey123 To Team Awearness Kit
 1. **[Esri-TAK Group](https://arcg.is/1DyOD80)** <br />

@@ -88,8 +88,8 @@ def main(input_file, output_file):
     write_csv(unique_messages, output_file)
 
 if __name__ == "__main__":
-    input_file = '/var/www/html/cot-pulled.txt'
-    output_file = '/var/www/html/TAK-CoT.csv'
+    input_file = '/var/www/html/cot-logged.txt'
+    output_file = '/var/www/html/cot-logged.csv'
 
     while True:
         main(input_file, output_file)
