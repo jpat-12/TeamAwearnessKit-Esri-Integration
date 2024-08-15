@@ -1,19 +1,11 @@
-
-
-
-
-
-
-
-
-
+#!/bin/bash
 # Set variables for the feature layer
 echo "We will now set variables to personalize the install"
 read -p "Enter the link of the enterprise you want to use (i.e. https://cap-gis.maps.arcgis.com): " e_link
 read -p "Enter the username of the enterprise: " e_username
 read -p "Enter the password of the enterprise: " e_password
 read -p "Enter the name of the feature layer you will create: " feature_layer_name
-read -p "Enter the description you want your feature layer to have" feature_layer_desc
+read -p "Enter the description you want your feature layer to have: " feature_layer_desc
 
 ## Double check all variables are set correctly
 echo "Are all of these correct?" 
@@ -29,7 +21,7 @@ while [ "$confirm" != "y" ]; do
     read -p "Enter the username of the enterprise: " e_username
     read -p "Enter the password of the enterprise: " e_password
     read -p "Enter the name of the feature layer you will create: " feature_layer_name
-    read -p "Enter the description you want your feature layer to have" feature_layer_desc
+    read -p "Enter the description you want your feature layer to have: " feature_layer_desc
     echo "Are all of these correct?" 
     echo "Enterprise link: $e_link"
     echo "Enterprise username: $e_username"
