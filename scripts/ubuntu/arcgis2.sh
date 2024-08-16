@@ -52,7 +52,7 @@ import pandas as pd
 gis = GIS("$e_link", "$e_username", "$e_password")
 
 # Read the CSV data into a pandas DataFrame
-csv_file_path = 'cot-logged.csv'
+csv_file_path = '/var/www/html/cot-logged.csv'
 df = pd.read_csv(csv_file_path)
 
 # Define the name and description for the new feature layer

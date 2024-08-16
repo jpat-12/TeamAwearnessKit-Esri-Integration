@@ -11,6 +11,7 @@ sudo apt update -y
 sudo apt upgrade -y
 sudo apt install pipenv -y
 sudo apt install wget python3-geopandas -y 
+pip install geopandas
 
 # Install apache2 
 echo "Installing apache2 http server"
