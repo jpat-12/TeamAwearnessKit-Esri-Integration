@@ -90,8 +90,6 @@ def main(input_file, output_file):
 if __name__ == "__main__":
     input_file = '/var/www/html/cot-logged.txt'
     output_file = '/var/www/html/cot-logged.csv'
-
-    while True:
-        main(input_file, output_file)
-        print('parsed')
-        time.sleep(4)  # Sleep for 60 seconds before the next iteration
+    main(input_file, output_file)
+    print('parsed')
+    time.sleep(4)  # Sleep for 60 seconds before the next iteration

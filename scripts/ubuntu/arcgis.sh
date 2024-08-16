@@ -184,15 +184,25 @@ d24de9ab-08d8-4a37-9e17-e1c8bd7612d6,a-u-G,h-g-i-g-o,2024-08-03T01:18:08Z,2024-0
 102eb8ca-7952-44a0-8127-101e87747309,a-u-G,h-g-i-g-o,2024-08-03T01:18:10Z,2024-08-03T01:18:11Z,2024-08-10T01:18:11Z,39.2420297511309,-88.7526082639553,144.994110481402,9999999.0,9999999.0,"Transportation, Route Block 1",AFAUX-IL-Pattara.J.w,2024-07-29T21:12:48Z,"412c43f948b1664a3a0b513336b6c32382b13289a6ed2e91dd31e23d9d52a683/Incident Icons/Transportation, Route Block.png",,,,,,,,,,
 EOF
 
+# Run push.py
+cd /opt/TAK-Esri/ArcGIS
+python3 push.py >> output.log
+
 # Find Layer ID
+echo ""
 echo "STOPPING HERE TEMPORARILY " 
+echo ""
 echo "Go find the feature layer we just created" 
+echo ""
 echo "press enter when you have your feature layer id" 
 read stop 
 ## Intake F-L-ID
-read -p "Enter the Feature layer ID " file_id
+echo "Sleeping for 5 seconds" 
+echo ""
+read -p "Enter the Feature layer ID " enter
+sleep 5
 ## Double check all variables are set correctly
-echo "Are all of these correct?" 
+echo "Is this correct? (y/n)" 
 echo "Feature layer ID: $file_id"
 read -p "Press y to continue or any other key to re-enter the information: " confirm
 while [ "$confirm" != "y" ]; do
@@ -300,13 +310,19 @@ python3 cot-csv.py
 ## Double check the output
 cat /var/www/html/cot-logged.csv
 echo "Does cot-logged.csv have contents (y/n)" 
-read cot-csv
-if [ "$csvcot" != "y" ]; then
+read cotcsv
+if [ "$csvcot" = "n" ]; then
      echo "COT-CSV HAS FAILED" >> /opt/TAK-Esri/install-log.txt
      echo "We will come back to this later"
      echo "You may need to contact the rego manager to gain assistance with this error"
      exit 1
 else 
+    echo "" >> /opt/TAK-Esri/cot-csv.py
+    echo "while True:" >> /opt/TAK-Esri/cot-csv.py
+    echo "    main(input_file, output_file)" >> /opt/TAK-Esri/cot-csv.py
+    echo "    print('CoT-CSV parsed')" >> /opt/TAK-Esri/cot-csv.py
+    echo "    time.sleep(5)" >> /opt/TAK-Esri/cot-csv.py
+    clear
     echo "The parsed CoT messages are now in the file /var/www/html/cot-logged.csv"
     echo "" 
     echo "" 
@@ -349,6 +365,7 @@ systemctl start node-red.service
 systemctl start csv-cot.service
 systemctl start csv-kml.service 
 
+clear
 echo "You should be good to go" 
 echo "It looks like everything has installed properly"
 echo "If this is not the case please let the repo owner know"
