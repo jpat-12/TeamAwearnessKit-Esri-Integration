@@ -26,31 +26,15 @@ cd /tmp/TeamAwearnessKit-Esri-Integration/scripts/ubuntu && chmod +x arcgis2.sh 
 2. **[Survey Template](https://survey123.arcgis.com/surveys)** <br />
 3. **[Survey123-Push-Flow](https://github.com/jpat-12/TeamAwearnessKit-Esri-Integration/blob/main/json-flows/Survey123-Push-Flow.json)** <br /><br />
 
-
 # TAK To Esri Feature Layer
 ## 1. Team Location
 1. **[CoT-Pull-Flow](https://github.com/jpat-12/TeamAwearnessKit-Esri-Integration/blob/main/json-flows/CoT-Pull-Flow.json)** <br />
-
 
 ## 2. Dropped Data 
 THIS IS IN PRODUCTION - COMING SOON
 <br /><br /><br />
 
 # Troubleshooting
-1. Ensure all services are running 
-    a. feature-layer-update.service 
-    b. cot-csv.service
-    c. csv-cot.service
-    d. csv-download.service
-    e. csv-kml.service 
-    f. node-red.service
-2. Ensure Node-Red is running with no errors 
-3. ArcGIS - If the Feature layer is not updating do the following 
-    a. Make sure that the append.py, push.py, or sign-in.py is bring run from inside the conda env 
-    b. To activate the conda env "conda activate arcgis_env" 
-
-# Troubleshooting
-
 1. Ensure all services are running 
     - `feature-layer-update.service`
     - `cot-csv.service`
