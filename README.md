@@ -25,7 +25,7 @@ cd /tmp/TeamAwearnessKit-Esri-Integration/scripts/ubuntu && chmod +x arcgis2.sh 
 1. **[Esri-TAK Group](https://arcg.is/1DyOD80)** <br />
 2. **[Survey Template](https://survey123.arcgis.com/surveys)** <br />
 3. **[Survey123-Push-Flow](https://github.com/jpat-12/TeamAwearnessKit-Esri-Integration/blob/main/json-flows/Survey123-Push-Flow.json)** <br /><br />
-<br />
+
 
 # TAK To Esri Feature Layer
 ## 1. Team Location
@@ -34,7 +34,7 @@ cd /tmp/TeamAwearnessKit-Esri-Integration/scripts/ubuntu && chmod +x arcgis2.sh 
 
 ## 2. Dropped Data 
 THIS IS IN PRODUCTION - COMING SOON
-<br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+<br /><br /><br />
 
 # Troubleshooting
 1. Ensure all services are running 
@@ -48,4 +48,4 @@ THIS IS IN PRODUCTION - COMING SOON
 3. ArcGIS - If the Feature layer is not updating do the following 
     a. Make sure that the append.py, push.py, or sign-in.py is bring run from inside the conda env 
     b. To activate the conda env "conda activate arcgis_env" 
-    
+
