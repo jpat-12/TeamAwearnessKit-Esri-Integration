@@ -10,80 +10,42 @@
 3. Machine with SSH configured (Can be the same as the machine running the TAKServer)
 
 ## Launch Full Setup Scripts
-For Ubuntu (not yet tested on CentOS or Rocky)
-### Step #1 
+Has only been tested on Ubuntu Server 22.04
+#### Step #1 
 ```bash
 cd /tmp && sudo apt install git && sudo git clone https://github.com/jpat-12/TeamAwearnessKit-Esri-Integration.git && cd /tmp/TeamAwearnessKit-Esri-Integration/scripts/ubuntu && chmod +x initial.sh && ./initial.sh && cd /opt/TAK-Esri && ls -la 
 ```
-
-### Step #2 
+#### Step #2 
 ```bash
 cd /tmp/TeamAwearnessKit-Esri-Integration/scripts/ubuntu && chmod +x arcgis2.sh && ./arcgis2.sh && cd /opt/TAK-Esri && ls -la 
 ```
-
+<br />
 
 # Survey123 To Team Awearness Kit
 1. **[Esri-TAK Group](https://arcg.is/1DyOD80)** <br />
 2. **[Survey Template](https://survey123.arcgis.com/surveys)** <br />
 3. **[Survey123-Push-Flow](https://github.com/jpat-12/TeamAwearnessKit-Esri-Integration/blob/main/json-flows/Survey123-Push-Flow.json)** <br /><br />
-
-
+<br />
 
 # TAK To Esri Feature Layer
 ## 1. Team Location
 1. **[CoT-Pull-Flow](https://github.com/jpat-12/TeamAwearnessKit-Esri-Integration/blob/main/json-flows/CoT-Pull-Flow.json)** <br />
 
-###  Feature Layer Push Service Restart
-```bash
-service feature-layer-update restart
-```
-
-###  Feature Layer Push Service Log
-```bash
-journalctl -u feature-layer-update.service 
-```
 
 ## 2. Dropped Data 
 THIS IS IN PRODUCTION - COMING SOON
 <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 
 # Troubleshooting
-
-## Check Service Logs
-### cot-csv
-```bash
-journalctl -u cot-csv.service
-``` 
-###  csv-cot
-```bash
-journalctl -u csv-cot.service
-```
-### csv-download
-```bash
-journalctl -u csv-download.service
-```
-### csv-kml
-```bash
-journalctl -u csv-kml.service
-```
-
-
-
-## Restart Services
-### cot-csv
-```bash
-service cot-csv restart
-```
-### csv-cot
-```bash
-service csv-cot restart
-```
-### csv-download 
-```bash
-service csv-download restart
-```
-### csv-kml 
-```bash
-service csv-kml restart
-```
-
+1. Ensure all services are running 
+    a. feature-layer-update.service 
+    b. cot-csv.service
+    c. csv-cot.service
+    d. csv-download.service
+    e. csv-kml.service 
+    f. node-red.service
+2. Ensure Node-Red is running with no errors 
+3. ArcGIS - If the Feature layer is not updating do the following 
+    a. Make sure that the append.py, push.py, or sign-in.py is bring run from inside the conda env 
+    b. To activate the conda env "conda activate arcgis_env" 
+    
