@@ -65,7 +65,5 @@ def parse_csv_and_create_cot(csv_file_path, output_file_path):
         for event in events:
             file.write(event + '\n')
 
-while True:
-    parse_csv_and_create_cot('survey.csv', '/var/www/html/survey-cot.txt')
-    print('Parsed CSV and updated survey-cot.txt')
-    time.sleep(5)
+parse_csv_and_create_cot('survey.csv', '/var/www/html/survey-cot.txt')
+

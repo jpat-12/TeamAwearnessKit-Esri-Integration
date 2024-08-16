@@ -1,6 +1,7 @@
 #!/bin/bash
+clear
 echo "This script will allow you to communicate Survey123 data to TAK & KML-Network accepted clients" 
-
+echo ""
 echo "If you would like to procceed please press enter" 
 read enter 
 
@@ -10,18 +11,23 @@ sudo apt upgrade -y
 sudo apt install pipenv -y
 sudo apt install wget python3-geopandas -y 
 pip install geopandas
+clear
 echo "The dependancies are now installed" 
-
+sleep 3
 
 # Install apache2 
 echo "We will now install an http server" 
 sudo apt install apache2 -y
-echo "We will"
+sudo systemctl start apache2 
+service apache2 status
+sleep 5 
+clear 
 
 # Make /opt/TAK-Esri directory, and write csv-download.py 
 echo "Take this time and enter a few records into your new survey."
 echo "Press enter when ready" 
 read enter
+clear
 echo "We will now write to the csv-download.py file & pull down the survey data"
 ## Making directory 
 mkdir -p /opt/TAK-Esri
@@ -52,6 +58,7 @@ EOF
 echo "csv-download.py file has been written"
 ## Check csv-download works 
 python3 csv-download.py 
+clear
 echo "The survey data should be downloaded"
 cat /opt/TAK-Esri/survey.csv 
 echo "Does survey.csv have contents (y/n)"
@@ -74,46 +81,62 @@ if [ "$s123" != "y" ]; then
         survey123_feature_layer_link="${survey123_feature_layer_link%/}/0/query"
     fi
     ## Write to the csv-download.py file
-    echo "import geopandas as gpd" > /opt/TAK-Esri/csv-download.py
+    echo "import geopandas as gpd" >> /opt/TAK-Esri/csv-download.py
+    echo "import time" >> /opt/TAK-Esri/csv-download.py
     echo "url = \"$survey123_feature_layer_link\"" >> /opt/TAK-Esri/csv-download.py
     echo 'gdf = gpd.read_file(url + "?where=1%3D1&outFields=*&f=geojson")' >> /opt/TAK-Esri/csv-download.py
     echo 'gdf.to_csv("survey.csv", index=False)' >> /opt/TAK-Esri/csv-download.py
     echo "csv-download.py file has been written"
     ## Check csv-download works 
     python3 /opt/TAK-Esri/csv-download.py 
+    clear
     echo "The survey data should be downloaded"
     cat /opt/TAK-Esri/survey.csv 
     echo "This loop will continue until it does have the proper data"
     echo "Does survey.csv have contents (y/n)"
     read s123
 fi
-if ["$s123" = "y" ]; then 
-    echo "[Unit]" > /etc/systemd/system/csv-download.service
-    echo "Description=CSV Download" > /etc/systemd/system/csv-download.service
-    echo "After=network.target" > /etc/systemd/system/csv-download.service
-    echo "" > /etc/systemd/system/csv-download.service
-    echo "[Service]" > /etc/systemd/system/csv-download.service
-    echo "ExecStart=/usr/bin/python3 /opt/TAK-Esri/csv-download.py" > /etc/systemd/system/csv-download.service
-    echo "WorkingDirectory=/opt/TAK-Esri" > /etc/systemd/system/csv-download.service
-    echo "StandardOutput=file:/var/log/csv-download.log" > /etc/systemd/system/csv-download.service
-    echo "StandardError=file:/var/log/csv-download_error.log" > /etc/systemd/system/csv-download.service
-    echo "Restart=on-failure" > /etc/systemd/system/csv-download.service
-    echo "User=root" > /etc/systemd/system/csv-download.service
-    echo "" > /etc/systemd/system/csv-download.service
-    echo "[Install]" > /etc/systemd/system/csv-download.service
-    echo "WantedBy=multi-user.target" > /etc/systemd/system/csv-download.service
+if [ "$s123" = "y" ]; then 
+    
+    echo "while True:" >> /opt/TAK-Esri/csv-download.py
+    echo "    try:" >> /opt/TAK-Esri/csv-download.py
+    echo "        # Download the data using geopandas" >> /opt/TAK-Esri/csv-download.py
+    echo "        gdf = gpd.read_file(url + "?where=1%3D1&outFields=*&f=geojson")" >> /opt/TAK-Esri/csv-download.py
+    echo "        gdf.to_csv("survey.csv", index=False)" >> /opt/TAK-Esri/csv-download.py
+    echo "        print('Feature Layer downloaded')" >> /opt/TAK-Esri/csv-download.py
+    echo "    except Exception as e:" >> /opt/TAK-Esri/csv-download.py
+    echo "        print(f"Error: {e}")" >> /opt/TAK-Esri/csv-download.py
+    echo "    # Wait 5 seconds b4 next download" >> /opt/TAK-Esri/csv-download.py
+    echo "    time.sleep(5)" >> /opt/TAK-Esri/csv-download.py
+    clear     
+    echo "Printing while loop to /opt/TAK-Esri/csv-download.py"
+    echo "[Unit]" >> /etc/systemd/system/csv-download.service
+    echo "Description=CSV Download" >> /etc/systemd/system/csv-download.service
+    echo "After=network.target" >> /etc/systemd/system/csv-download.service
+    echo "" >> /etc/systemd/system/csv-download.service
+    echo "[Service]" >> /etc/systemd/system/csv-download.service
+    echo "ExecStart=/usr/bin/python3 /opt/TAK-Esri/csv-download.py" >> /etc/systemd/system/csv-download.service
+    echo "WorkingDirectory=/opt/TAK-Esri" >> /etc/systemd/system/csv-download.service
+    echo "StandardOutput=file:/var/log/csv-download.log" >> /etc/systemd/system/csv-download.service
+    echo "StandardError=file:/var/log/csv-download_error.log" >> /etc/systemd/system/csv-download.service
+    echo "Restart=on-failure" >> /etc/systemd/system/csv-download.service
+    echo "User=root" >> /etc/systemd/system/csv-download.service
+    echo "" >> /etc/systemd/system/csv-download.service
+    echo "[Install]" >> /etc/systemd/system/csv-download.service
+    echo "WantedBy=multi-user.target" >> /etc/systemd/system/csv-download.service
     sudo systemctl daemon-reload
     systemctl enable csv-download.service
     systemctl start csv-download.service
     service csv-download status 
     echo "Is the csv-download service enabled and running? (y/n)" 
     read csv_download_status
-    if ["$csv_download_status" != "y" ]; then
+    if [ "$csv_download_status" != "y" ]; then
         echo "csv-download service is not enabled or running"
         echo "Please contact the repo admin and they will assist you" 
         exit 1
     fi
 fi 
+clear 
 
 # Setup CSV-CoT.py 
 ## Copy the file from the github repo
@@ -126,37 +149,42 @@ cat /var/www/html/survey-cot.txt
 echo "Does survey-cot.txt have contents (y/n)" 
 read csvcot
 if [ "$csvcot" != "y" ]; then
-     echo "CSV-COT HAS FAILED" > /opt/TAK-Esri/install-log.txt
+     echo "CSV-COT HAS FAILED" >> /opt/TAK-Esri/install-log.txt
      echo "We will come back to this later"
      echo "You may need to contact the rego manager to gain assistance with this error"
      exit 1
 else 
+    echo "while True:" >> /opt/TAK-Esri/csv-cot.py
+    echo "    parse_csv_and_create_cot('survey.csv', '/var/www/html/survey-cot.txt')" >> /opt/TAK-Esri/csv-cot.py
+    echo "    print('Parsed CSV and updated survey-cot.txt')" >> /opt/TAK-Esri/csv-cot.py
+    echo "    time.sleep(5)" >> /opt/TAK-Esri/csv-cot.py
+    clear
     echo "The output of XML-CoT messages is now in the file /var/www/html/survey-cot.txt"
     echo "" 
     echo "" 
     echo "" 
     echo "We will now install the service file so csv-cot.py will run automatically"
-    echo "[Unit]" > /etc/systemd/system/csv-cot.service
-    echo "Description=CSV To COT" > /etc/systemd/system/csv-cot.service
-    echo "After=network.target" > /etc/systemd/system/csv-cot.service
-    echo "" > /etc/systemd/system/csv-cot.service
-    echo "[Service]" > /etc/systemd/system/csv-cot.service
-    echo "ExecStart=/usr/bin/python3 /opt/TAK-Esri/csv-cot.py" > /etc/systemd/system/csv-cot.service
-    echo "WorkingDirectory=/opt/TAK-Esri" > /etc/systemd/system/csv-cot.service
-    echo "StandardOutput=inherit" > /etc/systemd/system/csv-cot.service
-    echo "StandardError=inherit" > /etc/systemd/system/csv-cot.service
-    echo "Restart=always" > /etc/systemd/system/csv-cot.service
-    echo "User=root" > /etc/systemd/system/csv-cot.service
-    echo "" > /etc/systemd/system/csv-cot.service
-    echo "[Install]" > /etc/systemd/system/csv-cot.service
-    echo "WantedBy=multi-user.target" > /etc/systemd/system/csv-cot.service
+    echo "[Unit]" >> /etc/systemd/system/csv-cot.service
+    echo "Description=CSV To COT" >> /etc/systemd/system/csv-cot.service
+    echo "After=network.target" >> /etc/systemd/system/csv-cot.service
+    echo "" >> /etc/systemd/system/csv-cot.service
+    echo "[Service]" >> /etc/systemd/system/csv-cot.service
+    echo "ExecStart=/usr/bin/python3 /opt/TAK-Esri/csv-cot.py" >> /etc/systemd/system/csv-cot.service
+    echo "WorkingDirectory=/opt/TAK-Esri" >> /etc/systemd/system/csv-cot.service
+    echo "StandardOutput=inherit" >> /etc/systemd/system/csv-cot.service
+    echo "StandardError=inherit" >> /etc/systemd/system/csv-cot.service
+    echo "Restart=always" >> /etc/systemd/system/csv-cot.service
+    echo "User=root" >> /etc/systemd/system/csv-cot.service
+    echo "" >> /etc/systemd/system/csv-cot.service
+    echo "[Install]" >> /etc/systemd/system/csv-cot.service
+    echo "WantedBy=multi-user.target" >> /etc/systemd/system/csv-cot.service
     sudo systemctl daemon-reload
     systemctl enable csv-cot.service
     systemctl start csv-cot.service
     service csv-cot status 
     echo "Is the csv-cot service enabled and running? (y/n)" 
     read csv_cot_status
-    if ["$csv_cot_status" != "y" ]; then
+    if [ "$csv_cot_status" != "y" ]; then
         echo "csv-cot service is not enabled or running"
         echo "Please contact the repo admin and they will assist you" 
         exit 1
@@ -169,42 +197,48 @@ cp /tmp/TeamAwearnessKit-Esri-Integration/python-files/csv-kml.py /opt/TAK-Esri
 ## Test The File 
 cd /opt/TAK-Esri
 python3 csv-kml.py
+clear
 ## Double check the output
 cat /var/www/html/survey123.kml
 echo "Does survey123.kml have contents (y/n)" 
 read csvkml
 if [ "$csvkml" != "y" ]; then
-     echo "CSV-KML HAS FAILED" > /opt/TAK-Esri/install-log.txt
+     echo "CSV-KML HAS FAILED" >> /opt/TAK-Esri/install-log.txt
      echo "We will come back to this later"
      echo "You may need to contact the rego manager to gain assistance with this error"
      exit 1
 else 
     echo "The output of XML-CoT messages is now in the file /var/www/html/survey123.kml"
     echo "" 
+    echo "while True:" >> /opt/TAK-Esri/csv-cot.py
+    echo "    parse_csv_and_create_kml('survey.csv', '/var/www/html/survey123.kml')" >> /opt/TAK-Esri/csv-cot.py
+    echo "    print('Parsed CSV and updated /var/www/html/survey123.kml')" >> /opt/TAK-Esri/csv-cot.py
+    echo "    time.sleep(5)" >> /opt/TAK-Esri/csv-cot.py
+    clear
     echo "" 
     echo "" 
     echo "We will now install the service file so csv-cot.py will run automatically"
-    echo "[Unit]" > /etc/systemd/system/csv-kml.service
-    echo "Description=CSV To kml" > /etc/systemd/system/csv-kml.service
-    echo "After=network.target" > /etc/systemd/system/csv-kml.service
-    echo "" > /etc/systemd/system/csv-kml.service
-    echo "[Service]" > /etc/systemd/system/csv-kml.service
-    echo "ExecStart=/usr/bin/python3 /opt/TAK-Esri/csv-kml.py" > /etc/systemd/system/csv-kml.service
-    echo "WorkingDirectory=/opt/TAK-Esri" > /etc/systemd/system/csv-kml.service
-    echo "StandardOutput=inherit" > /etc/systemd/system/csv-kml.service
-    echo "StandardError=inherit" > /etc/systemd/system/csv-kml.service
-    echo "Restart=always" > /etc/systemd/system/csv-kml.service
-    echo "User=root" > /etc/systemd/system/csv-kml.service
-    echo "" > /etc/systemd/system/csv-kml.service
-    echo "[Install]" > /etc/systemd/system/csv-kml.service
-    echo "WantedBy=multi-user.target" > /etc/systemd/system/csv-kml.service
+    echo "[Unit]" >> /etc/systemd/system/csv-kml.service
+    echo "Description=CSV To kml" >> /etc/systemd/system/csv-kml.service
+    echo "After=network.target" >> /etc/systemd/system/csv-kml.service
+    echo "" >> /etc/systemd/system/csv-kml.service
+    echo "[Service]" >> /etc/systemd/system/csv-kml.service
+    echo "ExecStart=/usr/bin/python3 /opt/TAK-Esri/csv-kml.py" >> /etc/systemd/system/csv-kml.service
+    echo "WorkingDirectory=/opt/TAK-Esri" >> /etc/systemd/system/csv-kml.service
+    echo "StandardOutput=inherit" >> /etc/systemd/system/csv-kml.service
+    echo "StandardError=inherit" >> /etc/systemd/system/csv-kml.service
+    echo "Restart=always" >> /etc/systemd/system/csv-kml.service
+    echo "User=root" >> /etc/systemd/system/csv-kml.service
+    echo "" >> /etc/systemd/system/csv-kml.service
+    echo "[Install]" >> /etc/systemd/system/csv-kml.service
+    echo "WantedBy=multi-user.target" >> /etc/systemd/system/csv-kml.service
     sudo systemctl daemon-reload
     systemctl enable csv-kml.service
     systemctl start csv-kml.service
     service csv-kml status 
     echo "Is the csv-kml service enabled and running? (y/n)" 
     read csv_kml_status
-    if ["$csv_kml_status" != "y" ]; then
+    if [ "$csv_kml_status" != "y" ]; then
         echo "csv-kml service is not enabled or running"
         echo "Please contact the repo admin and they will assist you" 
         exit 1
@@ -213,7 +247,11 @@ fi
 
 # Check and install Node.js and Node-RED if necessary
 if ! command -v node &> /dev/null; then
+    echo ""
+    echo "" 
+    echo "" 
     echo "Node.js is not installed. Installing Node.js..."
+    sleep 3 
     sudo apt install nodejs npm -y
 fi
 ## Double check install
@@ -224,8 +262,15 @@ if [ "$node_red_install" != "y" ]; then
 fi
 clear
 ## Start Node-Red
+echo "" 
+echo "" 
+echo "" 
 echo "we will now test the node-red install" 
+echo ""
 echo "Exit node-red at any point to continue with the install" 
+echo ""
+echo ""
+sleep 4
 node-red
 clear
 ## Install service file for node-red 
@@ -239,7 +284,7 @@ systemctl enable node-red.service
 sudo systemctl daemon-reload
 systemctl start node-red.service 
 service node-red status 
-echo "Is Node-RED now installed and running as a service"
+echo "Is Node-RED now installed and running as a service? (y/n)"
 read node_red 
 ## Troubleshoot bad install
 if [ "$node_red" != "y" ]; then
@@ -254,6 +299,7 @@ else
     echo "You can now access Node-RED at http://your-IP:1880"
 fi
 ## Move into online node-red setup 
+service csv-cot restart
 clear 
 echo "Now please go to http://127.0.0.1:1880 to continue the node-red setup"
 sleep 40 

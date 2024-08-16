@@ -17,7 +17,7 @@ cd /tmp && sudo apt install git && sudo git clone https://github.com/jpat-12/Tea
 ```
 #### Step #2 
 ```bash
-cd /tmp/TeamAwearnessKit-Esri-Integration/scripts/ubuntu && chmod +x arcgis2.sh && ./arcgis2.sh && cd /opt/TAK-Esri && ls -la 
+cd /tmp/TeamAwearnessKit-Esri-Integration/scripts/ubuntu && chmod +x arcgis.sh && ./arcgis.sh && cd /opt/TAK-Esri && ls -la 
 ```
 <br />
 
@@ -25,14 +25,7 @@ cd /tmp/TeamAwearnessKit-Esri-Integration/scripts/ubuntu && chmod +x arcgis2.sh 
 1. **[Esri-TAK Group](https://arcg.is/1DyOD80)** <br />
 2. **[Survey Template](https://survey123.arcgis.com/surveys)** <br />
 3. **[Survey123-Push-Flow](https://github.com/jpat-12/TeamAwearnessKit-Esri-Integration/blob/main/json-flows/Survey123-Push-Flow.json)** <br /><br />
-
-# TAK To Esri Feature Layer
-## 1. Team Location
-1. **[CoT-Pull-Flow](https://github.com/jpat-12/TeamAwearnessKit-Esri-Integration/blob/main/json-flows/CoT-Pull-Flow.json)** <br />
-
-## 2. Dropped Data 
-THIS IS IN PRODUCTION - COMING SOON
-<br /><br /><br />
+4. **[CoT-Pull-Flow](https://github.com/jpat-12/TeamAwearnessKit-Esri-Integration/blob/main/json-flows/CoT-Pull-Flow.json)** <br />
 
 # Troubleshooting
 1. Ensure all services are running 

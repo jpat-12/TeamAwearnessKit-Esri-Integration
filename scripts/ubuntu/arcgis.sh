@@ -302,7 +302,7 @@ cat /var/www/html/cot-logged.csv
 echo "Does cot-logged.csv have contents (y/n)" 
 read cot-csv
 if [ "$csvcot" != "y" ]; then
-     echo "COT-CSV HAS FAILED" > /opt/TAK-Esri/install-log.txt
+     echo "COT-CSV HAS FAILED" >> /opt/TAK-Esri/install-log.txt
      echo "We will come back to this later"
      echo "You may need to contact the rego manager to gain assistance with this error"
      exit 1
@@ -312,27 +312,27 @@ else
     echo "" 
     echo "" 
     echo "We will now install the service file so csv-cot.py will run automatically"
-    echo "[Unit]" > /etc/systemd/system/cot-csv.service
-    echo "Description=cot - csv" > /etc/systemd/system/cot-csv.service
-    echo "After=network.target" > /etc/systemd/system/cot-csv.service
-    echo "" > /etc/systemd/system/cot-csv.service
-    echo "[Service]" > /etc/systemd/system/cot-csv.service
-    echo "ExecStart=/usr/bin/python3 /opt/TAK-Esri/cot-csv.py" > /etc/systemd/system/cot-csv.service
-    echo "WorkingDirectory=/opt/TAK-Esri" > /etc/systemd/system/cot-csv.service
-    echo "StandardOutput=inherit" > /etc/systemd/system/cot-csv.service
-    echo "StandardError=inherit" > /etc/systemd/system/cot-csv.service
-    echo "Restart=always" > /etc/systemd/system/cot-csv.service
-    echo "User=root" > /etc/systemd/system/cot-csv.service
-    echo "" > /etc/systemd/system/cot-csv.service
-    echo "[Install]" > /etc/systemd/system/cot-csv.service
-    echo "WantedBy=multi-user.target" > /etc/systemd/system/cot-csv.service
+    echo "[Unit]" >> /etc/systemd/system/cot-csv.service
+    echo "Description=cot - csv" >> /etc/systemd/system/cot-csv.service
+    echo "After=network.target" >> /etc/systemd/system/cot-csv.service
+    echo "" >> /etc/systemd/system/cot-csv.service
+    echo "[Service]" >> /etc/systemd/system/cot-csv.service
+    echo "ExecStart=/usr/bin/python3 /opt/TAK-Esri/cot-csv.py" >> /etc/systemd/system/cot-csv.service
+    echo "WorkingDirectory=/opt/TAK-Esri" >> /etc/systemd/system/cot-csv.service
+    echo "StandardOutput=inherit" >> /etc/systemd/system/cot-csv.service
+    echo "StandardError=inherit" >> /etc/systemd/system/cot-csv.service
+    echo "Restart=always" >> /etc/systemd/system/cot-csv.service
+    echo "User=root" >> /etc/systemd/system/cot-csv.service
+    echo "" >> /etc/systemd/system/cot-csv.service
+    echo "[Install]" >> /etc/systemd/system/cot-csv.service
+    echo "WantedBy=multi-user.target" >> /etc/systemd/system/cot-csv.service
     sudo systemctl daemon-reload
     systemctl enable cot-csv.service
     systemctl start cot-csv.service
     service cot-csv status 
     echo "Is the cot-csv service enabled and running? (y/n)" 
     read cot_csv_status
-    if ["$cot_csv_status" != "y" ]; then
+    if [ "$cot_csv_status" != "y" ]; then
         echo "cot-csv service is not enabled or running"
         echo "Please contact the repo admin and they will assist you" 
         exit 1
