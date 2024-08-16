@@ -49,3 +49,18 @@ THIS IS IN PRODUCTION - COMING SOON
     a. Make sure that the append.py, push.py, or sign-in.py is bring run from inside the conda env 
     b. To activate the conda env "conda activate arcgis_env" 
 
+# Troubleshooting
+
+1. Ensure all services are running 
+    - `feature-layer-update.service`
+    - `cot-csv.service`
+    - `csv-cot.service`
+    - `csv-download.service`
+    - `csv-kml.service`
+    - `node-red.service`
+
+2. Ensure Node-RED is running with no errors 
+
+3. ArcGIS - If the Feature layer is not updating do the following 
+    - Make sure that the `append.py`, `push.py`, or `sign-in.py` is being run from inside the Conda environment 
+    - To activate the Conda environment: `conda activate arcgis_env`
