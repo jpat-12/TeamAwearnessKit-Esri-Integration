@@ -22,7 +22,7 @@ cd /tmp/TeamAwearnessKit-Esri-Integration/scripts/ubuntu && chmod +x arcgis.sh &
 # Survey123 To Team Awearness Kit
 1. **[Esri-TAK Group](https://arcg.is/1DyOD80)** <br />
 2. **[Survey Template](https://survey123.arcgis.com/surveys)** <br />
-3. **[Survey123-Push-Flow](https://github.com/jpat-12/TeamAwearnessKit-Esri-Integration/blob/main/json-flows/Survey123-Push-Flow.json)** <br /><br />
+3. **[Survey123-Push-Flow](https://github.com/jpat-12/TeamAwearnessKit-Esri-Integration/blob/main/json-flows/Survey123-Push-Flow.json)** <br />
 4. **[CoT-Pull-Flow](https://github.com/jpat-12/TeamAwearnessKit-Esri-Integration/blob/main/json-flows/CoT-Pull-Flow.json)** <br />
 
 # Troubleshooting
