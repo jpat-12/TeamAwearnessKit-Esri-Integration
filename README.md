@@ -12,7 +12,7 @@
 3. Machine with SSH configured (Can be the same as the machine running the TAKServer)
 
 ## Launch Full Setup Scripts
-Has only been tested on Ubuntu Server 22.04
+### Ubuntu
 #### Step #1 
 ```bash
 cd /tmp && sudo apt install git && sudo git clone https://github.com/jpat-12/TeamAwearnessKit-Esri-Integration.git && cd /tmp/TeamAwearnessKit-Esri-Integration/scripts/ubuntu && chmod +x initial.sh && ./initial.sh && cd /opt/TAK-Esri && ls -la 
@@ -22,6 +22,15 @@ cd /tmp && sudo apt install git && sudo git clone https://github.com/jpat-12/Tea
 cd /tmp/TeamAwearnessKit-Esri-Integration/scripts/ubuntu && chmod +x arcgis.sh && ./arcgis.sh && cd /opt/TAK-Esri && ls -la 
 ```
 <br />
+
+### Rocky
+```bash
+cd /tmp && sudo apt install git && sudo git clone https://github.com/jpat-12/TeamAwearnessKit-Esri-Integration.git && cd /tmp/TeamAwearnessKit-Esri-Integration/scripts/rpm && chmod +x initial.sh && ./initial.sh && cd /opt/TAK-Esri && ls -la 
+```
+#### Step #2 
+```bash
+cd /tmp/TeamAwearnessKit-Esri-Integration/scripts/rpm && chmod +x arcgis.sh && ./arcgis.sh && cd /opt/TAK-Esri && ls -la 
+```
 
 # Survey123 To Team Awearness Kit
 1. **[Esri-TAK Group](https://arcg.is/1DyOD80)** <br />
