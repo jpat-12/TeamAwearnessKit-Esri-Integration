@@ -19,8 +19,6 @@ sleep 3
 echo "We will now install an http server" 
 sudo apt install apache2 -y
 sudo systemctl start apache2 
-service apache2 status
-sleep 5 
 clear 
 
 # Make /opt/TAK-Esri directory, and write csv-download.py 
@@ -326,3 +324,7 @@ echo ""
 echo "We will continue the install by running the command below in the new terminal instance"
 echo ""
 echo "cd /tmp/TeamAwearnessKit-Esri-Integration/scripts/ubuntu && chmod +x arcgis.sh && ./arcgis.sh && cd /opt/TAK-Esri && ls -la"
+echo ""
+echo ""
+echo ""
+echo ""
