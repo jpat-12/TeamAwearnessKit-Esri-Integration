@@ -211,9 +211,9 @@ else
     echo "The output of XML-CoT messages is now in the file /var/www/html/survey123.kml"
     echo "" 
     echo "while True:" >> /opt/TAK-Esri/csv-cot.py
-    echo "    parse_csv_and_create_kml('survey.csv', '/var/www/html/survey123.kml')" >> /opt/TAK-Esri/csv-cot.py
-    echo "    print('Parsed CSV and updated /var/www/html/survey123.kml')" >> /opt/TAK-Esri/csv-cot.py
-    echo "    time.sleep(5)" >> /opt/TAK-Esri/csv-cot.py
+    echo "    parse_csv_and_create_kml('survey.csv', '/var/www/html/survey123.kml')" >> /opt/TAK-Esri/csv-kml.py
+    echo "    print('Parsed CSV and updated /var/www/html/survey123.kml')" >> /opt/TAK-Esri/csv-kml.py
+    echo "    time.sleep(5)" >> /opt/TAK-Esri/csv-kml.py
     clear
     echo "" 
     echo "" 
