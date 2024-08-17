@@ -199,7 +199,7 @@ read stop
 ## Intake F-L-ID
 echo "Sleeping for 5 seconds" 
 echo ""
-read -p "Enter the Feature layer ID " enter
+read -p "Enter the Feature layer ID " file_id
 sleep 5
 ## Double check all variables are set correctly
 echo "Is this correct? (y/n)" 
@@ -267,21 +267,22 @@ cat <<EOF > /opt/TAK-Esri/ArcGIS/append.sh
 # Source the conda.sh script
 source /root/miniconda/etc/profile.d/conda.sh
 
-conda init
+#conda init
 conda activate arcgis_env
 cd /opt/TAK-Esri/ArcGIS
-#python3 append.py
+python3 append.py
 # Change to the correct directory
 #mkdir -p /opt/TAK-Esri/ArcGIS
 #cd /opt/TAK-Esri/ArcGIS
 
 # Loop to run the Python script and wait for 5 seconds
-while true; do
-    python3 append.py
-    echo 'Pushed To ArcGIS'
-    sleep 5
-done
+#while true; do
+#    python3 append.py
+#    echo 'Pushed To ArcGIS'
+#   sleep 5
+#done
 EOF
+sudo chmod +x /opt/TAK-Esri/ArcGIS/append.sh
 
 # Create service file to run /opt/TAK-Esri/ArcGIS/append.sh
 cat <<EOF > /etc/systemd/system/feature-layer-update.service
