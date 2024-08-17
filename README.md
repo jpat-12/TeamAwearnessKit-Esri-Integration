@@ -2,8 +2,6 @@
 
 ![TAK-Esri](img/TAK-EsriBreakdown.png?raw=true "TAK-Esri")
 
-
-
 # Required Prerequisites
 1. ArcGIS Online or ArcGIS Enterprise Account 
 2. TAKServer with TCP Port 
