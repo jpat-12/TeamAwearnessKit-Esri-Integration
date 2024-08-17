@@ -1,6 +1,10 @@
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/jpat)
 
 ![TAK-Esri](img/TAK-EsriBreakdown.png?raw=true "TAK-Esri")
+### What this repo does 
+1. Takes Survey123 data and sends them as a CoT Message to a TAKServer/TAKClients 
+2. Logges CoT Messages from the TAKServer and sends them to a feature layer in ArcGIS Online. 
+    - This only will pull Unit & Point Messages. We have some range & bearing handeling in production. 
 
 # Required Prerequisites
 1. ArcGIS Online or ArcGIS Enterprise Account 
