@@ -385,8 +385,17 @@ shutil.copy2(source_file, destination_file)
 print(f'File copied to {destination_file}')
 EOF
 ## Add the cron job
-crontab -e
-0 * * * * /usr/bin/python3 /opt/TAK-Esri/copy-cot-intake.py
+# Define the cron job schedule and command
+CRON_SCHEDULE="0 * * * *"
+CRON_COMMAND="/path/to/your/run_python_script.sh"
+## Full cron job entry
+CRON_JOB="$CRON_SCHEDULE $CRON_COMMAND"
+## Check if the cron job already exists
+(crontab -l 2>/dev/null | grep -F "$CRON_COMMAND") || {
+    # Add the cron job if it doesn't exist
+    (crontab -l 2>/dev/null; echo "$CRON_JOB") | crontab -
+    echo "Cron job added: $CRON_JOB"
+}
 
 # Reload the daemon and start the service
 sudo systemctl daemon-reload
