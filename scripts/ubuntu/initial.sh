@@ -304,27 +304,39 @@ sleep 40
 echo "Press enter when ready to move on" 
 read enter 
 
-# We will now install miniconda and create the arcgis_env
-##Install & Activate Miniconda  
-echo "Installing Miniconda..." 
-cd /root
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-chmod +x Miniconda3-latest-Linux-x86_64.sh
-./Miniconda3-latest-Linux-x86_64.sh -b -p /root/miniconda
-cd /root/miniconda 
-source /root/miniconda/bin/activate
-conda init 
-conda create -n arcgis_env python=3.9 
+echo ""
+echo ""
+echo "Now the Survey123 to TAK integration is installed" 
+echo ""
+echo "Would you like to continue with the 2nd part and install the files that will push Location Data from TAK to an ArcGIS Online Feature Layer?" 
+read arcgis_online
 
-## Instructions to continue the install 
-echo ""
-echo "" 
-echo "At this point you will need to close your current terminal/cmd prompt and start a new one."
-echo ""
-echo "We will continue the install by running the command below in the new terminal instance"
-echo ""
-echo "cd /tmp/TeamAwearnessKit-Esri-Integration/scripts/ubuntu && chmod +x arcgis.sh && ./arcgis.sh && cd /opt/TAK-Esri && ls -la"
-echo ""
-echo ""
-echo ""
-echo ""
+if [ "$arcgis_online" != "y" ]; then
+    echo "Installation complete"
+    exit 0
+else
+    # We will now install miniconda and create the arcgis_env
+    ##Install & Activate Miniconda  
+    echo "Installing Miniconda..." 
+    cd /root
+    wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+    chmod +x Miniconda3-latest-Linux-x86_64.sh
+    ./Miniconda3-latest-Linux-x86_64.sh -b -p /root/miniconda
+    cd /root/miniconda 
+    source /root/miniconda/bin/activate
+    conda init 
+    conda create -n arcgis_env python=3.9 
+
+    ## Instructions to continue the install 
+    echo ""
+    echo "" 
+    echo "At this point you will need to close your current terminal/cmd prompt and start a new one."
+    echo ""
+    echo "We will continue the install by running the command below in the new terminal instance"
+    echo ""
+    echo "cd /tmp/TeamAwearnessKit-Esri-Integration/scripts/ubuntu && chmod +x arcgis.sh && ./arcgis.sh && cd /opt/TAK-Esri && ls -la"
+    echo ""
+    echo ""
+    echo ""
+    echo ""
+fi

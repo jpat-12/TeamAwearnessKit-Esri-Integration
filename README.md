@@ -21,7 +21,6 @@ cd /tmp && sudo apt install git && sudo git clone https://github.com/jpat-12/Tea
 ```bash
 cd /tmp/TeamAwearnessKit-Esri-Integration/scripts/ubuntu && chmod +x arcgis.sh && ./arcgis.sh && cd /opt/TAK-Esri && ls -la 
 ```
-<br />
 
 ### Rocky 8
 #### Step #1
