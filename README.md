@@ -5,7 +5,7 @@
 
 ## What this repo does 
 1. Takes Survey123 data and sends them as a CoT Message to a TAKServer/TAKClients 
-2. Logges CoT Messages from the TAKServer and sends them to a feature layer in ArcGIS Online. 
+2. Logs CoT Messages from the TAKServer and sends them to a feature layer in ArcGIS Online. 
     - This only will pull Unit & Point Messages. We have some range & bearing handeling in production. 
 
 # Required Prerequisites
