@@ -19,7 +19,7 @@
 2. **[Survey Template](https://survey123.arcgis.com/surveys)** <br />
 3. **[Survey123-Push-Flow](https://github.com/jpat-12/TeamAwearnessKit-Esri-Integration/blob/main/json-flows/Survey123-Push-Flow.json)** <br />
 4. **[CoT-Pull-Flow](https://github.com/jpat-12/TeamAwearnessKit-Esri-Integration/blob/main/json-flows/CoT-Pull-Flow.json)** <br />
-### Ubuntu 22.04 (Server & Desktop)
+### Ubuntu 22.04 & Ubuntu 20.04
 #### Step #1 
 ```bash
 cd /tmp && sudo apt install git -y && sudo git clone https://github.com/jpat-12/TeamAwearnessKit-Esri-Integration.git && cd /tmp/TeamAwearnessKit-Esri-Integration/scripts/ubuntu && chmod +x initial.sh && ./initial.sh && cd /opt/TAK-Esri && ls -la 
@@ -29,7 +29,7 @@ cd /tmp && sudo apt install git -y && sudo git clone https://github.com/jpat-12/
 cd /tmp/TeamAwearnessKit-Esri-Integration/scripts/ubuntu && chmod +x arcgis.sh && ./arcgis.sh && cd /opt/TAK-Esri && ls -la 
 ```
 
-### Rocky 8
+### Rocky 8 & Rocky 9
 #### Step #1
 ```bash
 cd /tmp && sudo dnf install git -y && sudo git clone https://github.com/jpat-12/TeamAwearnessKit-Esri-Integration.git && cd /tmp/TeamAwearnessKit-Esri-Integration/scripts/rpm && chmod +x initial.sh && ./initial.sh && cd /opt/TAK-Esri && ls -la 
