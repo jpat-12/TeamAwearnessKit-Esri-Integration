@@ -54,3 +54,4 @@ cd /tmp/TeamAwearnessKit-Esri-Integration/scripts/rpm && chmod +x arcgis.sh && .
 3. ArcGIS - If the Feature layer is not updating do the following 
     - Make sure that the `append.py`, `push.py`, or `sign-in.py` is being run from inside the Conda environment 
     - To activate the Conda environment: `conda activate arcgis_env`
+    - Check that the append.py, push.py, or sign-in.py files contain the correct Enterprise Link, Account Username, and Account Password.
