@@ -66,6 +66,7 @@ echo -e "${BLUE}csv-download.py file has been written${RESET}"
 python3 csv-download.py 
 clear
 echo -e "${BLUE}The survey data should be downloaded${RESET}"
+sleep3
 cat /opt/TAK-Esri/survey.csv 
 echo -e "${BLUE}Does survey.csv have contents (y/n)${RESET}"
 read s123 
@@ -167,7 +168,7 @@ else
     echo "    print('Parsed CSV and updated survey-cot.txt')" >> /opt/TAK-Esri/csv-cot.py
     echo "    time.sleep(5)" >> /opt/TAK-Esri/csv-cot.py
     clear
-    echo -e "${BLUE}"The output of XML-CoT messages is now in the file /var/www/html/survey-cot.txt${RESET}"
+    echo -e "${BLUE}The output of XML-CoT messages is now in the file /var/www/html/survey-cot.txt${RESET}"
     echo "" 
     echo "" 
     echo -e "${BLUE}We will now install the service file so csv-cot.py will run automatically${RESET}"

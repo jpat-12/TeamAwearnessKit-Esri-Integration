@@ -64,8 +64,8 @@ echo -e "${BLUE}csv-download.py file has been written${RESET}"
 python3 csv-download.py 
 clear
 echo -e "${BLUE}The survey data should be downloaded${RESET}"
-cat /opt/TAK-Esri/survey.csv 
 clear
+cat /opt/TAK-Esri/survey.csv 
 echo "cat /opt/TAK-Esri/survey.csv"
 echo -e "${BLUE}Does survey.csv have contents (y/n)${RESET}"
 read s123 
@@ -97,8 +97,8 @@ if [ "$s123" != "y" ]; then
     python3 /opt/TAK-Esri/csv-download.py 
     clear
     echo -e "${BLUE}The survey data should be downloaded${RESET}"
-    cat /opt/TAK-Esri/survey.csv 
     clear
+    cat /opt/TAK-Esri/survey.csv 
     echo "cat /opt/TAK-Esri/survey.csv"
     echo -e "${BLUE}This loop will continue until it does have the proper data${RESET}"
     echo -e "${BLUE}Does survey.csv have contents (y/n)${RESET}"
@@ -116,6 +116,8 @@ if [ "$s123" = "y" ]; then
     echo "        print(f"Error: {e}")" >> /opt/TAK-Esri/csv-download.py
     echo "    # Wait 5 seconds b4 next download" >> /opt/TAK-Esri/csv-download.py
     echo "    time.sleep(5)" >> /opt/TAK-Esri/csv-download.py
+    sed -i 's/fError: {e}/f"Error: {e}"/' /opt/TAK-Esri/csv-download.py
+    sed -i 's/gdf.to_csv(survey.csv, index=False)/gdf.to_csv("survey.csv", index=False)/' /opt/TAK-Esri/csv-download.py
     clear     
     echo "Printing while loop to /opt/TAK-Esri/csv-download.py"
     echo "[Unit]" >> /etc/systemd/system/csv-download.service
@@ -153,9 +155,9 @@ cp /tmp/TeamAwearnessKit-Esri-Integration/python-files/csv-cot.py /opt/TAK-Esri
 cd /opt/TAK-Esri
 python3 csv-cot.py
 ## Double check the output
-cat /var/www/html/survey-cot.txt
 clear
-echo "cat /opt/TAK-Esri/survey-cot.txt"
+cat /var/www/html/survey-cot.txt
+echo "/opt/TAK-Esri/survey-cot.txt"
 echo -e "${BLUE}Does survey-cot.txt have contents (y/n)${RESET}"
 read csvcot
 if [ "$csvcot" != "y" ]; then
@@ -192,7 +194,7 @@ else
     systemctl enable csv-cot.service
     systemctl start csv-cot.service
     service csv-cot status 
-    echo -e "${BLUE}Is the csv-cot service enabled and running? (y/n)${RESET}"
+    echo -e "${BLUE}Is the csv-cot service enabled and running? (y/n) ${RESET}"
     read csv_cot_status
     if [ "$csv_cot_status" != "y" ]; then
         echo -e "${RED}csv-cot service is not enabled or running${RESET}"
@@ -209,8 +211,8 @@ cd /opt/TAK-Esri
 python3 csv-kml.py
 clear
 ## Double check the output
-cat /var/www/html/survey123.kml
 clear
+cat /var/www/html/survey123.kml
 echo "cat /opt/TAK-Esri/survey123.kml"
 echo -e "${BLUE}Does survey123.kml have contents (y/n)${RESET}"
 read csvkml
