@@ -208,7 +208,7 @@ if [ "$csvkml" != "y" ]; then
 else 
     echo "The output of XML-CoT messages is now in the file /var/www/html/survey123.kml"
     echo "" 
-    echo "while True:" >> /opt/TAK-Esri/csv-cot.py
+    echo "while True:" >> /opt/TAK-Esri/csv-kml.py
     echo "    parse_csv_and_create_kml('survey.csv', '/var/www/html/survey123.kml')" >> /opt/TAK-Esri/csv-kml.py
     echo "    print('Parsed CSV and updated /var/www/html/survey123.kml')" >> /opt/TAK-Esri/csv-kml.py
     echo "    time.sleep(5)" >> /opt/TAK-Esri/csv-kml.py
@@ -308,7 +308,7 @@ echo ""
 echo ""
 echo "Now the Survey123 to TAK integration is installed" 
 echo ""
-echo "Would you like to continue with the 2nd part and install the files that will push Location Data from TAK to an ArcGIS Online Feature Layer?" 
+echo "Would you like to continue with the 2nd part and install the files that will push Location Data from TAK to an ArcGIS Online Feature Layer? (y/n)" 
 read arcgis_online
 
 if [ "$arcgis_online" != "y" ]; then

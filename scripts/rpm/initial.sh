@@ -8,9 +8,12 @@ read enter
 echo "We will first start with installing some dependancies" 
 sudo dnf update -y
 sudo dnf upgrade -y
-sudo dnf install pipenv -y
-sudo dnf install wget python3-geopandas -y 
-pip install geopandas
+sudo dnf install -y python3.9
+#pip3 install --upgrade pip -y
+python3 -m pip install --upgrade pip
+python3 -m pip install geopandas
+pip3 install geopandas -y
+sudo dnf install wget -y 
 clear
 echo "The dependancies are now installed" 
 sleep 3
@@ -103,11 +106,13 @@ if [ "$s123" = "y" ]; then
     echo "        gdf.to_csv("survey.csv", index=False)" >> /opt/TAK-Esri/csv-download.py
     echo "        print('Feature Layer downloaded')" >> /opt/TAK-Esri/csv-download.py
     echo "    except Exception as e:" >> /opt/TAK-Esri/csv-download.py
-    echo "        print(f"Error: {e}")" >> /opt/TAK-Esri/csv-download.py
+    echo "         print(f"Error: {e}")" >> /opt/TAK-Esri/csv-download.py
     echo "    # Wait 5 seconds b4 next download" >> /opt/TAK-Esri/csv-download.py
     echo "    time.sleep(5)" >> /opt/TAK-Esri/csv-download.py
+    sed -i 's/fError: {e}/f"Error: {e}"/' /opt/TAK-Esri/csv-download.py
+    sed -i 's/gdf.to_csv(survey.csv, index=False)/gdf.to_csv("survey.csv", index=False)/' /opt/TAK-Esri/csv-download.py
     clear     
-    echo "Printing while loop to /opt/TAK-Esri/csv-download.py"
+    echo "Printed while loop to /opt/TAK-Esri/csv-download.py"
     echo "[Unit]" >> /etc/systemd/system/csv-download.service
     echo "Description=CSV Download" >> /etc/systemd/system/csv-download.service
     echo "After=network.target" >> /etc/systemd/system/csv-download.service
@@ -138,7 +143,7 @@ clear
 
 # Setup CSV-CoT.py 
 ## Copy the file from the github repo
-cp /tmp/TeamAwearnessKit-Esri-Integration/python-files/csv-cot.py /opt/TAK-Esri 
+cp /tmp/TeamAwearnessKit-Esri-Integration/python-files/csv-cot2.py /opt/TAK-Esri/csv-cot.py
 ## Test The File 
 cd /opt/TAK-Esri
 python3 csv-cot.py
@@ -208,7 +213,7 @@ if [ "$csvkml" != "y" ]; then
 else 
     echo "The output of XML-CoT messages is now in the file /var/www/html/survey123.kml"
     echo "" 
-    echo "while True:" >> /opt/TAK-Esri/csv-cot.py
+    echo "while True:" >> /opt/TAK-Esri/csv-kml.py
     echo "    parse_csv_and_create_kml('survey.csv', '/var/www/html/survey123.kml')" >> /opt/TAK-Esri/csv-kml.py
     echo "    print('Parsed CSV and updated /var/www/html/survey123.kml')" >> /opt/TAK-Esri/csv-kml.py
     echo "    time.sleep(5)" >> /opt/TAK-Esri/csv-kml.py
@@ -310,7 +315,7 @@ echo ""
 echo ""
 echo "Now the Survey123 to TAK integration is installed" 
 echo ""
-echo "Would you like to continue with the 2nd part and install the files that will push Location Data from TAK to an ArcGIS Online Feature Layer?" 
+echo "Would you like to continue with the 2nd part and install the files that will push Location Data from TAK to an ArcGIS Online Feature Layer? (y/n)" 
 read arcgis_online
 
 if [ "$arcgis_online" != "y" ]; then
