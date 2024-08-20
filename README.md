@@ -15,7 +15,7 @@
 ### Ubuntu 22.04 (Server & Desktop)
 #### Step #1 
 ```bash
-cd /tmp && sudo apt install git && sudo git clone https://github.com/jpat-12/TeamAwearnessKit-Esri-Integration.git && cd /tmp/TeamAwearnessKit-Esri-Integration/scripts/ubuntu && chmod +x initial.sh && ./initial.sh && cd /opt/TAK-Esri && ls -la 
+cd /tmp && sudo apt install git -y && sudo git clone https://github.com/jpat-12/TeamAwearnessKit-Esri-Integration.git && cd /tmp/TeamAwearnessKit-Esri-Integration/scripts/ubuntu && chmod +x initial.sh && ./initial.sh && cd /opt/TAK-Esri && ls -la 
 ```
 #### Step #2 
 ```bash
@@ -25,7 +25,7 @@ cd /tmp/TeamAwearnessKit-Esri-Integration/scripts/ubuntu && chmod +x arcgis.sh &
 ### Rocky 8
 #### Step #1
 ```bash
-cd /tmp && sudo dnf install git && sudo git clone https://github.com/jpat-12/TeamAwearnessKit-Esri-Integration.git && cd /tmp/TeamAwearnessKit-Esri-Integration/scripts/rpm && chmod +x initial.sh && ./initial.sh && cd /opt/TAK-Esri && ls -la 
+cd /tmp && sudo dnf install git -y && sudo git clone https://github.com/jpat-12/TeamAwearnessKit-Esri-Integration.git && cd /tmp/TeamAwearnessKit-Esri-Integration/scripts/rpm && chmod +x initial.sh && ./initial.sh && cd /opt/TAK-Esri && ls -la 
 ```
 #### Step #2 
 ```bash

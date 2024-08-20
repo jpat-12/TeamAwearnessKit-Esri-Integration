@@ -10,6 +10,7 @@ sudo dnf update -y
 sudo dnf upgrade -y
 sudo dnf install -y python3.9
 #pip3 install --upgrade pip -y
+sud dnf install python-pip -y
 python3 -m pip install --upgrade pip
 python3 -m pip install geopandas
 pip3 install geopandas -y
