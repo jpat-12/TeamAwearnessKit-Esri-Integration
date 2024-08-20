@@ -1,18 +1,22 @@
 #!/bin/bash
+GREEN='\033[32m'
+BLUE='\033[34m'
+RED='\033[31m'
+RESET='\033[0m'
 # Set variables for the feature layer
-echo "We will now set variables to personalize the install"
+echo -e "${BLUE}We will now set variables to personalize the install${RESET}"
 read -p "Enter the link of the enterprise you want to use (i.e. https://cap-gis.maps.arcgis.com): " e_link
 read -p "Enter the username of the enterprise: " e_username
 read -p "Enter the password of the enterprise: " e_password
 read -p "Enter the name of the feature layer you will create: " feature_layer_name
 read -p "Enter the description you want your feature layer to have: " feature_layer_desc
 ## Double check all variables are set correctly
-echo "Are all of these correct?" 
-echo "Enterprise link: $e_link"
-echo "Enterprise username: $e_username"
-echo "Enterprise password: $e_password"
-echo "Feature Layer Name: $feature_layer_name"
-echo "Feature Layer Description: $feature_layer_desc"
+echo -e "${BLUE}Are all of these correct?${RESET}"
+echo -e "${GREEN}Enterprise link: $e_link${RESET}"
+echo -e "${BLUE}Enterprise username: $e_username${RESET}"
+echo -e "${GREEN}Enterprise password: $e_password${RESET}"
+echo -e "${BLUE}Feature Layer Name: $feature_layer_name${RESET}"
+echo -e "${GREEN}Feature Layer Description: $feature_layer_desc${RESET}"
 read -p "Press y to continue or any other key to re-enter the information: " confirm
 ## Loop To Correct incorrect variables
 while [ "$confirm" != "y" ]; do
@@ -21,12 +25,12 @@ while [ "$confirm" != "y" ]; do
     read -p "Enter the password of the enterprise: " e_password
     read -p "Enter the name of the feature layer you will create: " feature_layer_name
     read -p "Enter the description you want your feature layer to have: " feature_layer_desc
-    echo "Are all of these correct?" 
-    echo "Enterprise link: $e_link"
-    echo "Enterprise username: $e_username"
-    echo "Enterprise password: $e_password"
-    echo "Feature Layer Name: $feature_layer_name"
-    echo "Feature Layer Description: $feature_layer_desc"
+    echo -e "${BLUE}Are all of these correct?" 
+    echo -e "${GREEN}Enterprise link: $e_link${RESET}"
+    echo -e "${BLUE}Enterprise username: $e_username${RESET}"
+    echo -e "${GREEN}Enterprise password: $e_password${RESET}"
+    echo -e "${BLUE}Feature Layer Name: $feature_layer_name${RESET}"
+    echo -e "${GREEN}Feature Layer Description: $feature_layer_desc${RESET}"
     read -p "Press y to continue or any other key to re-enter the information: " confirm
 done
 
@@ -37,9 +41,9 @@ conda init
 source /root/miniconda/bin/activate arcgis_env
 ## Check if the environment activation was successful
 if [ "$(basename $(which python))" = "python" ] && [[ $(conda info --envs | grep '*') =~ "arcgis_env" ]]; then
-    echo "Environment 'arcgis_env' is active."
+    echo -e "${BLUE}Environment 'arcgis_env' is active.${RESET}"
 else
-    echo "Failed to activate 'arcgis_env'."
+    echo -e "${BLUE}Failed to activate 'arcgis_env'.${RESET}"
     exit 1
 fi
 ## Install required packages
@@ -49,7 +53,7 @@ pip install arcgis
 mkdir -p /opt/TAK-Esri/ArcGIS
 
 # Test connection to Esri servers
-echo "Testing connection to Esri servers" 
+echo -e "${BLUE}Testing connection to Esri servers${RESET}"
 ## Print to sign in file
 
 # Create the sign-in.py script
@@ -70,12 +74,12 @@ cat output.log
 output_username=$(grep "Logged in as:" output.log | awk -F": " '{print $2}')
 ## Compare the extracted username to the expected username
 if [ "$output_username" = "$e_username" ]; then
-    echo "Username matches: $e_username"
+    echo -e "${GREEN}Username matches: $e_username${RESET}"
 else
-    echo "Username does not match. Expected: $e_username, Found: $output_username"
+    echo -e "${RED}Username does not match. Expected: $e_username, Found: $output_username${RESET}"
     echo ""
     echo ""
-    echo "Would you like to try entering your credentials again? (y/n)"
+    echo -e "${BLUE}Would you like to try entering your credentials again? (y/n)${RESET}"
     read credentials
     if [ "$credentials" = "y" ]; then
         # Credential re-entry loop
@@ -85,25 +89,25 @@ else
             read -sp "Enter the password of the enterprise: " e_password
             echo ""
             echo ""
-            echo "Are all of these correct?"
-            echo "Enterprise link: $e_link"
-            echo "Enterprise username: $e_username"
-            echo "Enterprise password: $e_password"
+            echo -e "${GREEN}Are all of these correct?${RESET}"
+            echo -e "${BLUE}Enterprise link: $e_link${RESET}"
+            echo -e "${GREEN}Enterprise username: $e_username${RESET}"
+            echo -e "${BLUE}Enterprise password: $e_password${RESET}"
             read -p "Press y to continue or any other key to re-enter the information: " confirm
             if [ "$confirm" = "y" ]; then
-                echo "You either need to restart the script or contact the repo owner for help"
+                echo -e "${RED}You either need to restart the script or contact the repo owner for help${RESET}"
                 exit 1
             fi
         done
     else
-        echo "You need to restart the script or contact the repo owner for help"
+        echo -e "${RED}You need to restart the script or contact the repo owner for help${RESET}"
         exit 1
     fi
 fi
 
 # Making test data in /var/www/html/cot-logged.csv
 clear 
-echo "Now printing test data to /var/www/html/cot-logged.csv"
+echo -e "${BLUE}Now printing test data to /var/www/html/cot-logged.csv${RESET}"
 cat <<EOF > /var/www/html/cot-logged.csv
 uid,type,how,time,start,stale,lat,long,hae,ce,le,contactcallsign,parent_callsign,production_time,iconpath,group_name,group_role,battery,device,platform,os,version,speed,course,droid_uid
 e5a1cb4e-4736-4315-b216-bd30c3104456,a-u-G,h-g-i-g-o,2024-08-03T01:16:24Z,2024-08-03T01:16:24Z,2024-08-10T01:16:24Z,39.5001089390719,-88.8520772875137,168.398757195526,9999999.0,9999999.0,CAP Repeater 1,AFAUX-IL-Pattara.J.w,2024-07-29T21:11:29Z,412c43f948b1664a3a0b513336b6c32382b13289a6ed2e91dd31e23d9d52a683/Incident Icons/CAP Repeater.png,,,,,,,,,,
@@ -111,7 +115,7 @@ e5a1cb4e-4736-4315-b216-bd30c3104456,a-u-G,h-g-i-g-o,2024-08-03T01:16:24Z,2024-0
 EOF
 
 # Create push.py file
-echo "We will now update the python script to use the feature layer link and name"
+echo -e "${BLUE}We will now update the python script to use the feature layer link and name${RESET}"
 cat <<EOF > /opt/TAK-Esri/ArcGIS/push.py
 from arcgis.gis import GIS
 from arcgis.features import FeatureLayerCollection
@@ -150,7 +154,7 @@ EOF
 
 # Making test data in /var/www/html/cot-logged.csv
 clear 
-echo "Now printing more test data to /var/www/html/cot-logged.csv"
+echo -e "${BLUE}Now printing more test data to /var/www/html/cot-logged.csv${RESET}"
 cat <<EOF > /var/www/html/cot-logged.csv
 uid,type,how,time,start,stale,lat,long,hae,ce,le,contactcallsign,parent_callsign,production_time,iconpath,group_name,group_role,battery,device,platform,os,version,speed,course,droid_uid
 e5a1cb4e-4736-4315-b216-bd30c3104456,a-u-G,h-g-i-g-o,2024-08-03T01:16:24Z,2024-08-03T01:16:24Z,2024-08-10T01:16:24Z,39.5001089390719,-88.8520772875137,168.398757195526,9999999.0,9999999.0,CAP Repeater 1,AFAUX-IL-Pattara.J.w,2024-07-29T21:11:29Z,412c43f948b1664a3a0b513336b6c32382b13289a6ed2e91dd31e23d9d52a683/Incident Icons/CAP Repeater.png,,,,,,,,,,
@@ -190,25 +194,25 @@ python3 push.py >> output.log
 
 # Find Layer ID
 echo ""
-echo "STOPPING HERE TEMPORARILY " 
+echo -e "${BLUE}STOPPING HERE TEMPORARILY ${RESET}"
 echo ""
-echo "Go find the feature layer we just created" 
+echo -e "${BLUE}Go find the feature layer we just created${RESET}"
 echo ""
-echo "press enter when you have your feature layer id" 
+echo -e "${BLUE}press enter when you have your feature layer id${RESET}"
 read stop 
 ## Intake F-L-ID
-echo "Sleeping for 5 seconds" 
-echo ""
-read -p "Enter the Feature layer ID " file_id
+echo -e "${BLUE}Sleeping for 5 seconds${RESET}" 
 sleep 5
+echo ""
+read -p "Enter the Feature layer ID: " file_id
 ## Double check all variables are set correctly
-echo "Is this correct? (y/n)" 
-echo "Feature layer ID: $file_id"
+echo -e "${BLUE}Is this correct? (y/n)${RESET}"
+echo -e "${BLUE}Feature layer ID: $file_id${RESET}"
 read -p "Press y to continue or any other key to re-enter the information: " confirm
 while [ "$confirm" != "y" ]; do
     read -p "Enter the Feature layer ID " file_id
-    echo "Are all of these correct?" 
-    echo "Feature layer ID: $file_id"
+    echo -e "${BLUE}Are all of these correct?${RESET}"
+    echo -e "${BLUE}Feature layer ID: $file_id${RESET}"
     read -p "Press y to continue or any other key to re-enter the information: " confirm
 done
 
@@ -310,12 +314,12 @@ cd /opt/TAK-Esri
 python3 cot-csv.py
 ## Double check the output
 cat /var/www/html/cot-logged.csv
-echo "Does cot-logged.csv have contents (y/n)" 
+echo -e "${BLUE}Does cot-logged.csv have contents (y/n)${RESET}" 
 read cotcsv
 if [ "$csvcot" = "n" ]; then
      echo "COT-CSV HAS FAILED" >> /opt/TAK-Esri/install-log.txt
-     echo "We will come back to this later"
-     echo "You may need to contact the rego manager to gain assistance with this error"
+     echo -e "${RED}We will come back to this later${RESET}"
+     echo -e "${RED}You may need to contact the rego manager to gain assistance with this error${RESET}"
      exit 1
 else 
     echo "" >> /opt/TAK-Esri/cot-csv.py
@@ -324,11 +328,11 @@ else
     echo "    print('CoT-CSV parsed')" >> /opt/TAK-Esri/cot-csv.py
     echo "    time.sleep(5)" >> /opt/TAK-Esri/cot-csv.py
     clear
-    echo "The parsed CoT messages are now in the file /var/www/html/cot-logged.csv"
+    echo -e "${BLUE}The parsed CoT messages are now in the file /var/www/html/cot-logged.csv${RESET}"
     echo "" 
     echo "" 
     echo "" 
-    echo "We will now install the service file so csv-cot.py will run automatically"
+    echo -e "${BLUE}We will now install the service file so csv-cot.py will run automatically${RESET}"
     echo "[Unit]" >> /etc/systemd/system/cot-csv.service
     echo "Description=cot - csv" >> /etc/systemd/system/cot-csv.service
     echo "After=network.target" >> /etc/systemd/system/cot-csv.service
@@ -347,17 +351,17 @@ else
     systemctl enable cot-csv.service
     systemctl start cot-csv.service
     service cot-csv status 
-    echo "Is the cot-csv service enabled and running? (y/n)" 
+    echo -e "${BLUE}Is the cot-csv service enabled and running? (y/n)${RESET}"
     read cot_csv_status
     if [ "$cot_csv_status" != "y" ]; then
-        echo "cot-csv service is not enabled or running"
-        echo "Please contact the repo admin and they will assist you" 
+        echo -e "${RED}cot-csv service is not enabled or running${RESET}"
+        echo -e "${RED}Please contact the repo admin and they will assist you${RESET}"
         exit 1
     fi
 fi 
 
 # Add Logging capabilities for /var/www/html/cot-logged.txt
-echo "Adding logging capabilities for the /var/www/html/cot-logged.txt file" 
+echo -e "${BLUE}Adding logging capabilities for the /var/www/html/cot-logged.txt file${RESET}"
 cat <<EOF > /opt/TAK-Esri/copy-cot-intake.py 
 import shutil
 import os
@@ -409,6 +413,6 @@ systemctl start csv-cot.service
 systemctl start csv-kml.service 
 
 clear
-echo "You should be good to go" 
-echo "It looks like everything has installed properly"
-echo "If this is not the case please let the repo owner know"
+echo -e "${BLUE}You should be good to go${RESET}"
+echo -e "${BLUE}It looks like everything has installed properly${RESET}"
+echo -e "${BLUE}If this is not the case please let the repo owner know${RESET}"
