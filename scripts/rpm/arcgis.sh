@@ -402,6 +402,8 @@ CRON_JOB="$CRON_SCHEDULE $CRON_COMMAND"
     echo "Cron job added: $CRON_JOB"
 }
 
+conda deactivate 
+pip3 install geopandas
 # Reload the daemon and start the service
 sudo systemctl daemon-reload
 sudo systemctl enable feature-layer-update.service

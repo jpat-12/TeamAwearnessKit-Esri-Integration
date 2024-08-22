@@ -55,6 +55,7 @@ fi
 ## Write to the csv-download.py file
 cat <<EOF > /opt/TAK-Esri/csv-download.py
 import geopandas as gpd
+import time
 url = "$survey123_feature_layer_link"
 gdf = gpd.read_file(url + "?where=1%3D1&outFields=*&f=geojson")
 gdf.to_csv("survey.csv", index=False)

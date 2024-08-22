@@ -402,16 +402,18 @@ CRON_JOB="$CRON_SCHEDULE $CRON_COMMAND"
 }
 
 # Reload the daemon and start the service
+conda deactivate 
+pip3 install geopandas
 sudo systemctl daemon-reload
 sudo systemctl enable feature-layer-update.service
 sudo systemctl enable cot-csv.service
 sudo systemctl daemon-reload
 sudo systemctl start feature-layer-update.service
 sudo systemctl start cot-csv.service
-systemctl start node-red.service 
-systemctl start csv-cot.service
-systemctl start csv-kml.service 
-service csv-download restart
+sudo systemctl start node-red.service 
+sudo systemctl start csv-cot.service
+sudo systemctl start csv-kml.service 
+sudo service csv-download restart
 clear
 echo -e "${BLUE}You should be good to go${RESET}"
 echo -e "${BLUE}It looks like everything has installed properly${RESET}"
