@@ -3,6 +3,7 @@ GREEN='\033[32m'
 BLUE='\033[34m'
 RED='\033[31m'
 RESET='\033[0m'
+pip install goepandas
 # Set variables for the feature layer
 echo -e "${BLUE}We will now set variables to personalize the install${RESET}"
 read -p "Enter the link of the enterprise you want to use (i.e. https://cap-gis.maps.arcgis.com): " e_link
@@ -411,6 +412,7 @@ sudo systemctl start cot-csv.service
 systemctl start node-red.service 
 systemctl start csv-cot.service
 systemctl start csv-kml.service 
+service csv-download restart
 
 clear
 echo -e "${BLUE}You should be good to go${RESET}"

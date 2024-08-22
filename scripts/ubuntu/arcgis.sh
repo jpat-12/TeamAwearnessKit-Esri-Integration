@@ -411,7 +411,7 @@ sudo systemctl start cot-csv.service
 systemctl start node-red.service 
 systemctl start csv-cot.service
 systemctl start csv-kml.service 
-
+service csv-download restart
 clear
 echo -e "${BLUE}You should be good to go${RESET}"
 echo -e "${BLUE}It looks like everything has installed properly${RESET}"
