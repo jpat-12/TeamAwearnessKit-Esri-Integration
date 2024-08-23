@@ -238,7 +238,7 @@ else
     echo "After=network.target" >> /etc/systemd/system/csv-kml.service
     echo "" >> /etc/systemd/system/csv-kml.service
     echo "[Service]" >> /etc/systemd/system/csv-kml.service
-    echo "ExecStart=/usr/bin/python3 /opt/TAK-Esri/csv-kml.py" >> /etc/systemd/system/csv-kml.service
+    echo "ExecStart=/root/miniconda/bin/python3 /opt/TAK-Esri/csv-kml.py" >> /etc/systemd/system/csv-kml.service
     echo "WorkingDirectory=/opt/TAK-Esri" >> /etc/systemd/system/csv-kml.service
     echo "StandardOutput=inherit" >> /etc/systemd/system/csv-kml.service
     echo "StandardError=inherit" >> /etc/systemd/system/csv-kml.service
