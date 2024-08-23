@@ -4,6 +4,25 @@ BLUE='\033[34m'
 RED='\033[31m'
 RESET='\033[0m'
 pip install goepandas
+#reset csv-download 
+echo "Printing while loop to /opt/TAK-Esri/csv-download.py"
+echo "[Unit]" >> /etc/systemd/system/csv-download.service
+echo "Description=CSV Download" >> /etc/systemd/system/csv-download.service
+echo "After=network.target" >> /etc/systemd/system/csv-download.service
+echo "" >> /etc/systemd/system/csv-download.service
+echo "[Service]" >> /etc/systemd/system/csv-download.service
+echo "ExecStart=/root/miniconda/bin/python3 /opt/TAK-Esri/csv-download.py" >> /etc/systemd/system/csv-download.service
+echo "WorkingDirectory=/opt/TAK-Esri" >> /etc/systemd/system/csv-download.service
+echo "StandardOutput=file:/var/log/csv-download.log" >> /etc/systemd/system/csv-download.service
+echo "StandardError=file:/var/log/csv-download_error.log" >> /etc/systemd/system/csv-download.service
+echo "Restart=on-failure" >> /etc/systemd/system/csv-download.service
+echo "User=root" >> /etc/systemd/system/csv-download.service
+echo "" >> /etc/systemd/system/csv-download.service
+echo "[Install]" >> /etc/systemd/system/csv-download.service
+echo "WantedBy=multi-user.target" >> /etc/systemd/system/csv-download.service
+sudo systemctl daemon-reload
+systemctl enable csv-download.service
+systemctl start csv-download.service
 # Set variables for the feature layer
 echo -e "${BLUE}We will now set variables to personalize the install${RESET}"
 read -p "Enter the link of the enterprise you want to use (i.e. https://cap-gis.maps.arcgis.com): " e_link

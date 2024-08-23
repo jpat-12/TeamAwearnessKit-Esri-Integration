@@ -138,7 +138,7 @@ if [ "$s123" = "y" ]; then
     sudo systemctl daemon-reload
     systemctl enable csv-download.service
     systemctl start csv-download.service
-    service csv-download status 
+    systemctl status csv-download.service
     echo -e "${BLUE}Is the csv-download service enabled and running? (y/n)${RESET}"
     read csv_download_status
     if [ "$csv_download_status" != "y" ]; then
@@ -194,7 +194,7 @@ else
     sudo systemctl daemon-reload
     systemctl enable csv-cot.service
     systemctl start csv-cot.service
-    service csv-cot status 
+    systemctl status csv-cot.service
     echo -e "${BLUE}Is the csv-cot service enabled and running? (y/n) ${RESET}"
     read csv_cot_status
     if [ "$csv_cot_status" != "y" ]; then
@@ -238,7 +238,7 @@ else
     echo "After=network.target" >> /etc/systemd/system/csv-kml.service
     echo "" >> /etc/systemd/system/csv-kml.service
     echo "[Service]" >> /etc/systemd/system/csv-kml.service
-    echo "ExecStart=/root/miniconda/bin/python3 /opt/TAK-Esri/csv-kml.py" >> /etc/systemd/system/csv-kml.service
+    echo "ExecStart=/usr/bin/python3 /opt/TAK-Esri/csv-kml.py" >> /etc/systemd/system/csv-kml.service
     echo "WorkingDirectory=/opt/TAK-Esri" >> /etc/systemd/system/csv-kml.service
     echo "StandardOutput=inherit" >> /etc/systemd/system/csv-kml.service
     echo "StandardError=inherit" >> /etc/systemd/system/csv-kml.service
@@ -250,7 +250,7 @@ else
     sudo systemctl daemon-reload
     systemctl enable csv-kml.service
     systemctl start csv-kml.service
-    service csv-kml status 
+    systemctl status csv-kml.service
     echo -e "${BLUE}Is the csv-kml service enabled and running? (y/n)${RESET}"
     read csv_kml_status
     if [ "$csv_kml_status" != "y" ]; then
@@ -298,7 +298,7 @@ sudo systemctl daemon-reload
 systemctl enable node-red.service 
 sudo systemctl daemon-reload
 systemctl start node-red.service 
-service node-red status 
+systemctl status node-red.service 
 echo -e "${BLUE}Is Node-RED now installed and running as a service? (y/n)${RESET}"
 read node_red 
 ## Troubleshoot bad install
