@@ -4,7 +4,7 @@ BLUE='\033[34m'
 RED='\033[31m'
 RESET='\033[0m'
 #reset csv-download 
-echo "Printing while loop to /opt/TAK-Esri/csv-download.py"
+rm -rf /etc/systemd/system/csv-download.service
 echo "[Unit]" >> /etc/systemd/system/csv-download.service
 echo "Description=CSV Download" >> /etc/systemd/system/csv-download.service
 echo "After=network.target" >> /etc/systemd/system/csv-download.service
@@ -412,7 +412,7 @@ EOF
 ## Add the cron job
 # Define the cron job schedule and command
 CRON_SCHEDULE="0 * * * *"
-CRON_COMMAND="/path/to/your/run_python_script.sh"
+CRON_COMMAND="/opt/TAK-Esri/ArcGIS/append.sh"
 ## Full cron job entry
 CRON_JOB="$CRON_SCHEDULE $CRON_COMMAND"
 ## Check if the cron job already exists
