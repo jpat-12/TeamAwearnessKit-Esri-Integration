@@ -74,5 +74,5 @@ def parse_csv_and_create_cot(csv_file_path, output_file_path):
 
 # Example usage:
 csv_file_path = 'survey.csv'
-output_file_path = '/var/www/html/cot-events.txt'
+output_file_path = '/var/www/html/survey-cot.txt'
 parse_csv_and_create_cot(csv_file_path, output_file_path)
