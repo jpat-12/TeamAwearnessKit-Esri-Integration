@@ -28,7 +28,7 @@ cd /tmp && sudo apt install git -y && sudo git clone https://github.com/jpat-12/
 ```
 #### Step #2 
 ```bash
-cd /tmp/TeamAwearnessKit-Esri-Integration/scripts/ubuntu && chmod +x arcgis.sh && ./arcgis.sh && cd /opt/TAK-Esri && ls -la 
+cd /tmp/TeamAwearnessKit-Esri-Integration/scripts/ubuntu && chmod +x arcgis.sh && systemctl restart csv-download.service --no-pager && ./arcgis.sh && cd /opt/TAK-Esri && ls -la 
 ```
 
 ### Rocky 8 & Rocky 9
@@ -38,7 +38,7 @@ cd /tmp && sudo dnf install git -y && sudo git clone https://github.com/jpat-12/
 ```
 #### Step #2 
 ```bash
-cd /tmp/TeamAwearnessKit-Esri-Integration/scripts/rpm && chmod +x arcgis.sh && ./arcgis.sh && cd /opt/TAK-Esri && ls -la 
+cd /tmp/TeamAwearnessKit-Esri-Integration/scripts/rpm && chmod +x arcgis.sh && ./arcgis.sh && systemctl restart csv-download.service --no-pager && cd /opt/TAK-Esri && ls -la 
 ```
 
 

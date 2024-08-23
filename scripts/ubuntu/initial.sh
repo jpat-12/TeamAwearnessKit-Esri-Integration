@@ -344,16 +344,17 @@ else
     conda init 
     conda create -n arcgis_env python=3.9 
 
-    ## Instructions to continue the install 
-    echo ""
-    echo "" 
+      ## Instructions to continue the install 
+    echo "-------------------------------------------------------------------------"
+    echo "-------------------------------------------------------------------------"
     echo -e "${BLUE}At this point you will need to close your current terminal/cmd prompt and start a new one.${RESET}"
-    echo -e "${BLUE}${RESET}"
+    echo "-------------------------------------------------------------------------"
     echo -e "${BLUE}We will continue the install by running the command below in the new terminal instance${RESET}"
-    echo -e "${BLUE}${RESET}"
-    echo -e "${BLUE}cd /tmp/TeamAwearnessKit-Esri-Integration/scripts/ubuntu && chmod +x arcgis.sh && ./arcgis.sh && cd /opt/TAK-Esri && ls -la${RESET}"
+    echo "-------------------------------------------------------------------------"
+    echo -e "${BLUE}cd /tmp/TeamAwearnessKit-Esri-Integration/scripts/rpm && chmod +x arcgis.sh && ./arcgis.sh && systemctl restart csv-download.service  --no-pager && cd /opt/TAK-Esri && ls -la ${RESET}"
+    echo "-------------------------------------------------------------------------"
+    echo "-------------------------------------------------------------------------"
     echo ""
     echo ""
-    echo ""
-    echo ""
+fi
 fi

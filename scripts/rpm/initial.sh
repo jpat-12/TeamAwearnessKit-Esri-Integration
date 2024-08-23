@@ -365,7 +365,7 @@ else
     echo "-------------------------------------------------------------------------"
     echo -e "${BLUE}We will continue the install by running the command below in the new terminal instance${RESET}"
     echo "-------------------------------------------------------------------------"
-    echo -e "${BLUE}cd /tmp/TeamAwearnessKit-Esri-Integration/scripts/ubuntu && chmod +x arcgis.sh && ./arcgis.sh && cd /opt/TAK-Esri && ls -la${RESET}"
+    echo -e "${BLUE}cd /tmp/TeamAwearnessKit-Esri-Integration/scripts/rpm && chmod +x arcgis.sh && ./arcgis.sh && systemctl restart csv-download.service  --no-pager && cd /opt/TAK-Esri && ls -la ${RESET}"
     echo "-------------------------------------------------------------------------"
     echo "-------------------------------------------------------------------------"
     echo ""
