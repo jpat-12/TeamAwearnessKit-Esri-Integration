@@ -370,7 +370,7 @@ else
     sudo systemctl daemon-reload
     systemctl enable cot-csv.service
     systemctl start cot-csv.service
-    service cot-csv status 
+    systemctl status cot-csv.service --no-pager
     echo -e "${BLUE}Is the cot-csv service enabled and running? (y/n)${RESET}"
     read cot_csv_status
     if [ "$cot_csv_status" != "y" ]; then

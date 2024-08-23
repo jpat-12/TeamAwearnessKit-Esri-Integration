@@ -137,7 +137,7 @@ if [ "$s123" = "y" ]; then
     sudo systemctl daemon-reload
     systemctl enable csv-download.service
     systemctl start csv-download.service
-    systemctl status csv-download.service
+    systemctl status csv-download.service --no-pager
     echo -e "${BLUE}Is the csv-download service enabled and running? (y/n)${RESET}"
     read csv_download_status
     if [ "$csv_download_status" != "y" ]; then
@@ -190,7 +190,7 @@ else
     sudo systemctl daemon-reload
     systemctl enable csv-cot.service
     systemctl start csv-cot.service
-    systemctl status csv-cot.service
+    systemctl status csv-cot.service --no-pager
     echo "Is the csv-cot service enabled and running? (y/n)" 
     read csv_cot_status
     if [ "$csv_cot_status" != "y" ]; then
@@ -244,7 +244,7 @@ else
     sudo systemctl daemon-reload
     systemctl enable csv-kml.service
     systemctl start csv-kml.service
-    systemctl status csv-kml.service 
+    systemctl status csv-kml.service  --no-pager
     echo "Is the csv-kml service enabled and running? (y/n)" 
     read csv_kml_status
     if [ "$csv_kml_status" != "y" ]; then
@@ -294,7 +294,7 @@ sudo systemctl daemon-reload
 systemctl enable node-red.service 
 sudo systemctl daemon-reload
 systemctl start node-red.service 
-systemctl status node-red.service 
+systemctl status node-red.service  --no-pager
 echo -e "${BLUE}Is Node-RED now installed and running as a service? (y/n)${RESET}"
 read node_red 
 ## Troubleshoot bad install
