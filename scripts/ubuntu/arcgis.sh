@@ -14,7 +14,7 @@ echo "ExecStart=/root/miniconda/bin/python3 /opt/TAK-Esri/csv-download.py" >> /e
 echo "WorkingDirectory=/opt/TAK-Esri" >> /etc/systemd/system/csv-download.service
 echo "StandardOutput=file:/var/log/csv-download.log" >> /etc/systemd/system/csv-download.service
 echo "StandardError=file:/var/log/csv-download_error.log" >> /etc/systemd/system/csv-download.service
-echo "Restart=on-failure" >> /etc/systemd/system/csv-download.service
+echo "Restart=always" >> /etc/systemd/system/csv-download.service
 echo "User=root" >> /etc/systemd/system/csv-download.service
 echo "" >> /etc/systemd/system/csv-download.service
 echo "[Install]" >> /etc/systemd/system/csv-download.service

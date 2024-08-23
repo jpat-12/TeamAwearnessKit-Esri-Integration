@@ -3,7 +3,7 @@ GREEN='\033[32m'
 BLUE='\033[34m'
 RED='\033[31m'
 RESET='\033[0m'
-pip install goepandas
+#pip install goepandas
 #reset csv-download 
 rm -rf /etc/systemd/system/csv-download.service
 echo "[Unit]" >> /etc/systemd/system/csv-download.service
@@ -15,7 +15,7 @@ echo "ExecStart=/root/miniconda/bin/python3 /opt/TAK-Esri/csv-download.py" >> /e
 echo "WorkingDirectory=/opt/TAK-Esri" >> /etc/systemd/system/csv-download.service
 echo "StandardOutput=file:/var/log/csv-download.log" >> /etc/systemd/system/csv-download.service
 echo "StandardError=file:/var/log/csv-download_error.log" >> /etc/systemd/system/csv-download.service
-echo "Restart=on-failure" >> /etc/systemd/system/csv-download.service
+echo "Restart=always" >> /etc/systemd/system/csv-download.service
 echo "User=root" >> /etc/systemd/system/csv-download.service
 echo "" >> /etc/systemd/system/csv-download.service
 echo "[Install]" >> /etc/systemd/system/csv-download.service
@@ -58,7 +58,7 @@ done
 ## Initialize Conda
 conda init
 ## Activate the Conda environment
-source /root/anaconda3/bin/activate arcgis_env
+source /root/miniconda/bin/activate arcgis_env
 ## Check if the environment activation was successful
 if [ "$(basename $(which python))" = "python" ] && [[ $(conda info --envs | grep '*') =~ "arcgis_env" ]]; then
     echo -e "${BLUE}Environment 'arcgis_env' is active.${RESET}"

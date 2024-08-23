@@ -106,15 +106,11 @@ if [ "$s123" != "y" ]; then
     read s123
 fi
 if [ "$s123" = "y" ]; then 
-    
     echo "while True:" >> /opt/TAK-Esri/csv-download.py
-    echo "    try:" >> /opt/TAK-Esri/csv-download.py
-    echo "        # Download the data using geopandas" >> /opt/TAK-Esri/csv-download.py
-    echo "        gdf = gpd.read_file(url + "?where=1%3D1&outFields=*&f=geojson")" >> /opt/TAK-Esri/csv-download.py
-    echo "        gdf.to_csv("survey.csv", index=False)" >> /opt/TAK-Esri/csv-download.py
-    echo "        print('Feature Layer downloaded')" >> /opt/TAK-Esri/csv-download.py
-    echo "    except Exception as e:" >> /opt/TAK-Esri/csv-download.py
-    echo "        print(f"Error: {e}")" >> /opt/TAK-Esri/csv-download.py
+    echo "    # Download the data using geopandas" >> /opt/TAK-Esri/csv-download.py
+    echo "    gdf = gpd.read_file(url + "?where=1%3D1&outFields=*&f=geojson")" >> /opt/TAK-Esri/csv-download.py
+    echo "    gdf.to_csv("survey.csv", index=False)" >> /opt/TAK-Esri/csv-download.py
+    echo "    print('Feature Layer downloaded')" >> /opt/TAK-Esri/csv-download.py
     echo "    # Wait 5 seconds b4 next download" >> /opt/TAK-Esri/csv-download.py
     echo "    time.sleep(5)" >> /opt/TAK-Esri/csv-download.py
     sed -i 's/fError: {e}/f"Error: {e}"/' /opt/TAK-Esri/csv-download.py
@@ -130,7 +126,7 @@ if [ "$s123" = "y" ]; then
     echo "WorkingDirectory=/opt/TAK-Esri" >> /etc/systemd/system/csv-download.service
     echo "StandardOutput=file:/var/log/csv-download.log" >> /etc/systemd/system/csv-download.service
     echo "StandardError=file:/var/log/csv-download_error.log" >> /etc/systemd/system/csv-download.service
-    echo "Restart=on-failure" >> /etc/systemd/system/csv-download.service
+    echo "Restart=always" >> /etc/systemd/system/csv-download.service
     echo "User=root" >> /etc/systemd/system/csv-download.service
     echo "" >> /etc/systemd/system/csv-download.service
     echo "[Install]" >> /etc/systemd/system/csv-download.service
