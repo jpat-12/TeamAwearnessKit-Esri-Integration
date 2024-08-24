@@ -106,13 +106,49 @@ if [ "$s123" != "y" ]; then
 fi
 if [ "$s123" = "y" ]; then 
     
-    echo "while True:" >> /opt/TAK-Esri/csv-download.py
-    echo "    # Download the data using geopandas" >> /opt/TAK-Esri/csv-download.py
-    echo "    gdf = gpd.read_file(url + "?where=1%3D1&outFields=*&f=geojson")" >> /opt/TAK-Esri/csv-download.py
-    echo "    gdf.to_csv("survey.csv", index=False)" >> /opt/TAK-Esri/csv-download.py
-    echo "    print('Feature Layer downloaded')" >> /opt/TAK-Esri/csv-download.py
-    echo "    # Wait 5 seconds b4 next download" >> /opt/TAK-Esri/csv-download.py
-    echo "    time.sleep(5)" >> /opt/TAK-Esri/csv-download.py
+    #echo "while True:" >> /opt/TAK-Esri/csv-download.py
+    #echo "    # Download the data using geopandas" >> /opt/TAK-Esri/csv-download.py
+    ##echo "    gdf = gpd.read_file(url + "?where=1%3D1&outFields=*&f=geojson")" >> /opt/TAK-Esri/csv-download.py
+    #echo "    gdf.to_csv("survey.csv", index=False)" >> /opt/TAK-Esri/csv-download.py
+    #echo "    print('Feature Layer downloaded')" >> /opt/TAK-Esri/csv-download.py
+    #echo "    # Wait 5 seconds b4 next download" >> /opt/TAK-Esri/csv-download.py
+    #echo "    time.sleep(5)" >> /opt/TAK-Esri/csv-download.py
+    echo "print('Feature Layer downloaded')" >> /opt/TAK-Esri/csv-download.py
+    echo "time.sleep(5)" >> /opt/TAK-Esri/csv-download.py
+    echo "print('Feature Layer downloaded')" >> /opt/TAK-Esri/csv-download.py
+    echo "time.sleep(5)" >> /opt/TAK-Esri/csv-download.py
+    echo "print('Feature Layer downloaded')" >> /opt/TAK-Esri/csv-download.py
+    echo "time.sleep(5)" >> /opt/TAK-Esri/csv-download.py
+    echo "print('Feature Layer downloaded')" >> /opt/TAK-Esri/csv-download.py
+    echo "time.sleep(5)" >> /opt/TAK-Esri/csv-download.py
+    echo "print('Feature Layer downloaded')" >> /opt/TAK-Esri/csv-download.py
+    echo "time.sleep(5)" >> /opt/TAK-Esri/csv-download.py
+    echo "print('Feature Layer downloaded')" >> /opt/TAK-Esri/csv-download.py
+    echo "time.sleep(5)" >> /opt/TAK-Esri/csv-download.py
+    echo "print('Feature Layer downloaded')" >> /opt/TAK-Esri/csv-download.py
+    echo "time.sleep(5)" >> /opt/TAK-Esri/csv-download.py
+    echo "print('Feature Layer downloaded')" >> /opt/TAK-Esri/csv-download.py
+    echo "time.sleep(5)" >> /opt/TAK-Esri/csv-download.py
+    echo "print('Feature Layer downloaded')" >> /opt/TAK-Esri/csv-download.py
+    echo "time.sleep(5)" >> /opt/TAK-Esri/csv-download.py
+    echo "print('Feature Layer downloaded')" >> /opt/TAK-Esri/csv-download.py
+    echo "time.sleep(5)" >> /opt/TAK-Esri/csv-download.py
+    echo "print('Feature Layer downloaded')" >> /opt/TAK-Esri/csv-download.py
+    echo "time.sleep(5)" >> /opt/TAK-Esri/csv-download.py
+    echo "print('Feature Layer downloaded')" >> /opt/TAK-Esri/csv-download.py
+    echo "time.sleep(5)" >> /opt/TAK-Esri/csv-download.py
+    echo "print('Feature Layer downloaded')" >> /opt/TAK-Esri/csv-download.py
+    echo "time.sleep(5)" >> /opt/TAK-Esri/csv-download.py
+    echo "print('Feature Layer downloaded')" >> /opt/TAK-Esri/csv-download.py
+    echo "time.sleep(5)" >> /opt/TAK-Esri/csv-download.py
+    echo "print('Feature Layer downloaded')" >> /opt/TAK-Esri/csv-download.py
+    echo "time.sleep(5)" >> /opt/TAK-Esri/csv-download.py
+    echo "print('Feature Layer downloaded')" >> /opt/TAK-Esri/csv-download.py
+    echo "time.sleep(5)" >> /opt/TAK-Esri/csv-download.py
+    echo "print('Feature Layer downloaded')" >> /opt/TAK-Esri/csv-download.py
+    echo "time.sleep(5)" >> /opt/TAK-Esri/csv-download.py
+    echo "print('Feature Layer downloaded')" >> /opt/TAK-Esri/csv-download.py
+    echo "time.sleep(5)" >> /opt/TAK-Esri/csv-download.py
     sed -i 's/fError: {e}/f"Error: {e}"/' /opt/TAK-Esri/csv-download.py
     sed -i 's/gdf.to_csv(survey.csv, index=False)/gdf.to_csv("survey.csv", index=False)/' /opt/TAK-Esri/csv-download.py
     clear     

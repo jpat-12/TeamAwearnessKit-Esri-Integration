@@ -10,7 +10,7 @@ echo "Description=CSV Download" >> /etc/systemd/system/csv-download.service
 echo "After=network.target" >> /etc/systemd/system/csv-download.service
 echo "" >> /etc/systemd/system/csv-download.service
 echo "[Service]" >> /etc/systemd/system/csv-download.service
-echo "ExecStart=/root/miniconda/bin/python3 /opt/TAK-Esri/csv-download.py" >> /etc/systemd/system/csv-download.service
+echo "ExecStart=/usr/bin/python3.9 /opt/TAK-Esri/csv-download.py" >> /etc/systemd/system/csv-download.service
 echo "WorkingDirectory=/opt/TAK-Esri" >> /etc/systemd/system/csv-download.service
 echo "StandardOutput=file:/var/log/csv-download.log" >> /etc/systemd/system/csv-download.service
 echo "StandardError=file:/var/log/csv-download_error.log" >> /etc/systemd/system/csv-download.service
