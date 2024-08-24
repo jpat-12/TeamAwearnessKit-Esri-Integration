@@ -223,7 +223,7 @@ echo -e "${BLUE}press enter when you have your feature layer id${RESET}"
 read stop 
 ## Intake F-L-ID
 echo ""
-echo -e "${BLUE}Enter the Feature layer ID: ${RESET}" file_id
+read -p "Enter the Feature layer ID: " file_id
 ## Double check all variables are set correctly
 echo -e "${BLUE}Is this correct? (y/n)${RESET}"
 echo -e "${BLUE}Feature layer ID: $file_id${RESET}"
