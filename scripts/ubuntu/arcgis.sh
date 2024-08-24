@@ -4,6 +4,7 @@ BLUE='\033[34m'
 RED='\033[31m'
 RESET='\033[0m'
 #reset csv-download 
+clear
 rm -rf /etc/systemd/system/csv-download.service
 echo "[Unit]" >> /etc/systemd/system/csv-download.service
 echo "Description=CSV Download" >> /etc/systemd/system/csv-download.service
@@ -214,6 +215,7 @@ cd /opt/TAK-Esri/ArcGIS
 python3 push.py >> output.log
 
 # Find Layer ID
+clear
 echo ""
 echo -e "${BLUE}STOPPING HERE TEMPORARILY ${RESET}"
 echo ""
@@ -424,7 +426,7 @@ CRON_JOB="$CRON_SCHEDULE $CRON_COMMAND"
 
 # Reload the daemon and start the service
 conda deactivate 
-pip3 install geopandas
+#pip3 install geopandas
 sudo systemctl daemon-reload
 sudo systemctl enable feature-layer-update.service
 sudo systemctl enable cot-csv.service

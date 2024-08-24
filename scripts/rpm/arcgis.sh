@@ -213,6 +213,7 @@ cd /opt/TAK-Esri/ArcGIS
 python3 push.py >> output.log
 
 # Find Layer ID
+clear
 echo ""
 echo -e "${BLUE}STOPPING HERE TEMPORARILY ${RESET}"
 echo ""
@@ -221,10 +222,8 @@ echo ""
 echo -e "${BLUE}press enter when you have your feature layer id${RESET}"
 read stop 
 ## Intake F-L-ID
-echo -e "${BLUE}Sleeping for 5 seconds${RESET}"
-sleep 5
 echo ""
-read -p "Enter the Feature layer ID: " file_id
+echo -e "${BLUE}Enter the Feature layer ID: ${RESET}" file_id
 ## Double check all variables are set correctly
 echo -e "${BLUE}Is this correct? (y/n)${RESET}"
 echo -e "${BLUE}Feature layer ID: $file_id${RESET}"
@@ -422,7 +421,7 @@ CRON_JOB="$CRON_SCHEDULE $CRON_COMMAND"
 }
 
 conda deactivate 
-pip3 install geopandas
+#pip3 install geopandas
 # Reload the daemon and start the service
 sudo systemctl daemon-reload
 sudo systemctl enable feature-layer-update.service
