@@ -288,7 +288,7 @@ cd /opt/TAK-Esri/ArcGIS
 cat <<EOF > /opt/TAK-Esri/ArcGIS/append.sh
 #!/bin/bash
 # Source the conda.sh script
-source /root/anaconda3/etc/profile.d/conda.sh
+source /root/miniconda/etc/profile.d/conda.sh
 
 #conda init
 conda activate arcgis_env

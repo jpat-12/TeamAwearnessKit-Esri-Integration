@@ -21,7 +21,7 @@
 4. **[Survey123-Push-Flow](https://github.com/jpat-12/TeamAwearnessKit-Esri-Integration/blob/main/json-flows/Survey123-Push-Flow.json)** <br />
 5. **[CoT-Pull-Flow](https://github.com/jpat-12/TeamAwearnessKit-Esri-Integration/blob/main/json-flows/CoT-Pull-Flow.json)** <br />
 
-### Ubuntu 24.04 & Ubuntu 20.04
+### Ubuntu 24.04 & Ubuntu 22.04 (Does not support Ubuntu 20.04)
 #### Step #1 
 ```bash
 cd /tmp && sudo apt install git -y && sudo git clone https://github.com/jpat-12/TeamAwearnessKit-Esri-Integration.git && cd /tmp/TeamAwearnessKit-Esri-Integration/scripts/ubuntu && chmod +x initial.sh && ./initial.sh && cd /opt/TAK-Esri && ls -la 

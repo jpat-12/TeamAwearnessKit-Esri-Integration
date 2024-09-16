@@ -251,29 +251,28 @@ def overwrite_feature_layer(csv_file_path, existing_layer_item_id):
         # Authentication
         gis = GIS("$e_link", "$e_username", "$e_password")
 
-        # Read the CSV data into a pandas DataFrame
+# Read the CSV data into a pandas DataFrame
         df = pd.read_csv(csv_file_path)
 
         # Find the existing feature layer item
         existing_layer_item = gis.content.get(existing_layer_item_id)
 
-        # Update the CSV data item
-        item_update = existing_layer_item.update(data=csv_file_path)
+        if existing_layer_item is None:
+            print(f"Could not find item with ID: {existing_layer_item_id}")
+            return
 
-        if item_update:
-            # Get the feature layer collection
-            feature_layer_collection = FeatureLayerCollection.fromitem(existing_layer_item)
+        # Get the feature layer collection
+        feature_layer_collection = FeatureLayerCollection.fromitem(existing_layer_item)
 
-            # Overwrite the feature layer
-            overwrite_result = feature_layer_collection.manager.overwrite(csv_file_path)
+        # Overwrite the feature layer
+        overwrite_result = feature_layer_collection.manager.overwrite(csv_file_path)
 
-            if overwrite_result['success']:
-                print(f"Feature layer updated successfully: {existing_layer_item.url}")
-            else:
-                print("Failed to overwrite the feature layer.")
+        if overwrite_result['success']:
+            print(f"Feature layer updated successfully: {existing_layer_item.url}")
         else:
-            print("Failed to update the CSV data item.")
-    
+            print("Failed to overwrite the feature layer.")
+            print(f"Error details: {overwrite_result.get('error', 'No error details available')}")
+
     except Exception as e:
         print(f"An error occurred: {e}")
 
