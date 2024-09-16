@@ -10,7 +10,7 @@ def parse_cot_messages(xml_content):
     root = ET.fromstring(f"<root>{xml_content}</root>")
     events = root.findall('event')
     messages = []
-    for event in reversed(events):  # Reverse the order of events
+    for event in events:
         uid = event.get('uid')
         if "GT" in uid:
             continue
@@ -81,10 +81,7 @@ def write_csv(messages, csv_file):
 
 def main(input_file, output_file):
     with open(input_file, 'r') as f:
-        lines = f.readlines()
-    
-    # Reverse the order of lines
-    xml_content = ''.join(reversed(lines))
+        xml_content = f.read()
     
     messages = parse_cot_messages(xml_content)
     unique_messages = remove_duplicates(messages)
@@ -95,4 +92,4 @@ if __name__ == "__main__":
     output_file = '/var/www/html/cot-logged.csv'
     main(input_file, output_file)
     print('parsed')
-    time.sleep(4)  # Sleep for 4 seconds before the next iteration
+    time.sleep(4)  # Sleep for 60 seconds before the next iteration
