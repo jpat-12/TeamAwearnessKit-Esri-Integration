@@ -18,8 +18,8 @@
 1. **[Youtube Walkthrough](https://arcg.is/1DyOD80)** <br />
 2. **[Esri-TAK Group](https://arcg.is/1DyOD80)** <br />
 3. **[Survey Template](https://survey123.arcgis.com/surveys)** <br />
-4. **[Survey123-Push-Flow](https://github.com/jpat-12/TeamAwearnessKit-Esri-Integration/blob/main/json-flows/Survey123-Push-Flow.json)** <br />
-5. **[CoT-Pull-Flow](https://github.com/jpat-12/TeamAwearnessKit-Esri-Integration/blob/main/json-flows/CoT-Pull-Flow.json)** <br />
+4. **[Node-Red-Flow](https://github.com/jpat-12/TeamAwearnessKit-Esri-Integration/blob/main/json-flows/One-Flow.json)** <br />
+
 
 ### Ubuntu 24.04 (Does not support Ubuntu 20.04 or 22.04)
 #### Step #1 

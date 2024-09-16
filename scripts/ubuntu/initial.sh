@@ -298,7 +298,6 @@ if ! command -v node &> /dev/null; then
     echo "" 
     echo "" 
     echo -e "${BLUE}Node.js is not installed. Installing Node.js...${RESET}"
-    sleep 3 
     sudo apt install nodejs npm -y
 fi
 ## Double check install

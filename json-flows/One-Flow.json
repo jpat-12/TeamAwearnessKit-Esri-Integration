@@ -1,8 +1,16 @@
 [
     {
+        "id": "d12312aa1d788d3a",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "6117f0a53ae971ee",
         "type": "file in",
-        "z": "216ba9d25f54440e",
+        "z": "d12312aa1d788d3a",
         "name": "file pull",
         "filename": "/var/www/html/survey-cot.txt",
         "filenameType": "str",
@@ -11,8 +19,8 @@
         "sendError": false,
         "encoding": "none",
         "allProps": false,
-        "x": 620,
-        "y": 140,
+        "x": 600,
+        "y": 200,
         "wires": [
             [
                 "4f54118b2a556523",
@@ -23,7 +31,7 @@
     {
         "id": "4f54118b2a556523",
         "type": "debug",
-        "z": "216ba9d25f54440e",
+        "z": "d12312aa1d788d3a",
         "name": "Survey123 Output",
         "active": true,
         "tosidebar": true,
@@ -33,14 +41,14 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 810,
-        "y": 100,
+        "x": 790,
+        "y": 160,
         "wires": []
     },
     {
         "id": "38a404949e308c25",
         "type": "trigger",
-        "z": "216ba9d25f54440e",
+        "z": "d12312aa1d788d3a",
         "name": "",
         "op1": "1",
         "op2": "0",
@@ -54,8 +62,8 @@
         "bytopic": "all",
         "topic": "topic",
         "outputs": 1,
-        "x": 450,
-        "y": 140,
+        "x": 430,
+        "y": 200,
         "wires": [
             [
                 "6117f0a53ae971ee"
@@ -65,7 +73,7 @@
     {
         "id": "08edc538487d315a",
         "type": "inject",
-        "z": "216ba9d25f54440e",
+        "z": "d12312aa1d788d3a",
         "name": "",
         "props": [
             {
@@ -83,8 +91,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "str",
-        "x": 290,
-        "y": 140,
+        "x": 270,
+        "y": 200,
         "wires": [
             [
                 "38a404949e308c25"
@@ -94,7 +102,7 @@
     {
         "id": "ca8678eaa320d675",
         "type": "tcp out",
-        "z": "216ba9d25f54440e",
+        "z": "d12312aa1d788d3a",
         "name": "",
         "host": "",
         "port": "",
@@ -102,28 +110,14 @@
         "base64": false,
         "end": false,
         "tls": "94bb10a2f97792eb",
-        "x": 840,
-        "y": 140,
+        "x": 750,
+        "y": 200,
         "wires": []
     },
     {
-        "id": "94bb10a2f97792eb",
-        "type": "tls-config",
-        "name": "TAK Server",
-        "cert": "",
-        "key": "",
-        "ca": "",
-        "certname": "",
-        "keyname": "",
-        "caname": "",
-        "servername": "",
-        "verifyservercert": false,
-        "alpnprotocol": ""
-    }, 
-    {
         "id": "e5b45699f61efa17",
         "type": "tcp in",
-        "z": "6e75303e241dab99",
+        "z": "d12312aa1d788d3a",
         "name": "",
         "server": "client",
         "host": "",
@@ -135,8 +129,8 @@
         "trim": false,
         "base64": false,
         "tls": "94bb10a2f97792eb",
-        "x": 380,
-        "y": 240,
+        "x": 270,
+        "y": 340,
         "wires": [
             [
                 "2b7407bb258427b6",
@@ -147,7 +141,7 @@
     {
         "id": "6c09c118442049a1",
         "type": "file",
-        "z": "6e75303e241dab99",
+        "z": "d12312aa1d788d3a",
         "name": "",
         "filename": "/var/www/html/cot-logged.txt",
         "filenameType": "str",
@@ -155,8 +149,8 @@
         "createDir": false,
         "overwriteFile": "false",
         "encoding": "none",
-        "x": 940,
-        "y": 200,
+        "x": 800,
+        "y": 340,
         "wires": [
             []
         ]
@@ -164,7 +158,7 @@
     {
         "id": "2b7407bb258427b6",
         "type": "debug",
-        "z": "6e75303e241dab99",
+        "z": "d12312aa1d788d3a",
         "name": "debug 5",
         "active": false,
         "tosidebar": true,
@@ -173,14 +167,14 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 540,
-        "y": 140,
+        "x": 500,
+        "y": 300,
         "wires": []
     },
     {
         "id": "a695f521d37fd7ff",
         "type": "debug",
-        "z": "6e75303e241dab99",
+        "z": "d12312aa1d788d3a",
         "name": "debug 17",
         "active": true,
         "tosidebar": true,
@@ -189,14 +183,14 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 880,
-        "y": 240,
+        "x": 780,
+        "y": 300,
         "wires": []
     },
     {
         "id": "9345af60867d8c8d",
         "type": "function",
-        "z": "6e75303e241dab99",
+        "z": "d12312aa1d788d3a",
         "name": "Exclude Survey123",
         "func": "// Input data\nlet data = msg.payload;\n\n// Split data into individual event messages\nlet messages = data.split('<?xml version=\"1.0\" encoding=\"UTF-8\"?>');\n\n// Function to check if uid starts with \"Survey123_\"\nfunction isSurvey123(message) {\n    let uidMatch = message.match(/uid=\"([^\"]+)\"/);\n    return uidMatch && uidMatch[1].startsWith(\"Survey123_\");\n}\n\n// Filter out messages that meet the criteria\nlet filteredMessages = messages.filter(message => {\n    if (message.trim() === \"\") return false;\n    if (isSurvey123(message)) return false;\n    return true;\n});\n\n// Check if any messages are left after filtering\nif (filteredMessages.length === 0) {\n    // If no valid messages, set payload to null or an empty object\n    msg.payload = \"\"; // or msg.payload = {};\n} else {\n    // Join the filtered messages back into a single string\n    let result = filteredMessages.join('<?xml version=\"1.0\" encoding=\"UTF-8\"?>');\n    msg.payload = result;\n}\n\nreturn msg;\n",
         "outputs": 1,
@@ -205,8 +199,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 670,
-        "y": 240,
+        "x": 510,
+        "y": 340,
         "wires": [
             [
                 "a695f521d37fd7ff",

@@ -67,7 +67,7 @@ echo -e "${BLUE}csv-download.py file has been written${RESET}"
 python3 csv-download.py 
 clear
 echo -e "${BLUE}The survey data should be downloaded${RESET}"
-sleep3
+sleep 3
 cat /opt/TAK-Esri/survey.csv 
 echo -e "${BLUE}Does survey.csv have contents (y/n)${RESET}"
 read s123 
