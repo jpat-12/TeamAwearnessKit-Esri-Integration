@@ -15,7 +15,7 @@
 
 ## Launch Full Setup Scripts
 
-1. **[Youtube Walkthrough](https://arcg.is/1DyOD80)** <br />
+1. **[Youtube Walkthrough](https://youtu.be/xK5WdmhDWUg)** <br />
 2. **[Esri-TAK Group](https://arcg.is/1DyOD80)** <br />
 3. **[Survey Template](https://survey123.arcgis.com/surveys)** <br />
 4. **[Node-Red-Flow](https://github.com/jpat-12/TeamAwearnessKit-Esri-Integration/blob/main/json-flows/One-Flow.json)** <br />
