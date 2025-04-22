@@ -6,7 +6,7 @@ RED='\033[31m'
 RESET='\033[0m'
 
 clear
-echo -e "${BLUE}This script will allow you to communicate Survey123 data to TAK & KML-Network accepted clients${RESET}"
+echo -e "${BLUE}This script will allow you to communisudo cate Survey123 data to TAK & KML-Network accepted clients${RESET}"
 echo ""
 echo -e "${BLUE}If you would like to procceed please press enter${RESET}"
 read enter 
@@ -16,7 +16,7 @@ sudo apt update -y
 sudo apt upgrade -y
 sudo apt install pipenv -y
 sudo apt install wget python3-geopandas -y 
-pip install geopandas
+sudo pip install geopandas
 clear
 echo -e "${BLUE}The dependancies are now installed${RESET}"
 sleep 3
@@ -34,7 +34,7 @@ read enter
 clear
 echo -e "${BLUE}We will now write to the csv-download.py file & pull down the survey data${RESET}"
 ## Making directory 
-mkdir -p /opt/TAK-Esri
+sudo mkdir -p /opt/TAK-Esri
 cd /opt/TAK-Esri
 ## Writing to csv-download
 echo -e "${BLUE}What is the Survey123 Feature Layer Link?${RESET}"
@@ -53,7 +53,7 @@ if [[ ! "$survey123_feature_layer_link" =~ /0/query$ ]]; then
     survey123_feature_layer_link="${survey123_feature_layer_link%/}/0/query"
 fi
 ## Write to the csv-download.py file
-cat <<EOF > /opt/TAK-Esri/csv-download.py
+sudo sudo cat <<EOF > /opt/TAK-Esri/csv-download.py
 import geopandas as gpd
 import time
 url = "$survey123_feature_layer_link"
@@ -62,12 +62,12 @@ gdf.to_csv("survey.csv", index=False)
 EOF
 echo -e "${BLUE}csv-download.py file has been written${RESET}"
 ## Check csv-download works 
-python3 csv-download.py 
+sudo python3 csv-download.py 
 clear
 echo -e "${BLUE}The survey data should be downloaded${RESET}"
 clear
-cat /opt/TAK-Esri/survey.csv 
-echo "cat /opt/TAK-Esri/survey.csv"
+sudo cat /opt/TAK-Esri/survey.csv 
+echo "sudo cat /opt/TAK-Esri/survey.csv"
 echo -e "${BLUE}Does survey.csv have contents (y/n)${RESET}"
 read s123 
 ## Verifying csv-download downloads survey123 data
@@ -99,8 +99,8 @@ if [ "$s123" != "y" ]; then
     clear
     echo -e "${BLUE}The survey data should be downloaded${RESET}"
     clear
-    cat /opt/TAK-Esri/survey.csv 
-    echo "cat /opt/TAK-Esri/survey.csv"
+    sudo cat /opt/TAK-Esri/survey.csv 
+    echo "sudo cat /opt/TAK-Esri/survey.csv"
     echo -e "${BLUE}This loop will continue until it does have the proper data${RESET}"
     echo -e "${BLUE}Does survey.csv have contents (y/n)${RESET}"
     read s123
@@ -168,9 +168,9 @@ if [ "$s123" = "y" ]; then
     echo "[Install]" >> /etc/systemd/system/csv-download.service
     echo "WantedBy=multi-user.target" >> /etc/systemd/system/csv-download.service
     sudo systemctl daemon-reload
-    systemctl enable csv-download.service
-    systemctl start csv-download.service
-    systemctl status csv-download.service
+    sudo systemctl enable csv-download.service
+    sudo systemctl start csv-download.service
+    sudo systemctl status csv-download.service
     echo -e "${BLUE}Is the csv-download service enabled and running? (y/n)${RESET}"
     read csv_download_status
     if [ "$csv_download_status" != "y" ]; then
@@ -186,10 +186,10 @@ clear
 cp /tmp/TeamAwearnessKit-Esri-Integration/python-files/csv-cot.py /opt/TAK-Esri 
 ## Test The File 
 cd /opt/TAK-Esri
-python3 csv-cot.py
+sudo python3 csv-cot.py
 ## Double check the output
 clear
-cat /var/www/html/survey-cot.txt
+sudo cat /var/www/html/survey-cot.txt
 echo "/opt/TAK-Esri/survey-cot.txt"
 echo -e "${BLUE}Does survey-cot.txt have contents (y/n)${RESET}"
 read csvcot
@@ -241,12 +241,12 @@ fi
 cp /tmp/TeamAwearnessKit-Esri-Integration/python-files/csv-kml.py /opt/TAK-Esri 
 ## Test The File 
 cd /opt/TAK-Esri
-python3 csv-kml.py
+sudo python3 csv-kml.py
 clear
 ## Double check the output
 clear
-cat /var/www/html/survey123.kml
-echo "cat /opt/TAK-Esri/survey123.kml"
+sudo cat /var/www/html/survey123.kml
+echo "sudo cat /opt/TAK-Esri/survey123.kml"
 echo -e "${BLUE}Does survey123.kml have contents (y/n)${RESET}"
 read csvkml
 if [ "$csvkml" != "y" ]; then
@@ -326,17 +326,17 @@ echo -e "${BLUE}This way it will run automatically on boot${RESET}"
 ## Move the service file 
 cp /tmp/TeamAwearnessKit-Esri-Integration/service-files/node-red.service /etc/systemd/system/node-red.service
 sudo systemctl daemon-reload
-systemctl enable node-red.service 
+sudo systemctl enable node-red.service 
 sudo systemctl daemon-reload
-systemctl start node-red.service 
-systemctl status node-red.service 
+sudo systemctl start node-red.service 
+sudo systemctl status node-red.service 
 echo -e "${BLUE}Is Node-RED now installed and running as a service? (y/n)${RESET}"
 read node_red 
 ## Troubleshoot bad install
 if [ "$node_red" != "y" ]; then
     echo -e "${BLUE}Node-RED has failed to install as a service${RESET}"
     ls -la /root/.node-red
-    cat /etc/systemd/system/node-red.service
+    sudo cat /etc/systemd/system/node-red.service
     echo -e "${BLUE}Open a new terminal and investigate${RESET}"
     echo -e "${BLUE}Come back to this terminal when it is fixed${RESET}"
     echo -e "${BLUE}press enter when you are ready to proceed${RESET}"
@@ -345,7 +345,7 @@ else
     echo -e "${BLUE}You can now access Node-RED at http://your-IP:1880${RESET}"
 fi
 ## Move into online node-red setup 
-service csv-cot restart
+sudo service csv-cot restart
 clear 
 echo -e "${BLUE}Now please go to http://127.0.0.1:1880 to continue the node-red setup${RESET}"
 sleep 40 
@@ -356,7 +356,7 @@ echo -e "${BLUE}${RESET}"
 echo -e "${BLUE}${RESET}"
 echo -e "${BLUE}Now the Survey123 to TAK integration is installed${RESET}"
 echo -e "${BLUE}${RESET}"
-echo -e "${BLUE}Would you like to continue with the 2nd part and install the files that will push Location Data from TAK to an ArcGIS Online Feature Layer? (y/n)${RESET}"
+echo -e "${BLUE}Would you like to continue with the 2nd part and install the files that will push Losudo cation Data from TAK to an ArcGIS Online Feature Layer? (y/n)${RESET}"
 read arcgis_online
 
 if [ "$arcgis_online" != "y" ]; then
