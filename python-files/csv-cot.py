@@ -59,6 +59,7 @@ def create_cot_event(data):
              f'<usericon iconsetpath="{icon_path}" /><remarks>{remarks}</remarks>'
              f'<contact callsign="{data["team_callsign"]}" /><track speed="0" course="0" /></detail></event>')
 
+
     return event
 
 def parse_csv_and_create_cot(csv_file_path, output_file_path):

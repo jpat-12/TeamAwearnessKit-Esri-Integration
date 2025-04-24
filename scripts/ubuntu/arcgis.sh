@@ -69,8 +69,8 @@ else
     exit 1
 fi
 ## Install required packages
-sudo conda install -c esri arcgis -y
-sudo pip install arcgis
+conda install -c esri arcgis -y
+pip install arcgis
 ## Create necessary directories and files
 sudo mkdir -p /opt/TAK-Esri/ArcGIS
 
