@@ -4,8 +4,11 @@ BLUE='\033[34m'
 RED='\033[31m'
 RESET='\033[0m'
 #reset csv-download 
+current_user=$(whoami)
+echo "You are $current_user"
+
 clear
-sudo chown s123:s123 /etc/systemd/system/csv-download.service 
+sudo chown $current_user:$current_user /etc/systemd/system/csv-download.service 
 sudo rm -rf /etc/systemd/system/csv-download.service
 sudo tee /etc/systemd/system/csv-download.service > /dev/null <<EOF
 [Unit]
@@ -63,7 +66,7 @@ done
 ## Initialize Conda
 
 conda activate arcgis_env
-source /home/s123/miniconda/bin/activate arcgis_env
+source /home/$current_user/miniconda/bin/activate arcgis_env
 
 ## Check if the environment activation was successful
 if [ "$(basename $(which python))" = "python" ] && [[ $(conda info --envs | grep '*') =~ "arcgis_env" ]]; then
@@ -296,25 +299,13 @@ EOF
 # Create shell script to be run from a service  
 cd /opt/TAK-Esri/ArcGIS 
 
-sudo tee /opt/TAK-Esri/ArcGIS/append.sh > /dev/null <<'EOF'
-#!/bin/bash
-# Source the conda.sh script
-source /root/miniconda/etc/profile.d/conda.sh
 
-#conda init
+sudo tee /opt/TAK-Esri/ArcGIS/append.sh > /dev/null <<EOF
+#!/bin/bash
+source /home/$current_user/miniconda/etc/profile.d/conda.sh
 conda activate arcgis_env
 cd /opt/TAK-Esri/ArcGIS
 python3 append.py
-# Change to the correct directory
-#mkdir -p /opt/TAK-Esri/ArcGIS
-#cd /opt/TAK-Esri/ArcGIS
-
-# Loop to run the Python script and wait for 5 seconds
-#while true; do
-#    python3 append.py
-#    echo 'Pushed To ArcGIS'
-#   sleep 5
-#done
 EOF
 chmod +x /opt/TAK-Esri/ArcGIS/append.sh
 
