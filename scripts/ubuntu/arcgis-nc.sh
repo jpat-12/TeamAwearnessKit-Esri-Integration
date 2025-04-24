@@ -64,6 +64,16 @@ done
 
 # Start Conda & Setup for ArcGIS Push & Ammend Files
 ## Initialize Conda
+
+
+sudo wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+sudo chmod +x Miniconda3-latest-Linux-x86_64.sh
+sudo ./Miniconda3-latest-Linux-x86_64.sh -b -p /home/$current_user/miniconda
+cd /home/$current_user/miniconda
+source /home/$current_user/miniconda/bin/activate 
+conda init
+
+
 conda create -n arcgis_env python=3.9
 conda activate arcgis_env
 source /home/$current_user/miniconda/bin/activate arcgis_env
