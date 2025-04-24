@@ -5,21 +5,24 @@ RED='\033[31m'
 RESET='\033[0m'
 #reset csv-download 
 clear
+sudo chown s123:s123 /etc/systemd/system/csv-download.service 
 sudo rm -rf /etc/systemd/system/csv-download.service
-echo "[Unit]" >> /etc/systemd/system/csv-download.service
-echo "Description=CSV Download" >> /etc/systemd/system/csv-download.service
-echo "After=network.target" >> /etc/systemd/system/csv-download.service
-echo "" >> /etc/systemd/system/csv-download.service
-echo "[Service]" >> /etc/systemd/system/csv-download.service
-echo "ExecStart=/usr/bin/python3.12 /opt/TAK-Esri/csv-download.py" >> /etc/systemd/system/csv-download.service
-echo "WorkingDirectory=/opt/TAK-Esri" >> /etc/systemd/system/csv-download.service
-echo "StandardOutput=file:/var/log/csv-download.log" >> /etc/systemd/system/csv-download.service
-echo "StandardError=file:/var/log/csv-download_error.log" >> /etc/systemd/system/csv-download.service
-echo "Restart=always" >> /etc/systemd/system/csv-download.service
-echo "User=root" >> /etc/systemd/system/csv-download.service
-echo "" >> /etc/systemd/system/csv-download.service
-echo "[Install]" >> /etc/systemd/system/csv-download.service
-echo "WantedBy=multi-user.target" >> /etc/systemd/system/csv-download.service
+sudo tee /etc/systemd/system/csv-download.service > /dev/null <<EOF
+[Unit]
+Description=CSV Download
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3.12 /opt/TAK-Esri/csv-download.py
+WorkingDirectory=/opt/TAK-Esri
+StandardOutput=file:/var/log/csv-download.log
+StandardError=file:/var/log/csv-download_error.log
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target
+EOF
 sudo systemctl daemon-reload
 systemctl enable csv-download.service
 systemctl start csv-download.service
@@ -58,9 +61,10 @@ done
 
 # Start Conda & Setup for ArcGIS Push & Ammend Files
 ## Initialize Conda
-conda init
-## Activate the Conda environment
-source /root/miniconda/bin/activate arcgis_env
+
+conda activate arcgis_env
+source /home/s123/miniconda/bin/activate arcgis_env
+
 ## Check if the environment activation was successful
 if [ "$(basename $(which python))" = "python" ] && [[ $(conda info --envs | grep '*') =~ "arcgis_env" ]]; then
     echo -e "${BLUE}Environment 'arcgis_env' is active.${RESET}"
@@ -69,17 +73,19 @@ else
     exit 1
 fi
 ## Install required packages
-sudo conda install -c esri arcgis -y
-sudo pip install arcgis
+conda install -c esri arcgis -y
+pip install arcgis
 ## Create necessary directories and files
 sudo mkdir -p /opt/TAK-Esri/ArcGIS
+sudo chmod o+w /opt/TAK-Esri/ArcGIS
+
 
 # Test connection to Esri servers
 echo -e "${BLUE}Testing connection to Esri servers${RESET}"
 ## Print to sign in file
 
 # Create the sign-in.py script
-sudo cat <<EOF > /opt/TAK-Esri/ArcGIS/sign-in.py
+cat <<EOF > /opt/TAK-Esri/ArcGIS/sign-in.py
 from arcgis.gis import GIS
 from arcgis.features import FeatureLayer
 #
@@ -89,9 +95,9 @@ EOF
 ## Navigate to the directory
 cd /opt/TAK-Esri/ArcGIS
 ## Run the sign-in.py script and capture its output
-sudo python3 sign-in.py > output.log
+python3 sign-in.py > output.log
 ## Display the contents of the output file
-sudo cat output.log
+cat output.log
 ## Extract the username from the output file
 output_username=$(grep "Logged in as:" output.log | awk -F": " '{print $2}')
 ## Compare the extracted username to the expected username
@@ -130,15 +136,16 @@ fi
 # Making test data in /var/www/html/cot-logged.csv
 clear 
 echo -e "${BLUE}Now printing test data to /var/www/html/cot-logged.csv${RESET}"
-sudo cat <<EOF > /var/www/html/cot-logged.csv
+sudo tee /var/www/html/cot-logged.csv > /dev/null <<EOF
 uid,type,how,time,start,stale,lat,long,hae,ce,le,contactcallsign,parent_callsign,production_time,iconpath,group_name,group_role,battery,device,platform,os,version,speed,course,droid_uid
 e5a1cb4e-4736-4315-b216-bd30c3104456,a-u-G,h-g-i-g-o,2024-08-03T01:16:24Z,2024-08-03T01:16:24Z,2024-08-10T01:16:24Z,39.5001089390719,-88.8520772875137,168.398757195526,9999999.0,9999999.0,CAP Repeater 1,AFAUX-IL-Pattara.J.w,2024-07-29T21:11:29Z,412c43f948b1664a3a0b513336b6c32382b13289a6ed2e91dd31e23d9d52a683/Incident Icons/CAP Repeater.png,,,,,,,,,,
 60f0fac0-0afd-4bf1-b3e1-7ba3379b5fff,a-u-G,h-g-i-g-o,2024-08-03T01:16:28Z,2024-08-03T01:16:29Z,2024-08-10T01:16:29Z,39.4997953384667,-89.061567867324,162.449553796715,9999999.0,9999999.0,Area Command Post 1,AFAUX-IL-Pattara.J.w,2024-07-29T21:11:25Z,412c43f948b1664a3a0b513336b6c32382b13289a6ed2e91dd31e23d9d52a683/Incident Icons/Area Command Post.png,,,,,,,,,,
 EOF
 
+
 # Create push.py file
 echo -e "${BLUE}We will now update the python script to use the feature layer link and name${RESET}"
-sudo cat <<EOF > /opt/TAK-Esri/ArcGIS/push.py
+cat <<EOF > /opt/TAK-Esri/ArcGIS/push.py
 from arcgis.gis import GIS
 from arcgis.features import FeatureLayerCollection
 import pandas as pd
@@ -177,7 +184,7 @@ EOF
 # Making test data in /var/www/html/cot-logged.csv
 clear 
 echo -e "${BLUE}Now printing more test data to /var/www/html/cot-logged.csv${RESET}"
-cat <<EOF > /var/www/html/cot-logged.csv
+sudo tee /var/www/html/cot-logged.csv > /dev/null <<'EOF'
 uid,type,how,time,start,stale,lat,long,hae,ce,le,contactcallsign,parent_callsign,production_time,iconpath,group_name,group_role,battery,device,platform,os,version,speed,course,droid_uid
 e5a1cb4e-4736-4315-b216-bd30c3104456,a-u-G,h-g-i-g-o,2024-08-03T01:16:24Z,2024-08-03T01:16:24Z,2024-08-10T01:16:24Z,39.5001089390719,-88.8520772875137,168.398757195526,9999999.0,9999999.0,CAP Repeater 1,AFAUX-IL-Pattara.J.w,2024-07-29T21:11:29Z,412c43f948b1664a3a0b513336b6c32382b13289a6ed2e91dd31e23d9d52a683/Incident Icons/CAP Repeater.png,,,,,,,,,,
 60f0fac0-0afd-4bf1-b3e1-7ba3379b5fff,a-u-G,h-g-i-g-o,2024-08-03T01:16:28Z,2024-08-03T01:16:29Z,2024-08-10T01:16:29Z,39.4997953384667,-89.061567867324,162.449553796715,9999999.0,9999999.0,Area Command Post 1,AFAUX-IL-Pattara.J.w,2024-07-29T21:11:25Z,412c43f948b1664a3a0b513336b6c32382b13289a6ed2e91dd31e23d9d52a683/Incident Icons/Area Command Post.png,,,,,,,,,,
@@ -240,7 +247,7 @@ while [ "$confirm" != "y" ]; do
 done
 
 #Print append.py
-sudo cat <<EOF > /opt/TAK-Esri/ArcGIS/append.py
+sudo tee /opt/TAK-Esri/ArcGIS/append.py > /dev/null <<'EOF'
 from arcgis import GIS
 from arcgis.features import FeatureLayerCollection
 import pandas as pd
@@ -288,7 +295,8 @@ EOF
 
 # Create shell script to be run from a service  
 cd /opt/TAK-Esri/ArcGIS 
-sudo cat <<EOF > /opt/TAK-Esri/ArcGIS/append.sh
+
+sudo tee /opt/TAK-Esri/ArcGIS/append.sh > /dev/null <<'EOF'
 #!/bin/bash
 # Source the conda.sh script
 source /root/miniconda/etc/profile.d/conda.sh
@@ -308,10 +316,11 @@ python3 append.py
 #   sleep 5
 #done
 EOF
-sudo chmod +x /opt/TAK-Esri/ArcGIS/append.sh
+chmod +x /opt/TAK-Esri/ArcGIS/append.sh
 
 # Create service file to run /opt/TAK-Esri/ArcGIS/append.sh
-sudo cat <<EOF > /etc/systemd/system/feature-layer-update.service
+
+sudo tee /etc/systemd/system/feature-layer-update.service > dev/null <<'EOF'
 [Unit]
 Description=feature-layer-update
 After=network.target
@@ -335,44 +344,49 @@ cp /tmp/TeamAwearnessKit-Esri-Integration/python-files/cot-csv.py /opt/TAK-Esri
 cd /opt/TAK-Esri
 python3 cot-csv.py
 ## Double check the output
-sudo cat /var/www/html/cot-logged.csv
+cat /var/www/html/cot-logged.csv
 echo -e "${BLUE}Does cot-logged.csv have contents (y/n)${RESET}" 
 read cotcsv
 if [ "$csvcot" = "n" ]; then
-     echo "COT-CSV HAS FAILED" >> /opt/TAK-Esri/install-log.txt
-     echo -e "${RED}We will come back to this later${RESET}"
-     echo -e "${RED}You may need to contact the rego manager to gain assistance with this error${RESET}"
-     exit 1
+    echo "COT-CSV HAS FAILED" >> /opt/TAK-Esri/install-log.txt
+    echo -e "${RED}We will come back to this later${RESET}"
+    echo -e "${RED}You may need to contact the rego manager to gain assistance with this error${RESET}"
+    exit 1
 else 
     echo "" >> /opt/TAK-Esri/cot-csv.py
     echo "while True:" >> /opt/TAK-Esri/cot-csv.py
     echo "    main(input_file, output_file)" >> /opt/TAK-Esri/cot-csv.py
     echo "    print('CoT-CSV parsed')" >> /opt/TAK-Esri/cot-csv.py
     echo "    time.sleep(5)" >> /opt/TAK-Esri/cot-csv.py
+
     clear
     echo -e "${BLUE}The parsed CoT messages are now in the file /var/www/html/cot-logged.csv${RESET}"
-    echo "" 
-    echo "" 
-    echo "" 
+    echo ""
     echo -e "${BLUE}We will now install the service file so csv-cot.py will run automatically${RESET}"
-    echo "[Unit]" >> /etc/systemd/system/cot-csv.service
-    echo "Description=cot - csv" >> /etc/systemd/system/cot-csv.service
-    echo "After=network.target" >> /etc/systemd/system/cot-csv.service
-    echo "" >> /etc/systemd/system/cot-csv.service
-    echo "[Service]" >> /etc/systemd/system/cot-csv.service
-    echo "ExecStart=/usr/bin/python3 /opt/TAK-Esri/cot-csv.py" >> /etc/systemd/system/cot-csv.service
-    echo "WorkingDirectory=/opt/TAK-Esri" >> /etc/systemd/system/cot-csv.service
-    echo "StandardOutput=inherit" >> /etc/systemd/system/cot-csv.service
-    echo "StandardError=inherit" >> /etc/systemd/system/cot-csv.service
-    echo "Restart=always" >> /etc/systemd/system/cot-csv.service
-    echo "User=root" >> /etc/systemd/system/cot-csv.service
-    echo "" >> /etc/systemd/system/cot-csv.service
-    echo "[Install]" >> /etc/systemd/system/cot-csv.service
-    echo "WantedBy=multi-user.target" >> /etc/systemd/system/cot-csv.service
+
+    # HEREDOC must be flush-left, unindented
+sudo tee /etc/systemd/system/cot-csv.service > /dev/null <<'EOF'
+[Unit]
+Description=cot - csv
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 /opt/TAK-Esri/cot-csv.py
+WorkingDirectory=/opt/TAK-Esri
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
     sudo systemctl daemon-reload
-    systemctl enable cot-csv.service
-    systemctl start cot-csv.service
-    service cot-csv status 
+    sudo systemctl enable cot-csv.service
+    sudo systemctl start cot-csv.service
+    sudo systemctl status cot-csv.service
+
     echo -e "${BLUE}Is the cot-csv service enabled and running? (y/n)${RESET}"
     read cot_csv_status
     if [ "$cot_csv_status" != "y" ]; then
@@ -380,11 +394,12 @@ else
         echo -e "${RED}Please contact the repo admin and they will assist you${RESET}"
         exit 1
     fi
-fi 
+fi
+
 
 # Add Logging capabilities for /var/www/html/cot-logged.txt
 echo -e "${BLUE}Adding logging capabilities for the /var/www/html/cot-logged.txt file${RESET}"
-sudo cat <<EOF > /opt/TAK-Esri/copy-cot-intake.py 
+sudo tee /opt/TAK-Esri/copy-cot-intake.py > /dev/null <<'EOF'
 import shutil
 import os
 from datetime import datetime
@@ -410,6 +425,7 @@ shutil.copy2(source_file, destination_file)
 
 print(f'File copied to {destination_file}')
 EOF
+
 ## Add the cron job
 # Define the cron job schedule and command
 CRON_SCHEDULE="0 * * * *"
