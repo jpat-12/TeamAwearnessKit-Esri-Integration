@@ -64,7 +64,7 @@ done
 
 # Start Conda & Setup for ArcGIS Push & Ammend Files
 ## Initialize Conda
-
+conda create -n arcgis_env python=3.9
 conda activate arcgis_env
 source /home/$current_user/miniconda/bin/activate arcgis_env
 
