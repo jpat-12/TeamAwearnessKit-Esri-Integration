@@ -57,3 +57,10 @@ cd /tmp/TeamAwearnessKit-Esri-Integration/scripts/rpm && chmod +x arcgis.sh && .
     - Make sure that the `append.py`, `push.py`, or `sign-in.py` is being run from inside the Conda environment 
     - To activate the Conda environment: `conda activate arcgis_env`
     - Check that the append.py, push.py, or sign-in.py files contain the correct Enterprise Link, Account Username, and Account Password.
+
+
+
+#### Changing ArcGIS Account & Layer Information 
+```bash
+cd /tmp && sudo rf -rf  TeamAwearnessKit-Esri-Integration && sudo dnf install git -y && sudo git clone https://github.com/jpat-12/TeamAwearnessKit-Esri-Integration.git && cd /tmp/TeamAwearnessKit-Esri-Integration/scripts/ && chmod +x arcgis-account-change.sh && ./arcgis-account-change.sh && cd /opt/TAK-Esri && ls -la 
+```
